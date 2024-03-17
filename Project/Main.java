@@ -20,29 +20,43 @@ public class Main {
         */
 
         //Teleport
+        /*
         Student s1 = new Student("AAA");
         Professor p1 = new Professor("BBB");
+        Professor p2 = new Professor("CCC");
 
         Transistor t1 = new Transistor("Transistor1");
         Transistor t2 = new Transistor("Transistor2");
 
-        s1.pickUp(t1);
-        s1.pickUp(t2);
-
         Room szoba1 = new Room(false, 5);
         Room szoba2 = new Room(false, 10);
+
+        szoba1.addItem(t1);
+        szoba1.addItem(t2);
+
         System.out.println(szoba1.getId());
         System.out.println(szoba2.getId());
 
-        p1.move(szoba2);
-        s1.move(szoba1);
+        p1.setProfPosition(szoba2);
+        p2.setProfPosition(szoba1);
+        s1.setPosition(szoba1);
+        System.out.println(s1.getHealth());
 
-        s1.useItem(t1);
+        s1.pickUp(t1);
+        s1.pickUp(t2);
+
         s1.useItem(t2);
+        s1.useItem(t1);
+
         s1.dropItem(t1);
 
         s1.move(szoba2);
-        s1.useItem(t2);
+
+        System.out.println(s1.getHealth());
+
+        s1.dropItem(t2);
+
         System.out.println(s1.getHealth() + " - " + s1.getPosition().getId());
+         */
     }
 }

@@ -9,6 +9,7 @@ public abstract class Person {
 
     public String getName() { return name; }
     public int getInventorySize() { return inventory.size(); }
+    public List<Item> getInventory() { return inventory; }
     public Room getPosition() { return position; }
     public void setPosition(Room r) { position = r; }
     public boolean getNotConscious() { return notConscious; }
@@ -30,12 +31,9 @@ public abstract class Person {
         inventory.add(t);
     }
 
-    public void dropItem(Item t) {
-        inventory.remove(t);
-        t.drop(this);
-        position.addItem(t);
-    }
+
     public abstract void pickUp(Item t);
+    public abstract void dropItem(Item t);
     public abstract void useItem(Item t);
     public abstract void move(Room sz);
     public abstract void getDamaged();

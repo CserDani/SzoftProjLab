@@ -1,9 +1,9 @@
-
 public class Student extends Person {
     public enum TransistorsUsed { NONEUSED, ONEUSED }
     private int health;
     private Transistor usedTrans;
     private TransistorsUsed tu = TransistorsUsed.NONEUSED;
+
     public int getHealth() { return health; }
     public TransistorsUsed getTu() { return tu; }
     public void setTransNONE() { tu = TransistorsUsed.NONEUSED; }
@@ -20,13 +20,16 @@ public class Student extends Person {
             t.pickedUpBy(this);
         }
     }
+    public void dropItem(Item t) {
+        getInventory().remove(t);
+        t.drop(this);
+        getPosition().addItem(t);
+    }
     public void useItem(Item t) {
         t.use(this);
     }
     public void move(Room sz) {
-        if(sz.isNotFull()) {
-            sz.movedBy(this);
-        }
+        sz.movedBy(this);
     }
     public void getDamaged() {
         health -= 10;

@@ -8,7 +8,7 @@ public class Room {
     private int capacity;
     private int profcount = 0;
     private List<Person> persons = new ArrayList<>();
-    private List<Item> Items = new ArrayList<>();
+    private List<Item> items = new ArrayList<>();
 
     public boolean isNotFull() { return persons.size() < capacity; }
     public void setCapacity(int capacity) { this.capacity = capacity; }
@@ -22,17 +22,22 @@ public class Room {
     }
     public int getId() { return id; }
     public void movedBy(Student s) {
-        s.setPosition(this);
-        persons.add(s);
-        for(int i = 0; i < profcount; i++) {
-            s.getDamaged();
+        if(isNotFull()) {
+            s.getPosition().persons.remove(s);
+            s.setPosition(this);
+            persons.add(s);
+            for (int i = 0; i < profcount; i++) {
+                s.getDamaged();
+            }
         }
     }
     public void movedBy(Professor p) {
-        p.setPosition(this);
-        persons.add(p);
-        profcount++;
-        damageAll();
+        if(isNotFull()) {
+            p.setPosition(this);
+            persons.add(p);
+            profcount++;
+            damageAll();
+        }
     }
     public void damageAll() {
         for(Person p : persons) {
@@ -40,9 +45,10 @@ public class Room {
         }
     }
     public void addItem(Item t) {
-        Items.add(t);
+        items.add(t);
     }
     public void removeItem(Item t) {
-        Items.remove(t);
+        items.remove(t);
     }
+    public void incProfCount() { profcount++; }
 }
