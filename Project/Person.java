@@ -3,22 +3,40 @@ import java.util.List;
 
 public abstract class Person {
     private String name;
-    private List<Item> inventory;
+    private List<Item> inventory = new ArrayList<>();
+    private Room position;
+    private boolean notConscious = false;
 
     public String getName() { return name; }
     public int getInventorySize() { return inventory.size(); }
+    public Room getPosition() { return position; }
+    public void setPosition(Room r) { position = r; }
+    public boolean getNotConscious() { return notConscious; }
+    public void setNotConsciousTrue() {
+        notConscious = true;
+        for(Item i : inventory) {
+            inventory.remove(i);
+            position.addItem(i);
+        }
+    }
+    public void setNotConsciousFalse() {
+        notConscious = false;
+    }
     protected Person(String name) {
         this.name = name;
-        inventory = new ArrayList<>();
     }
 
-    public void addToInventory(Item t) {
+    public void addItemToInventory(Item t) {
         inventory.add(t);
     }
 
-    public void removeFromInventory(Item t) {
+    public void dropItem(Item t) {
         inventory.remove(t);
+        t.drop(this);
+        position.addItem(t);
     }
-
     public abstract void pickUp(Item t);
+    public abstract void useItem(Item t);
+    public abstract void move(Room sz);
+    public abstract void getDamaged();
 }

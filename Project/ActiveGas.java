@@ -3,13 +3,12 @@ public class ActiveGas extends Item {
         super(name);
     }
     public void pickedUpBy(Student s) {
-        if(s.getInventorySize() < 5) {
-            s.addToInventory(this);
-        }
+        s.addItemToInventory(this);
     }
     public void pickedUpBy(Professor p) {
-        if(p.getInventorySize() < 5) {
-            p.addToInventory(this);
-        }
+        p.addItemToInventory(this);
     }
+    public void drop(Person p) {}
+    public void use(Student s) { s.getPosition().setGas(); }
+    public void use(Professor p) {}
 }
