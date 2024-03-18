@@ -5,10 +5,10 @@ public class Door {
     private boolean oneWay;
     public Room getNextRoom(Room from) {
         if(from == firstRoom) {
-            return firstRoom;
+            return secondRoom;
         }
 
-        return secondRoom;
+        return firstRoom;
     }
     public Door(Room firstRoom, Room secondRoom, boolean oneWay) {
         this.firstRoom = firstRoom;

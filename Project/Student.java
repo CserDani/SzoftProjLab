@@ -23,8 +23,8 @@ public class Student extends Person {
     }
     public void dropItem(Item t) {
         getInventory().remove(t);
-        t.drop(this);
         getPosition().addItem(t);
+        t.drop(this);
     }
     public void useItem(Item t) {
         t.use(this);

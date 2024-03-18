@@ -13,6 +13,7 @@ public class Room {
 
     public String getName() { return name; }
     public List<Door> getNeighbourDoors() { return neighbourDoors; }
+    public List<Item> getItems() { return items; }
     public boolean isNotFull() { return persons.size() < capacity; }
     public void setCapacity(int capacity) { this.capacity = capacity; }
     public void setGas() {
