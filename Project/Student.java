@@ -28,8 +28,11 @@ public class Student extends Person {
     public void useItem(Item t) {
         t.use(this);
     }
-    public void move(Room sz) {
-        sz.movedBy(this);
+    public void move(Door d) {
+        d.movedBy(this);
+    }
+    public void teleport(Room r) {
+        r.teleportRoom(this);
     }
     public void getDamaged() {
         health -= 10;

@@ -20,8 +20,11 @@ public class Professor extends Person {
     public void useItem(Item t) {
         t.use(this);
     }
-    public void move(Room sz) {
-        sz.movedBy(this);
+    public void move(Door d) {
+        d.movedBy(this);
+    }
+    public void teleport(Room r) {
+        //Professor can't pick up Transistor, so can't teleport.
     }
     public void getDamaged() {
         //Professor can't be damaged (It can't die).

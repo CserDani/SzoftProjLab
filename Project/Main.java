@@ -7,7 +7,7 @@ public class Main {
         Professor p1 = new Professor("BBB");
         Professor p2 = new Professor("DDD");
 
-        Room szoba = new Room(false, 5);
+        Room szoba = new Room(false, false, 5);
 
         System.out.println(s1.getName() + " - " + s1.getHealth());
         System.out.println(s2.getName() + " - " + s2.getHealth());
@@ -20,7 +20,7 @@ public class Main {
         */
 
         //Teleport
-        /*
+
         Student s1 = new Student("AAA");
         Professor p1 = new Professor("BBB");
         Professor p2 = new Professor("CCC");
@@ -28,14 +28,13 @@ public class Main {
         Transistor t1 = new Transistor("Transistor1");
         Transistor t2 = new Transistor("Transistor2");
 
-        Room szoba1 = new Room(false, 5);
-        Room szoba2 = new Room(false, 10);
+        Room szoba1 = new Room("Szoba1", false, false, 5);
+        Room szoba2 = new Room("Szoba2", false, false, 10);
+
+        szoba1.addNeighbour(szoba2);
 
         szoba1.addItem(t1);
         szoba1.addItem(t2);
-
-        System.out.println(szoba1.getId());
-        System.out.println(szoba2.getId());
 
         p1.setProfPosition(szoba2);
         p2.setProfPosition(szoba1);
@@ -50,13 +49,13 @@ public class Main {
 
         s1.dropItem(t1);
 
-        s1.move(szoba2);
+        s1.move(szoba1.getNeighbourDoors().get(0));
 
         System.out.println(s1.getHealth());
 
         s1.dropItem(t2);
 
-        System.out.println(s1.getHealth() + " - " + s1.getPosition().getId());
-         */
+        System.out.println(s1.getHealth() + " - " + s1.getPosition().getName());
+
     }
 }

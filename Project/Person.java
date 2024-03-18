@@ -35,6 +35,7 @@ public abstract class Person {
     public abstract void pickUp(Item t);
     public abstract void dropItem(Item t);
     public abstract void useItem(Item t);
-    public abstract void move(Room sz);
+    public abstract void move(Door d);
+    public abstract void teleport(Room r);
     public abstract void getDamaged();
 }
