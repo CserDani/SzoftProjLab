@@ -25,6 +25,7 @@ public abstract class Person {
     }
     protected Person(String name) {
         this.name = name;
+        System.out.println("Person constructor!");
     }
 
     public void addItemToInventory(Item t) {

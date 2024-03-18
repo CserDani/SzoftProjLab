@@ -1,6 +1,7 @@
 public class Professor extends Person {
     public Professor(String name) {
         super(name);
+        System.out.println("Professor constructor!");
     }
 
     public void setProfPosition(Room r) {

@@ -1,6 +1,7 @@
 public class Passive extends Item {
     public Passive(String name) {
         super(name);
+        System.out.println("Passive constructor!");
     }
     public void pickedUpBy(Student s) {
         s.addItemToInventory(this);

@@ -1,6 +1,7 @@
 public class ActiveGas extends Item {
     public ActiveGas(String name) {
         super(name);
+        System.out.println("ActiveGas constructor!");
     }
     public void pickedUpBy(Student s) {
         s.addItemToInventory(this);

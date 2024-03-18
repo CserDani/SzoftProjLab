@@ -1,18 +1,50 @@
 public class Door {
-    private Room nextRoom;
+    private Room firstRoom;
+    private Room secondRoom;
     private boolean vanished = false;
-    public Door(Room nextRoom) {
-        this.nextRoom = nextRoom;
+    private boolean oneWay;
+    public Room getNextRoom(Room from) {
+        if(from == firstRoom) {
+            return firstRoom;
+        }
+
+        return secondRoom;
+    }
+    public Door(Room firstRoom, Room secondRoom, boolean oneWay) {
+        this.firstRoom = firstRoom;
+        this.secondRoom = secondRoom;
+        this.oneWay = oneWay;
+        System.out.println("Door constructor!");
     }
 
     public void movedBy(Student s) {
         if(!vanished) {
-            nextRoom.moveRoom(s);
+            if(!oneWay) {
+                if(s.getPosition() == firstRoom) {
+                    secondRoom.moveRoom(s);
+                } else {
+                    firstRoom.moveRoom(s);
+                }
+            } else {
+                if(s.getPosition() == firstRoom) {
+                    secondRoom.moveRoom(s);
+                }
+            }
         }
     }
     public void movedBy(Professor p) {
         if(!vanished) {
-            nextRoom.moveRoom(p);
+            if(!oneWay) {
+                if(p.getPosition() == firstRoom) {
+                    secondRoom.moveRoom(p);
+                } else {
+                    firstRoom.moveRoom(p);
+                }
+            } else {
+                if(p.getPosition() == firstRoom) {
+                    secondRoom.moveRoom(p);
+                }
+            }
         }
     }
 }

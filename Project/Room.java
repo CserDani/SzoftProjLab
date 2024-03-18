@@ -23,9 +23,12 @@ public class Room {
         this.isGassed = isGassed;
         this.isCursed = isCursed;
         this.capacity = capacity;
+        System.out.println("Room constructor!");
     }
-    public void addNeighbour(Room r) {
-        neighbourDoors.add(new Door(r));
+    public void addNeighbour(Room r, boolean oneWay) {
+        Door newDoor = new Door(this, r, oneWay);
+        this.neighbourDoors.add(newDoor);
+        r.neighbourDoors.add(newDoor);
     }
     public void moveRoom(Student s) {
         if(isNotFull()) {
@@ -54,6 +57,7 @@ public class Room {
             s.getDamaged();
         }
     }
+    public void teleportRoom(Professor p) {}
     public void damageAll() {
         for(Person p : persons) {
             p.getDamaged();

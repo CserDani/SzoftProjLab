@@ -1,7 +1,7 @@
 public class Active extends Item {
-
     public Active(String name) {
         super(name);
+        System.out.println("Active constructor!");
     }
     public void pickedUpBy(Student s) {
         s.addItemToInventory(this);

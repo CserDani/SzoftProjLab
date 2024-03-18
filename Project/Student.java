@@ -14,6 +14,7 @@ public class Student extends Person {
     public Student(String name) {
         super(name);
         this.health = 100;
+        System.out.println("Student constructor!");
     }
     public void pickUp(Item t) {
         if(getInventorySize() < 5) {

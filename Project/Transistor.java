@@ -20,7 +20,7 @@ public class Transistor extends Item {
     }
     public Transistor(String name) {
         super(name);
-        this.strategy = new NoneUsed();
+        System.out.println("Transistor constructor!");
     }
     public void pickedUpBy(Student s) {
         if(!activated) {

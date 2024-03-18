@@ -1,6 +1,7 @@
 public class Logarlec extends Item {
     public Logarlec(String name) {
         super(name);
+        System.out.println("Logarlec constructor!");
     }
     public void winGame() {
         System.out.println("Game Won!");
