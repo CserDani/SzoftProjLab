@@ -17,22 +17,7 @@ public class Door {
         System.out.println("Door constructor!");
     }
 
-    public void movedBy(Student s) {
-        if(!vanished) {
-            if(!oneWay) {
-                if(s.getPosition() == firstRoom) {
-                    secondRoom.moveRoom(s);
-                } else {
-                    firstRoom.moveRoom(s);
-                }
-            } else {
-                if(s.getPosition() == firstRoom) {
-                    secondRoom.moveRoom(s);
-                }
-            }
-        }
-    }
-    public void movedBy(Professor p) {
+    public void movedBy(Person p) {
         if(!vanished) {
             if(!oneWay) {
                 if(p.getPosition() == firstRoom) {

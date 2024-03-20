@@ -31,22 +31,14 @@ public class Room {
         this.neighbourDoors.add(newDoor);
         r.neighbourDoors.add(newDoor);
     }
-    public void moveRoom(Student s) {
+    public void moveRoom(Person p) {
         if(isNotFull()) {
-            s.getPosition().persons.remove(s);
-            s.setPosition(this);
-            persons.add(s);
-            for (int i = 0; i < profcount; i++) {
-                s.getDamaged();
-            }
-        }
-    }
-    public void moveRoom(Professor p) {
-        if(isNotFull()) {
+            p.getPosition().persons.remove(p);
             p.setPosition(this);
             persons.add(p);
-            profcount++;
-            damageAll();
+            for (int i = 0; i < profcount; i++) {
+                p.getDamaged();
+            }
         }
     }
 
