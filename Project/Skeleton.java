@@ -5,31 +5,26 @@ import java.util.Scanner;
 public class Skeleton {
     private static final Scanner scan = new Scanner(System.in);
     private static final List<Room> map = new ArrayList<>();
-    private static Student studentActor;
-    private static Professor professorActor;
+    private static Student studentActor = new Student("Hallgato");
+    private static Professor professorActor = new Professor("Oktato");
 
     public static void buildOneRoomMapAndPlayer() {
         map.clear();
-        studentActor = null;
-        professorActor = null;
+
         //A Room nem gázosított és nem elátkozott, 1 kapacitású
         Room r = new Room("Szoba1", false, false, 1);
         map.add(r);
 
-        studentActor = new Student("Hallgato");
         studentActor.setPosition(r);
     }
 
     public static void buildTwoRoomMapAndPlayer() {
         map.clear();
-        studentActor = null;
-        professorActor = null;
 
         Room r1 = new Room("Szoba1", false, false, 1);
         Room r2 = new Room("Szoba2", false, false, 1);
         r1.addNeighbour(r2, false);
 
-        studentActor = new Student("Hallgato");
         studentActor.setPosition(r1);
     }
     public static void addItemToStudentRoom(Item t) {
@@ -177,6 +172,7 @@ public class Skeleton {
         listItemsInStudentsRoom();
         int size = getStudentsRoomItemsSize();
         PickUpInput(size);
+        studentActor.getInventory().clear();
     }
 
     public static void logarlecFelvetel() {
@@ -187,6 +183,7 @@ public class Skeleton {
         listItemsInStudentsRoom();
         int size = getStudentsRoomItemsSize();
         PickUpInput(size);
+        studentActor.getInventory().clear();
     }
 
     public static void targyEldobas() {
@@ -196,6 +193,7 @@ public class Skeleton {
         System.out.println("-----------------------------------");
         listItemsInStudentsInventory();
         dropIteminput();
+        studentActor.getInventory().clear();
     }
 
     public static void pairTransistorsByUser() {
@@ -214,6 +212,8 @@ public class Skeleton {
         } catch (Exception e) {
             System.out.println("Sikertelen parositas! Ugyanazt a tranzisztort nem lehet!");
         }
+
+        studentActor.getInventory().clear();
     }
 
     public static void pairAndTeleportByTransistorsByUser() {
@@ -238,6 +238,7 @@ public class Skeleton {
         listItemsInStudentsInventory();
         dropIteminput();
         System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        studentActor.getInventory().clear();
     }
 
     public static void main(String[] args) {

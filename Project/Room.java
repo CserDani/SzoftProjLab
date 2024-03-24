@@ -43,12 +43,7 @@ public class Room {
     }
 
     public void teleportRoom(Student s) {
-        s.getPosition().persons.remove(s);
-        s.setPosition(this);
-        persons.add(s);
-        for (int i = 0; i < profcount; i++) {
-            s.getDamaged();
-        }
+        this.moveRoom(s);
     }
     public void teleportRoom(Professor p) {}
     public void damageAll() {

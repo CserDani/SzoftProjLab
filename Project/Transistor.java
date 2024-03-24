@@ -4,7 +4,6 @@ public class Transistor extends Item {
     private boolean paired = false;
     private boolean dropped = false;
     private boolean activated = false;
-    private TransStrategy strategy;
     public Room getPosition() { return position; }
     public void setPair(Transistor t) {
         this.pair = t;
@@ -38,8 +37,12 @@ public class Transistor extends Item {
                 position = s.getPosition();
                 dropped = true;
             } else {
-                this.strategy = new BothUsed();
-                strategy.execute(s, this);
+                Transistor thisPair = this.getPair();
+                s.teleport(thisPair.getPosition());
+                thisPair.setPairedOff();
+                thisPair.setActivated();
+                this.setPairedOff();
+                this.setActivated();
             }
         }
     }
@@ -48,12 +51,15 @@ public class Transistor extends Item {
     }
     public void use(Student s) {
         if(!paired) {
-            if(s.getTu() == Student.TransistorsUsed.NONEUSED) {
-                this.strategy = new NoneUsed();
-                strategy.execute(s, this);
-            } else if(s.getTu() == Student.TransistorsUsed.ONEUSED && (s.getUsedTrans() != this)) {
-                this.strategy = new OneUsed();
-                strategy.execute(s, this);
+            if(s.getUsedTrans() == null) {
+                s.setUsedTrans(this);
+                this.setActivated();
+            } else if(s.getUsedTrans() != this) {
+                Transistor first = s.getUsedTrans();
+                first.setPair(this);
+                this.setPair(first);
+                this.setActivated();
+                s.setUsedTransNull();
             }
         }
     }

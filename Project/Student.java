@@ -1,19 +1,15 @@
 public class Student extends Person {
-    public enum TransistorsUsed { NONEUSED, ONEUSED }
     private int health;
-    private Transistor usedTrans;
-    private TransistorsUsed tu = TransistorsUsed.NONEUSED;
+    private Transistor prevUsedTrans;
 
     public int getHealth() { return health; }
-    public TransistorsUsed getTu() { return tu; }
-    public void setTransNONE() { tu = TransistorsUsed.NONEUSED; }
-    public void setTransONEUSED() { tu = TransistorsUsed.ONEUSED; }
-    public Transistor getUsedTrans() { return usedTrans; }
-    public void setUsedTrans(Transistor t) { this.usedTrans = t; }
-    public void setUsedTransNone() { this.usedTrans = null; }
+    public Transistor getUsedTrans() { return prevUsedTrans; }
+    public void setUsedTrans(Transistor t) { this.prevUsedTrans = t; }
+    public void setUsedTransNull() { this.prevUsedTrans = null; }
     public Student(String name) {
         super(name);
         this.health = 100;
+        this.prevUsedTrans = null;
         System.out.println("Student constructor!");
     }
     public void pickUp(Item t) {
