@@ -34,7 +34,7 @@ public class Skeleton {
         map.clear();
 
         Room r1 = new Room("Szoba1", false, false, 1);
-        Room r2 = new Room("Szoba2", false, false, 1);
+        Room r2 = new Room("Szoba2", false, false, 2);
         r1.addNeighbour(r2, false);
         map.add(r1);
         map.add(r2);
@@ -259,9 +259,10 @@ public class Skeleton {
         buildTwoRoomMapAndPlayer();
         System.out.println("-----------------------------------");
         System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        studentActor.setNotConscious();
         listDoorsOfRoom(studentActor.getPosition());
         System.out.println("Valasszon egy ajto sorszamot!");
-        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(idDoorInput()));
+        idDoorInput();
         System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
     }
 
@@ -272,7 +273,7 @@ public class Skeleton {
         System.out.println("Elet: " + studentActor.getHealth());
         listDoorsOfRoom(studentActor.getPosition());
         System.out.println("Valasszon egy ajto sorszamot!");
-        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(idDoorInput()));
+        idDoorInput();
         System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
         System.out.println("Elet: " + studentActor.getHealth());
     }
@@ -319,7 +320,7 @@ public class Skeleton {
         dropIteminput();
         listDoorsOfRoom(studentActor.getPosition());
         System.out.println("Valasszon egy ajto sorszamot!");
-        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(idDoorInput()));
+        idDoorInput();
         System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
         System.out.println("Dobjon el egy Tranzisztort!");
         listItemsInStudentsInventory();
@@ -408,7 +409,7 @@ public class Skeleton {
         }
         listDoorsOfRoom(studentActor.getPosition());
         System.out.println("Valasszon egy ajto sorszamot!");
-        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(idDoorInput()));
+        idDoorInput();
         System.out.println("Elet: " + studentActor.getHealth());
         System.out.println("Kabulas: " + studentActor.getNotConscious());
         System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
