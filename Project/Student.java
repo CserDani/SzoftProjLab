@@ -13,20 +13,28 @@ public class Student extends Person {
         System.out.println("Student constructor!");
     }
     public void pickUp(Item t) {
-        if(getInventorySize() < 5) {
-            t.pickedUpBy(this);
+        if(!getNotConscious()) {
+            if (getInventorySize() < 5) {
+                t.pickedUpBy(this);
+            }
         }
     }
     public void dropItem(Item t) {
-        getInventory().remove(t);
-        getPosition().addItem(t);
-        t.drop(this);
+        if (!getNotConscious()) {
+            getInventory().remove(t);
+            getPosition().addItem(t);
+            t.drop(this);
+        }
     }
     public void useItem(Item t) {
-        t.use(this);
+        if(!getNotConscious()) {
+            t.use(this);
+        }
     }
     public void move(Door d) {
-        d.movedBy(this);
+        if(!getNotConscious()) {
+            d.movedBy(this);
+        }
     }
     public void teleport(Room r) {
         r.teleportRoom(this);

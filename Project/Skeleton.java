@@ -21,11 +21,12 @@ public class Skeleton {
     public static void buildTwoRoomMapAndPlayer() {
         map.clear();
 
-        Room r1 = new Room("Szoba1", false, false, 1);
-        Room r2 = new Room("Szoba2", false, false, 1);
+        Room r1 = new Room("Szoba1", false, false, 2);
+        Room r2 = new Room("Szoba2", true, false, 2);
         r1.addNeighbour(r2, false);
 
         studentActor.setPosition(r1);
+        professorActor.setPosition(r1);
     }
     public static void addItemToStudentRoom(Item t) {
         studentActor.getPosition().addItem(t);
@@ -268,6 +269,8 @@ public class Skeleton {
                 pairTransistorsByUser();
             } else if(line.equals("5")) {
                 pairAndTeleportByTransistorsByUser();
+            } else if(line.equals("6")) {
+                
             }
         }
     }
