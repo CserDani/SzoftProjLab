@@ -390,16 +390,36 @@ public class Skeleton {
 
     public static void kabulas() {
         buildTwoRoomMapAndPlayerSecondGas();
+        Active a1 = new Active("a1");
+        Active a2 = new Active("a2");
+        studentActor.addItemToInventory(a1);
+        studentActor.addItemToInventory(a2);
         System.out.println("-----------------------------------");
         System.out.println("Elet: " + studentActor.getHealth());
         System.out.println("Kabulas: " + studentActor.getNotConscious());
         System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        System.out.println("Eszkoztar:");
+        for(Item i : studentActor.getInventory()) {
+            System.out.println("\t" + i.getName());
+        }
+        System.out.println("Szobaban levo targyak:");
+        for(Item i : studentActor.getPosition().getItems()) {
+            System.out.println("\t" + i.getName());
+        }
         listDoorsOfRoom(studentActor.getPosition());
         System.out.println("Valasszon egy ajto sorszamot!");
         studentActor.move(studentActor.getPosition().getNeighbourDoors().get(idDoorInput()));
         System.out.println("Elet: " + studentActor.getHealth());
         System.out.println("Kabulas: " + studentActor.getNotConscious());
         System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        System.out.println("Eszkoztar:");
+        for(Item i : studentActor.getInventory()) {
+            System.out.println("\t" + i.getName());
+        }
+        System.out.println("Szobaban levo targyak:");
+        for(Item i : studentActor.getPosition().getItems()) {
+            System.out.println("\t" + i.getName());
+        }
     }
 
     public static void main(String[] args) {

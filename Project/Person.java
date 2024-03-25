@@ -61,9 +61,9 @@ public abstract class Person implements ActionListener {
         cooldown = 5;
         this.getDamaged();
         for(Item i : inventory) {
-            inventory.remove(i);
             position.addItem(i);
         }
+        inventory.clear();
         knockOutTimer.restart();
     }
 
