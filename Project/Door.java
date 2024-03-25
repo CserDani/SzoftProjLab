@@ -10,6 +10,10 @@ public class Door {
 
         return firstRoom;
     }
+    public boolean isOneWay() {
+        return oneWay;
+    }
+
     public Door(Room firstRoom, Room secondRoom, boolean oneWay) {
         this.firstRoom = firstRoom;
         this.secondRoom = secondRoom;
