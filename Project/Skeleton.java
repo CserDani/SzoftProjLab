@@ -259,7 +259,6 @@ public class Skeleton {
         buildTwoRoomMapAndPlayer();
         System.out.println("-----------------------------------");
         System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
-        studentActor.setNotConscious();
         listDoorsOfRoom(studentActor.getPosition());
         System.out.println("Valasszon egy ajto sorszamot!");
         idDoorInput();
