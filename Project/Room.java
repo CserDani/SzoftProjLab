@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+/**
+ * A Szoba objektum felelős a szobák tulajdonságaiért és műveleteiért. Tehát ez az objektum implementálja például azokat a funkciókat, amelyek a szobák osztódását és egyesülését viszik végbe. A tulajdonságok közé például a kapacitás tartozik.
+ */
 public class Room {
     private String name;
     private boolean isGassed;
@@ -13,16 +15,67 @@ public class Room {
     private List<Item> items = new ArrayList<>();
     Random rand = new Random();
 
+    /**
+     * Name getter
+     * @result A szoba neve
+     */
     public String getName() { return name; }
+
+    /**
+     * NeighbourDoors getter
+     * @result A szomszédos szobákba nyíló ajtók listája
+     */
     public List<Door> getNeighbourDoors() { return neighbourDoors; }
+
+    /**
+     * Items getter
+     * @result A szobában lévő tárgyak listája
+     */
     public List<Item> getItems() { return items; }
+
+    /**
+     * Items getter
+     * @result A szobában lévő személyek listája
+     */
     public List<Person> getPersons() { return persons; }
+
+    /**
+     * isNoutFull függvény
+     * @result Visszaadja, hogy a szoba tele van-e
+     */
     public boolean isNotFull() { return persons.size() < capacity; }
+
+    /**
+     * Capacity getter
+     * @result A szoba kapacitása
+     */
     public int getCapacity() { return capacity; }
+
+    /**
+     * Capacity setter
+     * @param capacity A szoba kapacitása
+     */
     public void setCapacity(int capacity) { this.capacity = capacity; }
+
+    /**
+     * isGassed getter
+     * @result Visszaadja, hogy a szoba gázos-e
+     */
+    public boolean getIsGassed() { return isGassed; }
+
+    /**
+     * isGassed setter
+     * Beállítja a szobában lévő gázt
+     */
     public void setGas() {
         isGassed = !isGassed;
     }
+
+    /**
+     * isNeighbour függvény
+     * Visszaadja, hogy a paraméterként kapott szoba szomszédos-e
+     * @param r A vizsgált szoba
+     */
     public boolean isNeighbour(Room r) {
         for(int i = 0; i < this.getNeighbourDoors().size(); i++) {
             if(this.getNeighbourDoors().get(i).getNextRoom(this) == r)
@@ -30,6 +83,15 @@ public class Room {
         }
         return false;
     }
+
+    /**
+     * Room konstruktor
+     * Beállítja a szoba nevét, hogy gázos-e, hogy el van-e átkozva, illetve a kapacitását
+     * @param name A szoba neve
+     * @param isGassed A szoba gázossága
+     * @param isCursed A szoba átkozottsága
+     * @param capacity A szoba kapacitása
+     */
     public Room(String name, boolean isGassed, boolean isCursed, int capacity) {
         this.name = name;
         this.isGassed = isGassed;
@@ -37,11 +99,24 @@ public class Room {
         this.capacity = capacity;
         System.out.println("Room constructor!");
     }
+
+    /**
+     * addNeighbour függvény
+     * Hozzáad egy szomszédot
+     * @param r Az új szomszéd (szoba)
+     * @param oneWay Az ajtó iránya
+     */
     public void addNeighbour(Room r, boolean oneWay) {
         Door newDoor = new Door(this, r, oneWay);
         this.neighbourDoors.add(newDoor);
         r.neighbourDoors.add(newDoor);
     }
+
+    /**
+     * moveRoom függvény
+     * A szobák közötti mozgást valósítja meg
+     * @param s A szobák között mozgó hallgató
+     */
     public void moveRoom(Student s) {
         if(isNotFull()) {
             s.getPosition().persons.remove(s);
@@ -58,6 +133,11 @@ public class Room {
         }
     }
 
+    /**
+     * moveRoom függvény
+     * A szobák közötti mozgást valósítja meg
+     * @param p A szobák között mozgó oktató
+     */
     public void moveRoom(Professor p) {
         if(isNotFull()) {
             p.getPosition().persons.remove(p);
@@ -75,6 +155,11 @@ public class Room {
         }
     }
 
+    /**
+     * mergeRooms függvény
+     * A szobák egyesülését valósítja meg
+     * @param r A szoba, amellyel egyesíteni szeretnénk
+     */
     public void mergeRooms(Room r) {
         if(this.getPersons().isEmpty() && r.getPersons().isEmpty() && this.isNeighbour(r)) {
             if(r.isGassed)
@@ -84,21 +169,34 @@ public class Room {
             if(r.capacity > this.capacity)
                 this.capacity = r.capacity;
             for(int i = 0; i < r.getNeighbourDoors().size(); i++) {
-                this.addNeighbour(r.getNeighbourDoors().get(i).getNextRoom(r), r.getNeighbourDoors().get(i).isOneWay());
+                if(r.getNeighbourDoors().get(i).getNextRoom(r) != this) {
+                    this.neighbourDoors.add(r.getNeighbourDoors().get(i));
+                    r.getNeighbourDoors().get(i).setRoom(r, this);
+                }
             }
             for(int i = 0; i<r.getItems().size(); i++) {
                 this.addItem((r.getItems().get(i)));
             }
+
             r = null;
         }
     }
 
+    /**
+     * roomDivision függvény
+     * A szobák osztódását valósítja meg
+     */
     public void roomDivision() {
         if(this.getPersons().isEmpty()) {
-            Room r = new Room("New Room", this.isGassed && rand.nextBoolean(), this.isCursed && rand.nextBoolean(), rand.nextInt(this.capacity));
+            int newcap = rand.nextInt(this.capacity);
+            if(newcap == this.capacity) {
+                newcap -= 1;
+            } else if(newcap == 0) {
+                newcap = 1;
+            }
+            Room r = new Room("New Room", this.isGassed && rand.nextBoolean(), this.isCursed && rand.nextBoolean(), newcap);
             this.capacity -= r.capacity;
-            this.addNeighbour(r, false);
-            int doorSeparation = rand.nextInt(this.getNeighbourDoors().size());
+            int doorSeparation = rand.nextInt(this.getNeighbourDoors().size()+1);
             List<Door> doorsToRemove = new ArrayList<>();
             for(int i = 0; i < doorSeparation; i++) {
                 Door d = this.getNeighbourDoors().get(i);
@@ -109,7 +207,7 @@ public class Room {
                 this.getNeighbourDoors().remove(door);
             }
 
-            int itemSeparation = rand.nextInt(this.getItems().size());
+            int itemSeparation = rand.nextInt(this.getItems().size()+1);
             List<Item> itemsToRemove = new ArrayList<>();
             for(int i = 0; i < itemSeparation; i++) {
                 Item t = this.getItems().get(i);
@@ -119,23 +217,58 @@ public class Room {
             for (Item item : itemsToRemove) {
                 this.getItems().remove(item);
             }
+
+            this.addNeighbour(r, false);
         }
     }
 
+    /**
+     * teleportRoom függvény
+     * A hallgató teleportálásáért felelős függvény
+     * @param s A teleportáló hallgató
+     */
     public void teleportRoom(Student s) {
         this.moveRoom(s);
     }
+
+    /**
+     * teleportRoom függvény
+     * Üres, mivel oktató nem teleportálhat (nem vehet fel tranzisztort)
+     * @param p Az oktató, aki teleportál(na)
+     */
     public void teleportRoom(Professor p) {}
+
+    /**
+     * damageAll függvény
+     * A szobában lévő személyek sebzéséért felelős függvény
+     */
     public void damageAll() {
         for(Person p : persons) {
             p.getDamaged();
         }
     }
+
+    /**
+     * addItem függvény
+     * A szobába rak egy tárgyat
+     * @param t A tárgy
+     */
     public void addItem(Item t) {
         items.add(t);
     }
+
+    /**
+     * removeItem függvény
+     * A szobából kitöröl egy tárgyat
+     * @param t A tárgy
+     */
     public void removeItem(Item t) {
         items.remove(t);
     }
+
+    /**
+     * incProfCount függvény
+     * Megnöveli a profcount (oktatók száma a szobában) változó értékét
+     */
     public void incProfCount() { profcount++; }
 }
