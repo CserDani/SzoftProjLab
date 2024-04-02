@@ -12,10 +12,12 @@ public abstract class Person implements ActionListener {
     private String name;
     private List<Item> inventory = new ArrayList<>();
     private List<Passive> damageHelpItems = new ArrayList<>();
+    private List<Passive> gasHelpItems = new ArrayList<>();
     private Room position;
     private boolean notConscious = false;
     private Timer knockOutTimer = new Timer(1000, this);
     private int cooldown;
+    private Timer gasTimer = new Timer(1000, this);
 
     /**
      * Name getter
@@ -36,6 +38,7 @@ public abstract class Person implements ActionListener {
     public List<Item> getInventory() { return inventory; }
 
     public List<Passive> getDamageHelpItems() { return damageHelpItems; }
+    public List<Passive> getGasHelpItems() { return gasHelpItems; }
 
     /**
      * Position getter
@@ -67,13 +70,17 @@ public abstract class Person implements ActionListener {
      * A személy eszméleti állapotát állítja be
      */
     public void setNotConscious() {
-        notConscious = true;
-        cooldown = 5;
-        for(Item i : inventory) {
-            position.addItem(i);
+        if(gasHelpItems.isEmpty()) {
+            notConscious = true;
+            cooldown = 5;
+            for (Item i : inventory) {
+                position.addItem(i);
+            }
+            inventory.clear();
+            knockOutTimer.restart();
+        } else {
+            gasTimer.restart();
         }
-        inventory.clear();
-        knockOutTimer.restart();
     }
 
     /**
@@ -172,11 +179,22 @@ public abstract class Person implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == getKnockOutTimer()) {
+        if(e.getSource() == knockOutTimer) {
             decrCooldown();
             if (getCooldown() == 0) {
                 stopTimer();
                 setNotConsciousFalse();
+            }
+        }
+
+        if(e.getSource() == gasTimer) {
+            Passive gasItem = gasHelpItems.get(0);
+            gasItem.durabilityDecr();
+            if(gasItem.getDurability() == 0) {
+                gasHelpItems.remove(gasItem);
+                inventory.remove(gasItem);
+                gasTimer.stop();
+                setNotConscious();
             }
         }
     }

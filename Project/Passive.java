@@ -24,23 +24,13 @@ public abstract class Passive extends Item {
      *
      * @param s a hallgató
      */
-    public void pickedUpBy(Student s) {
-        s.addItemToInventory(this);
-        s.getDamageHelpItems().add(this);
-        Room r = s.getPosition();
-        r.removeItem(this);
-    }
+    public void pickedUpBy(Student s) {}
     /**
      * pickedUpBy függvény, a paraméterként kapott oktató inventory-jába belehelyezi a tárgyat, majd a szobából kitörli azt.
      *
      * @param p a hallgató
      */
-    public void pickedUpBy(Professor p) {
-        p.addItemToInventory(this);
-        p.getDamageHelpItems().add(this);
-        Room r = p.getPosition();
-        r.removeItem(this);
-    }
+    public void pickedUpBy(Professor p) {}
 
     /**
      * drop függvény, a tárgy elejtéséért felelős.

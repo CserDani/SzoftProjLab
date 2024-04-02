@@ -1,13 +1,12 @@
-public class TVSZ extends Passive {
-    public TVSZ(String name) {
-        super(name, 3);
-        System.out.println("TVSZ contructor!");
+public class FFP2 extends Passive {
+    public FFP2(String name) {
+        super(name, 10);
     }
 
     @Override
     public void pickedUpBy(Student s) {
         s.addItemToInventory(this);
-        s.getDamageHelpItems().add(this);
+        s.getGasHelpItems().add(this);
         Room r = s.getPosition();
         r.removeItem(this);
     }
@@ -15,7 +14,7 @@ public class TVSZ extends Passive {
     @Override
     public void pickedUpBy(Professor p) {
         p.addItemToInventory(this);
-        p.getDamageHelpItems().add(this);
+        p.getGasHelpItems().add(this);
         Room r = p.getPosition();
         r.removeItem(this);
     }

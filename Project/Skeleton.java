@@ -489,11 +489,26 @@ public class Skeleton {
         System.out.println("Elet: " + studentActor.getHealth());
     }
 
+    public static void FFP2Try() {
+        buildTwoRoomMapAndPlayerSecondGas();
+        FFP2 mask = new FFP2("FFP2");
+        Transistor t1 = new Transistor("t1");
+        map.get(0).addItem(mask);
+        map.get(0).addItem(t1);
+        System.out.println("-----------------------------------");
+        studentActor.setStartPosition(map.get(0));
+        studentActor.pickUp(mask);
+        studentActor.pickUp(t1);
+        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(0));
+    }
+
+
     public static void main(String[] args) {
         boolean exit = false;
         //camembertUse();
         //cleanerTry();
         //TVSZTry();
+        //FFP2Try();
 
         while(!exit) {
             System.out.println("----------------------------------------");
