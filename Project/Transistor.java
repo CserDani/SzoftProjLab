@@ -64,10 +64,12 @@ public class Transistor extends Item {
      * @param s A hallgató, aki felvette a tranzisztort
      */
     public void pickedUpBy(Student s) {
-        if(!activated) {
-            s.addItemToInventory(this);
-            Room r = s.getPosition();
-            r.removeItem(this);
+        if(s.getPosition().getAfterCleanCount() > 0) {
+            if (!activated) {
+                s.addItemToInventory(this);
+                Room r = s.getPosition();
+                r.removeItem(this);
+            }
         }
     }
 

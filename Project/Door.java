@@ -9,6 +9,18 @@ public class Door {
     private boolean vanished = false;
     private boolean oneWay;
 
+    public boolean canMove(Room r) {
+        if(!oneWay) {
+            return true;
+        } else {
+            if(r == firstRoom) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     /**
      * getNextRoom függvény: megadja a másik szobát, amelyik nem az ahonnen jövünk
      * @param from ez az a szoba ahonnan közelítjük meg az ajtót
@@ -91,6 +103,22 @@ public class Door {
             } else {
                 if(p.getPosition() == firstRoom) {
                     secondRoom.moveRoom(p);
+                }
+            }
+        }
+    }
+
+    public void movedBy(Cleaner c) {
+        if(!vanished) {
+            if(!oneWay) {
+                if(c.getPosition() == firstRoom) {
+                    secondRoom.moveRoom(c);
+                } else {
+                    firstRoom.moveRoom(c);
+                }
+            } else {
+                if(c.getPosition() == firstRoom) {
+                    secondRoom.moveRoom(c);
                 }
             }
         }

@@ -13,6 +13,8 @@ public class Room {
     private List<Door> neighbourDoors = new ArrayList<>();
     private List<Person> persons = new ArrayList<>();
     private List<Item> items = new ArrayList<>();
+    private boolean cleaned = false;
+    private int afterCleanCount = 5;
     Random rand = new Random();
 
     /**
@@ -70,6 +72,10 @@ public class Room {
     public void setGas() {
         isGassed = !isGassed;
     }
+    public void setCleaned() { cleaned = true; }
+
+    public int getAfterCleanCount() { return afterCleanCount; }
+    public void setAfterCleanCount0() { afterCleanCount = 0; }
 
     /**
      * isNeighbour függvény
@@ -130,6 +136,10 @@ public class Room {
             for (int i = 0; i < profcount; i++) {
                 s.getDamaged();
             }
+
+            if(cleaned && afterCleanCount > 0) {
+                afterCleanCount--;
+            }
         }
     }
 
@@ -151,6 +161,50 @@ public class Room {
             if(!p.getNotConscious()) {
                 damageAll();
                 incProfCount();
+            }
+
+            if(cleaned && afterCleanCount > 0) {
+                afterCleanCount--;
+            }
+        }
+    }
+
+
+    public void moveRoom(Cleaner c) {
+        if(isNotFull()) {
+            c.getPosition().persons.remove(c);
+            c.setPosition(this);
+            persons.add(c);
+
+            for(Person p : persons) {
+                if(!p.getNotConscious()) {
+                    Door d = null;
+
+                    for(Door door : neighbourDoors) {
+                        if(door.canMove(this)) {
+                            if(door.getNextRoom(this).isNotFull()) {
+                                d = door;
+                                break;
+                            }
+                        }
+                    }
+
+                    if(d != null) {
+                        p.move(d);
+                    }
+                }
+            }
+
+            if(this.isGassed) {
+                this.setGas();
+            }
+
+            if(cleaned && afterCleanCount > 0) {
+                afterCleanCount--;
+            }
+
+            if(!cleaned) {
+                this.setCleaned();
             }
         }
     }
