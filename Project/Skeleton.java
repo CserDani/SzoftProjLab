@@ -198,7 +198,7 @@ public class Skeleton {
         }
     }
 
-    public static int idDoorInput() {
+    public static void idDoorInput() {
         boolean exit = false;
         int sorszam = -1;
         while(!exit) {
@@ -214,7 +214,6 @@ public class Skeleton {
                 }
             } catch (Exception e) {}
         }
-        return sorszam;
     }
 
 
@@ -395,7 +394,6 @@ public class Skeleton {
         studentActor.addItemToInventory(t1);
         studentActor.addItemToInventory(t2);
         System.out.println("-----------------------------------");
-        System.out.println("Elet: " + studentActor.getHealth());
         System.out.println("Kabulas: " + studentActor.getNotConscious());
         System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
         System.out.println("Eszkoztar:");
@@ -409,7 +407,6 @@ public class Skeleton {
         listDoorsOfRoom(studentActor.getPosition());
         System.out.println("Valasszon egy ajto sorszamot!");
         idDoorInput();
-        System.out.println("Elet: " + studentActor.getHealth());
         System.out.println("Kabulas: " + studentActor.getNotConscious());
         System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
         System.out.println("Eszkoztar:");

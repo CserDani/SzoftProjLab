@@ -69,7 +69,6 @@ public abstract class Person implements ActionListener {
     public void setNotConscious() {
         notConscious = true;
         cooldown = 5;
-        this.getDamagedByGas();
         for(Item i : inventory) {
             position.addItem(i);
         }
@@ -148,7 +147,6 @@ public abstract class Person implements ActionListener {
      * Absztrakt függvény egy személy sebződéséhez
      */
     public abstract void getDamaged();
-    public abstract void getDamagedByGas();
 
     /**
      * decrCooldown függvény
