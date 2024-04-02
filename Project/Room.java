@@ -174,9 +174,9 @@ public class Room {
         if(isNotFull()) {
             c.getPosition().persons.remove(c);
             c.setPosition(this);
-            persons.add(c);
 
-            for(Person p : persons) {
+            List<Person> personList = new ArrayList<>(persons);
+            for(Person p : personList) {
                 if(!p.getNotConscious()) {
                     Door d = null;
 
@@ -194,6 +194,8 @@ public class Room {
                     }
                 }
             }
+
+            persons.add(c);
 
             if(this.isGassed) {
                 this.setGas();

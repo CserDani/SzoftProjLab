@@ -21,7 +21,7 @@ public class Skeleton {
     public static void buildTwoRoomMapAndPlayer() {
         map.clear();
 
-        Room r1 = new Room("Szoba1", false, false, 1);
+        Room r1 = new Room("Szoba1", false, false, 2);
         Room r2 = new Room("Szoba2", false, false, 1);
         r1.addNeighbour(r2, false);
         map.add(r1);
@@ -62,28 +62,28 @@ public class Skeleton {
         r1.addNeighbour(r2, false);
         map.add(r1);
         map.add(r2);
-        Active a1 = new Active("a1");
         Transistor t1 = new Transistor("t1");
-        Active a2 = new Active("a2");
         Transistor t2 = new Transistor("t2");
-        r1.addItem(a1);
+        Transistor t3 = new Transistor("t3");
+        Transistor t4 = new Transistor("t4");
         r1.addItem(t1);
-        r2.addItem(a2);
-        r2.addItem(t2);
+        r1.addItem(t2);
+        r2.addItem(t3);
+        r2.addItem(t4);
     }
 
     public static void buildOneWithItemsRoomNoCharacter() {
         map.clear();
         Room r1 = new Room("Szoba1", true, false, 5);
         map.add(r1);
-        Active a1 = new Active("a1");
         Transistor t1 = new Transistor("t1");
-        Active a2 = new Active("a2");
         Transistor t2 = new Transistor("t2");
-        r1.addItem(a1);
-        r1.addItem(a2);
+        Transistor t3 = new Transistor("t3");
+        Transistor t4 = new Transistor("t4");
         r1.addItem(t1);
         r1.addItem(t2);
+        r1.addItem(t3);
+        r1.addItem(t4);
     }
     public static void addItemToStudentRoom(Item t) {
         studentActor.getPosition().addItem(t);
@@ -247,8 +247,8 @@ public class Skeleton {
 
     public static void targyEldobas() {
         buildOneRoomMapAndPlayer();
-        Active a = new Active("Active1");
-        studentActor.addItemToInventory(a);
+        Transistor t = new Transistor("t");
+        studentActor.addItemToInventory(t);
         System.out.println("-----------------------------------");
         listItemsInStudentsInventory();
         dropIteminput();
@@ -390,10 +390,10 @@ public class Skeleton {
 
     public static void kabulas() {
         buildTwoRoomMapAndPlayerSecondGas();
-        Active a1 = new Active("a1");
-        Active a2 = new Active("a2");
-        studentActor.addItemToInventory(a1);
-        studentActor.addItemToInventory(a2);
+        Transistor t1 = new Transistor("t1");
+        Transistor t2 = new Transistor("t2");
+        studentActor.addItemToInventory(t1);
+        studentActor.addItemToInventory(t2);
         System.out.println("-----------------------------------");
         System.out.println("Elet: " + studentActor.getHealth());
         System.out.println("Kabulas: " + studentActor.getNotConscious());
@@ -422,8 +422,53 @@ public class Skeleton {
         }
     }
 
+
+
+
+    public static void camembertUse() {
+        buildOneRoomMapAndPlayer();
+        Camembert camembert = new Camembert("Camembert");
+        studentActor.addItemToInventory(camembert);
+        System.out.println("-----------------------------------");
+        studentActor.setStartPosition(map.get(0));
+        System.out.println("Eszkoztar:");
+        for(Item i : studentActor.getInventory()) {
+            System.out.println("\t" + i.getName());
+        }
+
+        studentActor.useItem(studentActor.getInventory().get(0));
+        System.out.println("Elet: " + studentActor.getHealth());
+        System.out.println("Kabulas: " + studentActor.getNotConscious());
+        System.out.println("Eszkoztar:");
+        for(Item i : studentActor.getInventory()) {
+            System.out.println("\t" + i.getName());
+        }
+
+        System.out.println(studentActor.getPosition().getIsGassed());
+
+        studentActor.getInventory().clear();
+    }
+
+    public static void cleanerTry() {
+        buildTwoRoomMapAndPlayer();
+        System.out.println("-----------------------------------");
+        System.out.println(map.get(0).getName() + " ------- " + map.get(1).getName());
+        Cleaner cleaner = new Cleaner("Cleaner");
+        cleaner.setStartPosition(map.get(1));
+        studentActor.setStartPosition(map.get(0));
+        System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        System.out.println(studentActor.getPosition().getAfterCleanCount());
+        cleaner.move(map.get(1).getNeighbourDoors().get(0));
+        System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        studentActor.move(map.get(1).getNeighbourDoors().get(0));
+        System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        System.out.println(studentActor.getPosition().getAfterCleanCount());
+    }
+
     public static void main(String[] args) {
         boolean exit = false;
+        //camembertUse();
+        //cleanerTry();
 
         while(!exit) {
             System.out.println("----------------------------------------");
@@ -431,7 +476,7 @@ public class Skeleton {
             System.out.println("Szekvenciak:");
             System.out.println("1. Targy (tranzisztor) felvetel");
             System.out.println("2. Targy (logarlec) felvetel");
-            System.out.println("3. Targy (aktiv) eldobas");
+            System.out.println("3. Targy (tranzisztor) eldobas");
             System.out.println("4. Lepes felhasznalo altal");
             System.out.println("5. Lepes felhasznalo altal, professzor a szobaban");
             System.out.println("6. Tranzisztor parositas");

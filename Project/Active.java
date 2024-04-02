@@ -4,7 +4,7 @@
  * Az „aktív” tárgyak jelentik azokat a tárgyakat, amelyeket valamilyen inputtal használni
  * tudunk és csak akkor kapjuk meg ezt a fejlesztést vagy bónuszt.
  */
-public class Active extends Item {
+public abstract class Active extends Item {
     /**
      * Aktív konstruktor: a megadott névvel létre hoz egy aktív tárgyat
      * @param name

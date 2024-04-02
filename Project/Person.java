@@ -44,7 +44,14 @@ public abstract class Person implements ActionListener {
      * Position setter
      * @param r A személy új pozíciója (szoba)
      */
-    public void setPosition(Room r) { position = r; }
+    public void setPosition(Room r) {
+        position = r;
+    }
+
+    public void setStartPosition(Room r) {
+        position = r;
+        r.getPersons().add(this);
+    }
 
     /**
      * NotConscious getter
