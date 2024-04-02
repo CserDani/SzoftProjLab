@@ -104,6 +104,19 @@ public class Student extends Person {
      * Függvény egy hallgató sebződéséhez
      */
     public void getDamaged() {
-        health -= 10;
+        if(getDamageHelpItems().isEmpty()) {
+            health -= 10;
+        } else {
+            Passive passive = getDamageHelpItems().get(0);
+            passive.durabilityDecr();
+            if(passive.getDurability() == 0) {
+                getInventory().remove(passive);
+                getDamageHelpItems().remove(passive);
+            }
+        }
+    }
+
+    public void getDamagedByGas() {
+        health -= 5;
     }
 }

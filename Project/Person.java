@@ -11,6 +11,7 @@ import java.util.List;
 public abstract class Person implements ActionListener {
     private String name;
     private List<Item> inventory = new ArrayList<>();
+    private List<Passive> damageHelpItems = new ArrayList<>();
     private Room position;
     private boolean notConscious = false;
     private Timer knockOutTimer = new Timer(1000, this);
@@ -33,6 +34,8 @@ public abstract class Person implements ActionListener {
      * @return Az inventory-ban lévő tárgyak listája
      */
     public List<Item> getInventory() { return inventory; }
+
+    public List<Passive> getDamageHelpItems() { return damageHelpItems; }
 
     /**
      * Position getter
@@ -66,7 +69,7 @@ public abstract class Person implements ActionListener {
     public void setNotConscious() {
         notConscious = true;
         cooldown = 5;
-        this.getDamaged();
+        this.getDamagedByGas();
         for(Item i : inventory) {
             position.addItem(i);
         }
@@ -145,6 +148,7 @@ public abstract class Person implements ActionListener {
      * Absztrakt függvény egy személy sebződéséhez
      */
     public abstract void getDamaged();
+    public abstract void getDamagedByGas();
 
     /**
      * decrCooldown függvény

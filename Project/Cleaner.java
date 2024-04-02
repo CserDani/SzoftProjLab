@@ -21,4 +21,8 @@ public class Cleaner extends Person {
     public void getDamaged() {
         //Cleaner can't be damaged, can't die
     }
+
+    public void getDamagedByGas() {
+        //Cleaner can't be damaged, can't die
+    }
 }

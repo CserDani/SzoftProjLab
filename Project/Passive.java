@@ -3,14 +3,19 @@
  * A Passzív objektum a passzív tárgyak funkcióiért felelős. Hasonlóan, mint az Aktív objektum, csak a használata más.
  * A passzív tárgyak jelentik azokat a tárgyakat, amelyek csupán a magunknál tartással egy valamilyen bónuszt ad számunkra. Tehát ezt külön „aktiválni” nem kell.
  */
-public class Passive extends Item {
+public abstract class Passive extends Item {
+    private int durability;
+
+    public int getDurability() { return durability; }
+
     /**
      * Passzív konstruktor, beállítja a passzív tárgy nevét.
      *
      * @param  name a tárgy megnevezése
      */
-    public Passive(String name) {
+    public Passive(String name, int durability) {
         super(name);
+        this.durability = durability;
         System.out.println("Passive constructor!");
     }
 
@@ -21,6 +26,7 @@ public class Passive extends Item {
      */
     public void pickedUpBy(Student s) {
         s.addItemToInventory(this);
+        s.getDamageHelpItems().add(this);
         Room r = s.getPosition();
         r.removeItem(this);
     }
@@ -31,6 +37,7 @@ public class Passive extends Item {
      */
     public void pickedUpBy(Professor p) {
         p.addItemToInventory(this);
+        p.getDamageHelpItems().add(this);
         Room r = p.getPosition();
         r.removeItem(this);
     }
@@ -62,4 +69,8 @@ public class Passive extends Item {
      * @param p az oktató, aki használja a tárgyat
      */
     public void use(Professor p) {}
+
+    public void durabilityDecr() {
+        durability--;
+    }
 }

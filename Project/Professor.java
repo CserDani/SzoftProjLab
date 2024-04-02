@@ -91,6 +91,10 @@ public class Professor extends Person {
         //Professor can't be damaged (It can't die).
     }
 
+    public void getDamagedByGas() {
+        //Professor can't be damaged by gas (It can't die).
+    }
+
     /**
      * actionPerformed függvény
      * A Visszaszámláló vezérléséhez szükséges eseménykezelő

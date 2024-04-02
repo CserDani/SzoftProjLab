@@ -465,10 +465,38 @@ public class Skeleton {
         System.out.println(studentActor.getPosition().getAfterCleanCount());
     }
 
+    public static void TVSZTry() {
+        buildTwoRoomMapAndPlayerAndProf();
+        TVSZ tvsz = new TVSZ("tvsz");
+        map.get(0).addItem(tvsz);
+        studentActor.pickUp(tvsz);
+        System.out.println("-----------------------------------");
+        System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        System.out.println("Elet: " + studentActor.getHealth());
+        professorActor.setStartPosition(map.get(1));
+        studentActor.setStartPosition(map.get(0));
+        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(0));
+        System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        System.out.println("Elet: " + studentActor.getHealth());
+        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(0));
+        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(0));
+        System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        System.out.println("Elet: " + studentActor.getHealth());
+        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(0));
+        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(0));
+        System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        System.out.println("Elet: " + studentActor.getHealth());
+        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(0));
+        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(0));
+        System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        System.out.println("Elet: " + studentActor.getHealth());
+    }
+
     public static void main(String[] args) {
         boolean exit = false;
         //camembertUse();
         //cleanerTry();
+        //TVSZTry();
 
         while(!exit) {
             System.out.println("----------------------------------------");
