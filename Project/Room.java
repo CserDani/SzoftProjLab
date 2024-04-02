@@ -59,6 +59,8 @@ public class Room {
      */
     public void setCapacity(int capacity) { this.capacity = capacity; }
 
+    public int getProfcount() { return profcount; }
+
     /**
      * isGassed getter
      * @result Visszaadja, hogy a szoba gázos-e
@@ -73,9 +75,7 @@ public class Room {
         isGassed = !isGassed;
     }
     public void setCleaned() { cleaned = true; }
-
     public int getAfterCleanCount() { return afterCleanCount; }
-    public void setAfterCleanCount0() { afterCleanCount = 0; }
 
     /**
      * isNeighbour függvény

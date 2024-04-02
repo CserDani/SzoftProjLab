@@ -180,29 +180,6 @@ public abstract class Person implements ActionListener {
      */
     public void setNotConsciousFalse() { notConscious = false; }
 
-    /**
-     * actionPerformed függvény
-     * A Visszaszámláló vezérléséhez szükséges eseménykezelő
-     */
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == knockOutTimer) {
-            decrCooldown();
-            if (getCooldown() == 0) {
-                stopTimer();
-                setNotConsciousFalse();
-            }
-        }
-
-        if(e.getSource() == gasTimer) {
-            Passive gasItem = gasHelpItems.get(0);
-            gasItem.durabilityDecr();
-            if(gasItem.getDurability() == 0) {
-                gasHelpItems.remove(gasItem);
-                inventory.remove(gasItem);
-                gasTimer.stop();
-                setNotConscious();
-            }
-        }
-    }
+    public void actionPerformed(ActionEvent e) {}
 }

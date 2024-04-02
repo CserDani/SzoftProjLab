@@ -1,8 +1,10 @@
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * Az Oktató objektum, ahogy a neve is mutatja, az oktatókat, tehát az ellenfeleket testesíti meg. Ahogyan a Hallgató objektum, így ez is saját működéséért felelős, tehát azért, hogy az ellenfeleink se hazudtolják meg a játék törvényeit, és csak úgy mozogjanak, és csináljanak más cselekvést, hogy az a szabályok szerint történjen.
  */
-public class Professor extends Person {
+public class Professor extends Person implements ActionListener {
 
     public void boardCleanerConscious() {
         if(!getNotConscious()) {

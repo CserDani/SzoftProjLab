@@ -526,6 +526,33 @@ public class Skeleton {
         System.out.println("Prof conscious: " + professorActor.getNotConscious());
     }
 
+    public static void holyPintTry() {
+        buildTwoRoomMapAndPlayerAndProf();
+        HolyPint hp = new HolyPint("HolyPint");
+        FFP2 mask = new FFP2("FFP2");
+        map.get(0).addItem(hp);
+        map.get(0).addItem(mask);
+        System.out.println("-----------------------------------");
+        professorActor.setStartPosition(map.get(1));
+        studentActor.setStartPosition(map.get(0));
+
+        studentActor.pickUp(hp);
+        studentActor.pickUp(mask);
+        System.out.println("Elet: " + studentActor.getHealth());
+        System.out.println("Eszkoztar:");
+        listItemsInStudentsInventory();
+        studentActor.useItem(studentActor.getInventory().get(0));
+        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(0));
+        System.out.println("Elet: " + studentActor.getHealth());
+        System.out.println("Eszkoztar:");
+        listItemsInStudentsInventory();
+        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(0));
+        studentActor.dropItem(studentActor.getInventory().get(0));
+        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(0));
+        System.out.println("Elet: " + studentActor.getHealth());
+        System.out.println("Eszkoztar:");
+        listItemsInStudentsInventory();
+    }
 
     public static void main(String[] args) {
         boolean exit = false;
@@ -534,6 +561,7 @@ public class Skeleton {
         //TVSZTry();
         //FFP2Try();
         //boardCleanerTry();
+        holyPintTry();
 
         while(!exit) {
             System.out.println("----------------------------------------");

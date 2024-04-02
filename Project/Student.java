@@ -1,10 +1,16 @@
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * A Hallgató objektum igazából a játékost magát képviseli, és így a játékos tulajdonságait és a játékos működtetését szolgáló funkciókat implementálja.
  * Ezekért az információkért és funkciókért felelős, tehát csak azért, hogy a játékos úgy tudja játszani a játékot, ahogy azt a játék szabályai előírják.
  */
-public class Student extends Person {
+public class Student extends Person implements ActionListener {
     private int health;
     private Transistor prevUsedTrans;
+    private int immunityCounter = 0;
+    private Timer immunityTimer = new Timer(1000, this);
 
     public void boardCleanerConscious() {}
 
@@ -31,6 +37,18 @@ public class Student extends Person {
      * Az előzőleg használt tranzisztort törli
      */
     public void setUsedTransNull() { this.prevUsedTrans = null; }
+
+    public void setImmunityCounter(int count) {
+        this.immunityCounter = count;
+    }
+    public int getImmunityCounter() { return immunityCounter; }
+    public void startImmunityTimer() {
+        immunityTimer.restart();
+    }
+
+    public void stopImmunityTimer() {
+        immunityTimer.stop();
+    }
 
     /**
      * Student konstruktor
@@ -106,14 +124,52 @@ public class Student extends Person {
      * Függvény egy hallgató sebződéséhez
      */
     public void getDamaged() {
-        if(getDamageHelpItems().isEmpty()) {
-            health -= 10;
-        } else {
-            Passive passive = getDamageHelpItems().get(0);
-            passive.durabilityDecr();
-            if(passive.getDurability() == 0) {
-                getInventory().remove(passive);
-                getDamageHelpItems().remove(passive);
+        if(immunityCounter == 0) {
+            if (getDamageHelpItems().isEmpty()) {
+                health -= 10;
+            } else {
+                Passive passive = getDamageHelpItems().get(0);
+                passive.durabilityDecr();
+                if (passive.getDurability() == 0) {
+                    getInventory().remove(passive);
+                    getDamageHelpItems().remove(passive);
+                }
+            }
+        }
+    }
+
+    /**
+     * actionPerformed függvény
+     * A Visszaszámláló vezérléséhez szükséges eseménykezelő
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == getKnockOutTimer()) {
+            decrCooldown();
+            if (getCooldown() == 0) {
+                stopTimer();
+                setNotConsciousFalse();
+            }
+        }
+
+        if(e.getSource() == getGasTimer()) {
+            Passive gasItem = getGasHelpItems().get(0);
+            gasItem.durabilityDecr();
+            if(gasItem.getDurability() == 0) {
+                getGasHelpItems().remove(gasItem);
+                getInventory().remove(gasItem);
+                getGasTimer().stop();
+                setNotConscious();
+            }
+        }
+
+        if(e.getSource() == immunityTimer) {
+            immunityCounter--;
+            if(immunityCounter == 0) {
+                stopImmunityTimer();
+                for(int i = 0; i < getPosition().getProfcount(); i++) {
+                    getDamaged();
+                }
             }
         }
     }
