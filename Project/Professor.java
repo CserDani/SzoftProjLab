@@ -4,6 +4,13 @@ import java.awt.event.ActionEvent;
  */
 public class Professor extends Person {
 
+    public void boardCleanerConscious() {
+        if(!getNotConscious()) {
+            getPosition().decrProfCount();
+        }
+        setNotConsciousAndTimer();
+    }
+
     /**
      * Professor konstruktor
      * Az oktató nevét állítja be
@@ -104,6 +111,17 @@ public class Professor extends Person {
                 setNotConsciousFalse();
                 getPosition().damageAll();
                 getPosition().incProfCount();
+            }
+        }
+
+        if(e.getSource() == getGasTimer()) {
+            Passive gasItem = getGasHelpItems().get(0);
+            gasItem.durabilityDecr();
+            if(gasItem.getDurability() == 0) {
+                getGasHelpItems().remove(gasItem);
+                getInventory().remove(gasItem);
+                getGasTimer().stop();
+                setNotConscious();
             }
         }
     }

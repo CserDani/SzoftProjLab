@@ -1,4 +1,6 @@
 public class Cleaner extends Person {
+    public void boardCleanerConscious() {}
+
     protected Cleaner(String name) {
         super(name);
     }

@@ -502,6 +502,30 @@ public class Skeleton {
         studentActor.move(studentActor.getPosition().getNeighbourDoors().get(0));
     }
 
+    public static void boardCleanerTry() {
+        buildTwoRoomMapAndPlayerAndProf();
+        BoardCleaner bc = new BoardCleaner("BoardCleaner");
+        map.get(0).addItem(bc);
+        System.out.println("-----------------------------------");
+        professorActor.setStartPosition(map.get(1));
+        studentActor.setStartPosition(map.get(0));
+
+        studentActor.pickUp(bc);
+
+        studentActor.move(map.get(0).getNeighbourDoors().get(0));
+        System.out.println("Elet: " + studentActor.getHealth());
+        System.out.println("Eszkoztar:");
+        listItemsInStudentsInventory();
+        System.out.println("Prof conscious: " + professorActor.getNotConscious());
+        studentActor.useItem(studentActor.getInventory().get(0));
+        studentActor.move(map.get(0).getNeighbourDoors().get(0));
+        studentActor.move(map.get(0).getNeighbourDoors().get(0));
+        System.out.println("Elet: " + studentActor.getHealth());
+        System.out.println("Eszkoztar:");
+        listItemsInStudentsInventory();
+        System.out.println("Prof conscious: " + professorActor.getNotConscious());
+    }
+
 
     public static void main(String[] args) {
         boolean exit = false;
@@ -509,6 +533,7 @@ public class Skeleton {
         //cleanerTry();
         //TVSZTry();
         //FFP2Try();
+        //boardCleanerTry();
 
         while(!exit) {
             System.out.println("----------------------------------------");

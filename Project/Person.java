@@ -65,23 +65,29 @@ public abstract class Person implements ActionListener {
      */
     public boolean getNotConscious() { return notConscious; }
 
+    public void setNotConsciousAndTimer() {
+        notConscious = true;
+        cooldown = 5;
+        for (Item i : inventory) {
+            position.addItem(i);
+        }
+        knockOutTimer.restart();
+    }
+
     /**
      * NotConscious setter
      * A személy eszméleti állapotát állítja be
      */
     public void setNotConscious() {
         if(gasHelpItems.isEmpty()) {
-            notConscious = true;
-            cooldown = 5;
-            for (Item i : inventory) {
-                position.addItem(i);
-            }
+            setNotConsciousAndTimer();
             inventory.clear();
-            knockOutTimer.restart();
         } else {
             gasTimer.restart();
         }
     }
+
+    public abstract void boardCleanerConscious();
 
     /**
      * Cooldown getter
@@ -94,6 +100,7 @@ public abstract class Person implements ActionListener {
      * @return A knockOutTimer változó értéke
      */
     public Timer getKnockOutTimer() { return knockOutTimer; }
+    public Timer getGasTimer() { return gasTimer; }
 
     /**
      * Person konstruktor

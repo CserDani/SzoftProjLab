@@ -6,6 +6,8 @@ public class Student extends Person {
     private int health;
     private Transistor prevUsedTrans;
 
+    public void boardCleanerConscious() {}
+
     /**
      * Health getter
      * @result Az hallgató életereje

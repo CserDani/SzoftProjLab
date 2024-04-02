@@ -327,4 +327,5 @@ public class Room {
      * Megnöveli a profcount (oktatók száma a szobában) változó értékét
      */
     public void incProfCount() { profcount++; }
+    public void decrProfCount() { profcount--; }
 }
