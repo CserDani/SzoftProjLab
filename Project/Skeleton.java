@@ -554,6 +554,28 @@ public class Skeleton {
         listItemsInStudentsInventory();
     }
 
+    public static void fakeItemsTry() {
+        buildOneRoomMapAndPlayer();
+        FakeLogarlec fakelogar = new FakeLogarlec("FakeLogar");
+        FakeFFP2 fakeff = new FakeFFP2("FakeFFP2");
+        FakeTVSZ faketvsz = new FakeTVSZ("FakeTVSZ");
+        FakeTVSZ faketvsz2 = new FakeTVSZ("FakeTVSZ");
+        FakeTVSZ faketvsz3 = new FakeTVSZ("FakeTVSZ");
+        FakeTVSZ faketvsz4 = new FakeTVSZ("FakeTVSZ");
+        FakeTVSZ faketvsz5 = new FakeTVSZ("FakeTVSZ");
+        System.out.println("-----------------------------------");
+        map.get(0).addItem(fakelogar);
+        map.get(0).addItem(fakeff);
+        map.get(0).addItem(faketvsz);
+
+        studentActor.setStartPosition(map.get(0));
+        studentActor.pickUp(fakelogar);
+        studentActor.pickUp(fakeff);
+        studentActor.pickUp(faketvsz);
+        System.out.println("Eszkoztar:");
+        listItemsInStudentsInventory();
+    }
+
     public static void main(String[] args) {
         boolean exit = false;
         //camembertUse();
@@ -561,7 +583,8 @@ public class Skeleton {
         //TVSZTry();
         //FFP2Try();
         //boardCleanerTry();
-        holyPintTry();
+        //holyPintTry();
+        fakeItemsTry();
 
         while(!exit) {
             System.out.println("----------------------------------------");

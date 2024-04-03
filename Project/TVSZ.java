@@ -11,12 +11,4 @@ public class TVSZ extends Passive {
         Room r = s.getPosition();
         r.removeItem(this);
     }
-
-    @Override
-    public void pickedUpBy(Professor p) {
-        p.addItemToInventory(this);
-        p.getDamageHelpItems().add(this);
-        Room r = p.getPosition();
-        r.removeItem(this);
-    }
 }
