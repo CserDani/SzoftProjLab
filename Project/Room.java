@@ -288,13 +288,6 @@ public class Room {
     }
 
     /**
-     * teleportRoom függvény
-     * Üres, mivel oktató nem teleportálhat (nem vehet fel tranzisztort)
-     * @param p Az oktató, aki teleportál(na)
-     */
-    public void teleportRoom(Professor p) {}
-
-    /**
      * damageAll függvény
      * A szobában lévő személyek sebzéséért felelős függvény
      */
