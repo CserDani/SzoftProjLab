@@ -584,7 +584,7 @@ public class Skeleton {
         //FFP2Try();
         //boardCleanerTry();
         //holyPintTry();
-        fakeItemsTry();
+        //fakeItemsTry();
 
         while(!exit) {
             System.out.println("----------------------------------------");
