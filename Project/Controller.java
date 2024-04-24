@@ -187,6 +187,8 @@ public class Controller {
             System.out.println("----------------------------------------");
             if(students.size() == 0) {
                 System.out.println("Nincs játékos!");
+            } else {
+                System.out.println("Játékosok száma: " + students.size());
             }
             System.out.println("----------------------------------------");
 

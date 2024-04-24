@@ -124,6 +124,7 @@ public class LoadGameState {
                 int position = Integer.parseInt(line);
                 Professor prof = new Professor("Professzor" + profID);
                 prof.setStartPosition(controller.getMap().get(position));
+                controller.getMap().get(position).incProfCount();
                 controller.getProfessors().add(prof);
                 profID++;
             } else {
