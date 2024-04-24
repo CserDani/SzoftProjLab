@@ -1,16 +1,23 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Controller {
-    public Controller() {
+    public Controller() {}
+
+    public Controller(Controller c) {
+        map = c.getMap();
+        students = c.getStudents();
+        professors = c.getProfessors();
+        cleaners = c.getCleaners();
     }
     private static final Scanner scan = new Scanner(System.in);
     private static List<Room> map = new ArrayList<>();
     private static List<Student> students = new ArrayList<>();
     private static List<Professor> professors = new ArrayList<>();
     private static List<Cleaner> cleaners = new ArrayList<>();
-    private static final Student pickedStudent = null;
+    private static Student pickedStudent = null;
 
     public static void PickUpInput(int size) {
         System.out.println("Melyik targyat szeretne felvenni? (Szobaban levo targyak, 1.oszlop index alapjan)");
@@ -192,8 +199,11 @@ public class Controller {
             System.out.println("5. Jatekos leptetese");
             System.out.println("6. Palya betoltese");
             System.out.println("7. Parancsok beolvasasa es azok kimeneteinek kiirasa egy fajlba");
-            System.out.println("8. Palyakeszites");
+            //System.out.println("8. Palyakeszites");
+            System.out.println("8. Palyakeszites fajlbol");
             System.out.println("9. Szoba osztodas");
+            System.out.println("10. Teszt: A jatek allapotanak kiiratasa");
+            System.out.println("11. Jatekos valasztasa");
             System.out.println("X. Szoba egyesules");
             System.out.println("Y. Jatekos valtasa");
 
@@ -215,10 +225,74 @@ public class Controller {
                 case 5:
                     lepes();
                     break;
+                case 8:
+                    System.out.println("Adja meg a fájl nevét: ");
+                    String filename = scan.nextLine();
+                    palyaBetoltes(filename);
+                    break;
+                case 10:
+                    jatekAllapot();
+                    break;
+                case 11:
+                    jatekosValasztas();
+                    break;
+                default:
+                    System.out.println("Ismeretlen parancs!\n");
             }
         }
     }
 
+    public static void palyaBetoltes(String filename){
+        try{
+            LoadGameState newMap = new LoadGameState(filename);
+            map = newMap.getController().getMap();
+            students = newMap.getController().getStudents();
+            professors = newMap.getController().getProfessors();
+            cleaners = newMap.getController().getCleaners();
+            System.out.println("Sikeres pálya és paraméter beolvasás");
+        } catch (IOException e){
+            System.out.println("Sikertelen beolvasás: " + e.getMessage());
+        }
+    }
+
+    public static void jatekAllapot(){
+        System.out.println("Pálya:\n");
+        for(int i = 0; i < map.size(); i++){
+            System.out.println("Szoba index: " + i + " Szoba kapacitas: " + map.get(i).getCapacity() +"\n");
+            System.out.println("Szomszedai: ");
+            for(Door door : map.get(i).getNeighbourDoors()){
+                System.out.println(door.getNextRoom(map.get(i)).getName() + ", ");
+            }
+            System.out.println("\n");
+            System.out.println("Targyai: ");
+            for(Item item : map.get(i).getItems()){
+                System.out.println(item.getName() + ", ");
+            }
+            System.out.println("\n");
+        }
+        System.out.println("Hallgatok:\n");
+        for(Student student : students){
+            System.out.println("Neve: " + student.getName() + ", helye: " + student.getPosition().getName() + ", eletereje: " + student.getHealth() + "\n");
+        }
+        System.out.println("Professzorok:");
+        for (Professor professor : professors) {
+            System.out.println("Neve: " + professor.getName() + ", helye: " + professor.getPosition().getName() + "\n");
+        }
+    }
+
+    public static void jatekosValasztas(){
+        System.out.println("Jatekosok: ");
+        for(int i = 0; i < students.size(); i++){
+            System.out.println(i + ". " + students.get(i).getName() + "\n");
+        }
+        System.out.println("Jatekos sorszama: ");
+        int choice = Integer.parseInt(scan.nextLine());
+        if(choice >= 0 && choice < students.size()){
+            pickedStudent = students.get(choice);
+        } else {
+            System.out.println("Ervenytelen valasztas!");
+        }
+    }
     public List<Room> getMap() {
         return map;
     }

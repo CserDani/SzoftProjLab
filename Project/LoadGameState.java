@@ -2,10 +2,16 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-public class FileReader {
+public class LoadGameState {
     private Controller controller;
+    private int studID = 0;
+    private int profID = 0;
 
-    public FileReader(String filename) throws IOException {
+    private int logID = 0;
+
+    private int roomID = 0;
+
+    public LoadGameState(String filename) throws IOException {
         this.controller = new Controller();
         readFile(filename);
     }
@@ -52,7 +58,8 @@ public class FileReader {
 
             if(line.matches("\\d+")){
                 int capacity = Integer.parseInt(line);
-                controller.getMap().add(new Room("asd", false, false, capacity));
+                controller.getMap().add(new Room("Szoba" + roomID, false, false, capacity));
+                roomID++;
             } else {
                 return i - 1;
             }
@@ -64,7 +71,7 @@ public class FileReader {
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
 
-            if(line.matches("\\d+")){
+            if(line.matches("\\d+ \\d+")){
                 String[] rooms = line.split(" ");
                 int r1 = Integer.parseInt(rooms[0]);
                 int r2 = Integer.parseInt(rooms[1]);
@@ -80,7 +87,7 @@ public class FileReader {
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
 
-            if(line.matches("\\d+")){
+            if(line.matches("\\d+ \\d+")){
                 String[] rooms = line.split(" ");
                 int r1 = Integer.parseInt(rooms[0]);
                 int r2 = Integer.parseInt(rooms[1]);
@@ -98,9 +105,10 @@ public class FileReader {
 
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
-                Student stud = new Student("asd");
-                controller.getMap().get(position).moveRoom(stud);
+                Student stud = new Student("Hallgato" + studID);
+                stud.setStartPosition(controller.getMap().get(position));
                 controller.getStudents().add(stud);
+                studID++;
             } else {
                 return i - 1;
             }
@@ -114,9 +122,10 @@ public class FileReader {
 
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
-                Professor prof = new Professor("asd");
-                controller.getMap().get(position).moveRoom(prof);
+                Professor prof = new Professor("Professzor" + profID);
+                prof.setStartPosition(controller.getMap().get(position));
                 controller.getProfessors().add(prof);
+                profID++;
             } else {
                 return i - 1;
             }
@@ -129,8 +138,10 @@ public class FileReader {
             String line = l.get(i).trim();
 
             if(line.matches("\\d+")){
-                Logarlec log = new Logarlec("asd");                        //szükséges a név a konstruktorba?
-                controller.getMap().get(i).addItem(log);
+                int position = Integer.parseInt(line);
+                Logarlec log = new Logarlec("Logarlec" + logID);
+                controller.getMap().get(position).addItem(log);
+                logID++;
             } else {
                 return i - 1;
             }
