@@ -10,16 +10,10 @@ public class Controller {
     private static List<Student> students = new ArrayList<>();
     private static List<Professor> professors = new ArrayList<>();
     private static List<Cleaner> cleaners = new ArrayList<>();
-    private static Student pickedStudent;
+    private static final Student pickedStudent = null;
 
-    public static void PickUpInput(Student s) {
+    public static void PickUpInput(int size) {
         System.out.println("Melyik targyat szeretne felvenni? (Szobaban levo targyak, 1.oszlop index alapjan)");
-        int size = -1;
-        for(Room r : map) {
-            if(r.getName().equals(s.getPosition().getName())) {
-                size = r.getItems().size();
-            }
-        }
         boolean exit = false;
         while(!exit) {
             String line = scan.nextLine();
@@ -28,7 +22,7 @@ public class Controller {
                 sorszam = Integer.parseInt(line);
                 for(int i = 0; i < size; i++) {
                     if(i == sorszam) {
-                        s.pickUp(s.getPosition().getItems().get(sorszam));
+                        pickedStudent.pickUp(pickedStudent.getPosition().getItems().get(sorszam));
                         exit = true;
                     }
                 }
@@ -36,17 +30,26 @@ public class Controller {
         }
 
         System.out.println("Eszkoztar:");
-        for(Item it : s.getInventory()) {
+        for(Item it : pickedStudent.getInventory()) {
             System.out.println("\t" + it.getName());
         }
 
         System.out.println("Szobaban levo targyak:");
-        for(Item it : s.getPosition().getItems()) {
+        for(Item it : pickedStudent.getPosition().getItems()) {
             System.out.println("\t" + it.getName());
         }
     }
+    public static void targyFelvetel() {
+        if(pickedStudent == null) {
+            return;
+        }
+        System.out.println("-----------------------------------");
+        listItemsInStudentsRoom();
+        int size = getStudentsRoomItemsSize();
+        PickUpInput(size);
+    }
 
-    public static void useItemInput(Student s) {
+    public static void useItemInput() {
         System.out.println("Melyik targyat szeretne hasznalni (Student-nel levo targyak, 1.oszlop index alapjan)");
 
         boolean exit = false;
@@ -55,17 +58,25 @@ public class Controller {
             int sorszam;
             try {
                 sorszam = Integer.parseInt(line);
-                for(int i = 0; i < s.getInventory().size(); i++) {
+                for(int i = 0; i < pickedStudent.getInventory().size(); i++) {
                     if(i == sorszam) {
-                        s.useItem(s.getInventory().get(i));
+                        pickedStudent.useItem(pickedStudent.getInventory().get(i));
                         exit = true;
                     }
                 }
             } catch (Exception e) {}
         }
     }
+    public static void targyHasznalat() {
+        if(pickedStudent == null) {
+            return;
+        }
+        System.out.println("-----------------------------------");
+        listItemsInStudentsInventory();
+        useItemInput();
+    }
 
-    public static void dropIteminput(Student s) {
+    public static void dropIteminput() {
         System.out.println("Melyik targyat szeretne eldobni? (Student-nel levo targyak, 1.oszlop index alapjan)");
 
         boolean exit = false;
@@ -74,9 +85,9 @@ public class Controller {
             int sorszam;
             try {
                 sorszam = Integer.parseInt(line);
-                for(int i = 0; i < s.getInventory().size(); i++) {
+                for(int i = 0; i < pickedStudent.getInventory().size(); i++) {
                     if(i == sorszam) {
-                        s.dropItem(s.getInventory().get(i));
+                        pickedStudent.dropItem(pickedStudent.getInventory().get(i));
                         exit = true;
                     }
                 }
@@ -84,33 +95,94 @@ public class Controller {
         }
 
         System.out.println("Eszkoztar:");
-        for(Item it : s.getInventory()) {
+        for(Item it : pickedStudent.getInventory()) {
             System.out.println("\t" + it.getName());
         }
 
         System.out.println("Szobaban levo targyak:");
-        for(Item it : s.getPosition().getItems()) {
+        for(Item it : pickedStudent.getPosition().getItems()) {
             System.out.println("\t" + it.getName());
         }
     }
-
-    public static void pairTransByInput(Student s) {
-        useItemInput(s);
-        useItemInput(s);
+    public static void targyEldobas() {
+        if(pickedStudent == null) {
+            return;
+        }
+        System.out.println("-----------------------------------");
+        listItemsInStudentsInventory();
+        dropIteminput();
     }
+
+    public static void idDoorInput() {
+        boolean exit = false;
+        int sorszam = -1;
+        while(!exit) {
+            String line = scan.nextLine();
+
+            try {
+                sorszam = Integer.parseInt(line);
+                for(int i = 0; i < pickedStudent.getPosition().getNeighbourDoors().size(); i++) {
+                    if(i == sorszam) {
+                        pickedStudent.move(pickedStudent.getPosition().getNeighbourDoors().get(i));
+                        exit = true;
+                    }
+                }
+            } catch (Exception e) {}
+        }
+    }
+    public static void lepes() {
+        if(pickedStudent == null) {
+            return;
+        }
+        System.out.println("-----------------------------------");
+        System.out.println("Jelenlegi hely: " + pickedStudent.getPosition().getName());
+        listDoorsOfRoom(pickedStudent.getPosition());
+        System.out.println("Valasszon egy ajto sorszamot!");
+        idDoorInput();
+        System.out.println("Jelenlegi hely: " + pickedStudent.getPosition().getName());
+    }
+
+    public static void listDoorsOfRoom(Room r) {
+        System.out.println("Szomszedos szobak:");
+        int id = 0;
+        for(Door d : r.getNeighbourDoors()) {
+            System.out.println(id++ + "\t" + d.getNextRoom(r).getName());
+        }
+    }
+    public static void listItemsInStudentsInventory() {
+        int j = 0;
+        for(Item it : pickedStudent.getInventory()) {
+            System.out.println(j++ + "\t" + it.getName());
+        }
+    }
+    public static void listItemsInStudentsRoom() {
+        int j = 0;
+        for(Room r : map) {
+            if(r.getName().equals(pickedStudent.getPosition().getName())) {
+                for(Item it : r.getItems()) {
+                    System.out.println(j++ + "\t" + it.getName());
+                }
+            }
+        }
+    }
+    public static int getStudentsRoomItemsSize() {
+        for(Room r : map) {
+            if(r.getName().equals(pickedStudent.getPosition().getName())) {
+                return r.getItems().size();
+            }
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
         boolean exit = false;
         while (!exit) {
             System.out.println("----------------------------------------");
-            System.out.println("Valassz jatekost:");
-            String line = scan.nextLine();
-            while(Integer.parseInt(line) < 0 || Integer.parseInt(line) > students.size()-1) {
-                System.out.println("Hibas valasztas!");
-                System.out.println("Valassz jatekost:");
-                line = scan.nextLine();
+            if(students.size() == 0) {
+                System.out.println("Nincs játékos!");
             }
-            pickedStudent = students.get(Integer.parseInt(line));
             System.out.println("----------------------------------------");
+
             System.out.println("0. Exit");
             System.out.println("Szekvenciak:");
             System.out.println("1. Targy felvetele");
@@ -122,22 +194,27 @@ public class Controller {
             System.out.println("7. Parancsok beolvasasa es azok kimeneteinek kiirasa egy fajlba");
             System.out.println("8. Palyakeszites");
             System.out.println("9. Szoba osztodas");
-            System.out.println("10. Szoba egyesules");
+            System.out.println("X. Szoba egyesules");
+            System.out.println("Y. Jatekos valtasa");
+
             System.out.println("----------------------------------------");
-            line = scan.nextLine();
+            String line = scan.nextLine();
 
             switch (Integer.parseInt(line)) {
                 case 1:
-                    PickUpInput(pickedStudent);
+                    targyFelvetel();
                     break;
                 case 2:
-                    useItemInput(pickedStudent);
+                    targyHasznalat();
                     break;
                 case 3:
-                    dropIteminput(pickedStudent);
+                    targyEldobas();
                     break;
                 case 4:
-
+                    break;
+                case 5:
+                    lepes();
+                    break;
             }
         }
     }
