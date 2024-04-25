@@ -7,6 +7,8 @@ public class LoadGameState {
     private int studID = 0;
     private int profID = 0;
 
+    private int cleanID = 0;
+
     private int logID = 0;
 
     private int roomID = 0;
@@ -43,8 +45,41 @@ public class LoadGameState {
                 case "PROFESSZOROK":
                     i = readProfessors(lines, i+1);
                     break;
+                case "TAKARITOK":
+                    i = readCleaners(lines, i+1);
+                    break;
                 case "LOGARLEC":
                     i = readLogarlec(lines, i+1);
+                    break;
+                case "LEGTISZTITO":
+                    i = readAirFreshener(lines, i+1);
+                    break;
+                case "TABLATORLO":
+                    i = readBoardCleaner(lines, i+1);
+                    break;
+                case "CAMEMBERT":
+                    i = readCamembert(lines, i+1);
+                    break;
+                case "FAKEFFP2":
+                    i = readFakeFFP2(lines, i+1);
+                    break;
+                case "FAKELOGARLEC":
+                    i = readFakeLogarlec(lines, i+1);
+                    break;
+                case "FAKETVSZ":
+                    i = readFakeTVSZ(lines, i+1);
+                    break;
+                case "FFP2":
+                    i = readFFP2(lines, i+1);
+                    break;
+                case "HOLYPINT":
+                    i = readHolyPint(lines, i+1);
+                    break;
+                case "TRANZISZTOR":
+                    i = readTransistors(lines, i+1);
+                    break;
+                case "TVSZ":
+                    i = readTVSZ(lines, i+1);
                     break;
                 default:
                     break;
@@ -142,6 +177,183 @@ public class LoadGameState {
                 int position = Integer.parseInt(line);
                 Logarlec log = new Logarlec("Logarlec" + logID);
                 controller.getMap().get(position).addItem(log);
+                logID++;
+            } else {
+                return i - 1;
+            }
+        }
+        return l.size();
+    }
+
+    public int readCleaners(List<String> l, int si){
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            if(line.matches("\\d+")){
+                int position = Integer.parseInt(line);
+                Cleaner cl = new Cleaner("Takarito" + cleanID);
+                cl.setStartPosition(controller.getMap().get(position));
+                controller.getCleaners().add(cl);
+                cleanID++;
+            } else {
+                return i - 1;
+            }
+        }
+        return l.size();
+    }
+
+    public int readAirFreshener(List<String> l, int si){
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            if(line.matches("\\d+")){
+                int position = Integer.parseInt(line);
+                AirFreshener item = new AirFreshener("Legtisztito" + logID);
+                controller.getMap().get(position).addItem(item);
+                logID++;
+            } else {
+                return i - 1;
+            }
+        }
+        return l.size();
+    }
+
+    public int readBoardCleaner(List<String> l, int si){
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            if(line.matches("\\d+")){
+                int position = Integer.parseInt(line);
+                BoardCleaner item = new BoardCleaner("Tablatorlo" + logID);
+                controller.getMap().get(position).addItem(item);
+                logID++;
+            } else {
+                return i - 1;
+            }
+        }
+        return l.size();
+    }
+
+    public int readCamembert(List<String> l, int si){
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            if(line.matches("\\d+")){
+                int position = Integer.parseInt(line);
+                Camembert item = new Camembert("Camembert" + logID);
+                controller.getMap().get(position).addItem(item);
+                logID++;
+            } else {
+                return i - 1;
+            }
+        }
+        return l.size();
+    }
+
+    public int readFakeFFP2(List<String> l, int si){
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            if(line.matches("\\d+")){
+                int position = Integer.parseInt(line);
+                FakeFFP2 item = new FakeFFP2("FakeFFP2" + logID);
+                controller.getMap().get(position).addItem(item);
+                logID++;
+            } else {
+                return i - 1;
+            }
+        }
+        return l.size();
+    }
+
+    public int readFakeLogarlec(List<String> l, int si){
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            if(line.matches("\\d+")){
+                int position = Integer.parseInt(line);
+                FakeLogarlec item = new FakeLogarlec("FakeLogarlec" + logID);
+                controller.getMap().get(position).addItem(item);
+                logID++;
+            } else {
+                return i - 1;
+            }
+        }
+        return l.size();
+    }
+
+    public int readFakeTVSZ(List<String> l, int si){
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            if(line.matches("\\d+")){
+                int position = Integer.parseInt(line);
+                FakeTVSZ item = new FakeTVSZ("FakeTVSZ" + logID);
+                controller.getMap().get(position).addItem(item);
+                logID++;
+            } else {
+                return i - 1;
+            }
+        }
+        return l.size();
+    }
+
+    public int readFFP2(List<String> l, int si){
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            if(line.matches("\\d+")){
+                int position = Integer.parseInt(line);
+                FFP2 item = new FFP2("FFP2" + logID);
+                controller.getMap().get(position).addItem(item);
+                logID++;
+            } else {
+                return i - 1;
+            }
+        }
+        return l.size();
+    }
+
+    public int readHolyPint(List<String> l, int si){
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            if(line.matches("\\d+")){
+                int position = Integer.parseInt(line);
+                HolyPint item = new HolyPint("HolyPint" + logID);
+                controller.getMap().get(position).addItem(item);
+                logID++;
+            } else {
+                return i - 1;
+            }
+        }
+        return l.size();
+    }
+
+    public int readTransistors(List<String> l, int si){
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            if(line.matches("\\d+")){
+                int position = Integer.parseInt(line);
+                Transistor item = new Transistor("Tranzisztor" + logID);
+                controller.getMap().get(position).addItem(item);
+                logID++;
+            } else {
+                return i - 1;
+            }
+        }
+        return l.size();
+    }
+
+    public int readTVSZ(List<String> l, int si){
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            if(line.matches("\\d+")){
+                int position = Integer.parseInt(line);
+                TVSZ item = new TVSZ("TVSZ" + logID);
+                controller.getMap().get(position).addItem(item);
                 logID++;
             } else {
                 return i - 1;
