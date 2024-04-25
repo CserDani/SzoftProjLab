@@ -53,6 +53,10 @@ public class Controller {
         System.out.println("-----------------------------------");
         listItemsInStudentsRoom();
         int size = getStudentsRoomItemsSize();
+        if(size == 0) {
+            System.out.println("Nincs targy a szobaban!");
+            return;
+        }
         PickUpInput(size);
     }
 
@@ -186,9 +190,11 @@ public class Controller {
         while (!exit) {
             System.out.println("----------------------------------------");
             if(students.size() == 0) {
-                System.out.println("Nincs játékos!");
+                System.out.println("Nincs jatekos!");
             } else {
-                System.out.println("Játékosok száma: " + students.size());
+                System.out.println("Jatekosok szama: " + students.size());
+                String kivJatekos = pickedStudent != null ? pickedStudent.getName() : "Nincs kivalasztott";
+                System.out.println("Kivalasztott jatekos: " + kivJatekos);
             }
             System.out.println("----------------------------------------");
 
@@ -211,35 +217,40 @@ public class Controller {
 
             System.out.println("----------------------------------------");
             String line = scan.nextLine();
-
-            switch (Integer.parseInt(line)) {
-                case 1:
-                    targyFelvetel();
-                    break;
-                case 2:
-                    targyHasznalat();
-                    break;
-                case 3:
-                    targyEldobas();
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    lepes();
-                    break;
-                case 8:
-                    System.out.println("Adja meg a fájl nevét: ");
-                    String filename = scan.nextLine();
-                    palyaBetoltes(filename);
-                    break;
-                case 10:
-                    jatekAllapot();
-                    break;
-                case 11:
-                    jatekosValasztas();
-                    break;
-                default:
-                    System.out.println("Ismeretlen parancs!\n");
+            try
+            {
+                int sorszam = Integer.parseInt(line);
+                switch (sorszam) {
+                    case 1:
+                        targyFelvetel();
+                        break;
+                    case 2:
+                        targyHasznalat();
+                        break;
+                    case 3:
+                        targyEldobas();
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        lepes();
+                        break;
+                    case 8:
+                        System.out.println("Adja meg a fajl nevet: ");
+                        String filename = scan.nextLine();
+                        palyaBetoltes(filename);
+                        break;
+                    case 10:
+                        jatekAllapot();
+                        break;
+                    case 11:
+                        jatekosValasztas();
+                        break;
+                    default:
+                        System.out.println("Ismeretlen parancs!\n");
+                }
+            } catch (Exception e) {
+                System.out.println("Hibas sorszam valasztas!");
             }
         }
     }
@@ -251,34 +262,34 @@ public class Controller {
             students = newMap.getController().getStudents();
             professors = newMap.getController().getProfessors();
             cleaners = newMap.getController().getCleaners();
-            System.out.println("Sikeres pálya és paraméter beolvasás");
+            System.out.println("Sikeres palya es parameter beolvasas");
         } catch (IOException e){
-            System.out.println("Sikertelen beolvasás: " + e.getMessage());
+            System.out.println("Sikertelen beolvasas: " + e.getMessage());
         }
     }
 
     public static void jatekAllapot(){
-        System.out.println("Pálya:\n");
+        System.out.println("Palya:\n");
         for(int i = 0; i < map.size(); i++){
-            System.out.println("Szoba index: " + i + " Szoba kapacitas: " + map.get(i).getCapacity() +"\n");
-            System.out.println("Szomszedai: ");
+            System.out.println("\tSzoba index: " + i + ", Szoba kapacitas: " + map.get(i).getCapacity() +"\n");
+            System.out.println("\t\tSzomszedai: ");
             for(Door door : map.get(i).getNeighbourDoors()){
-                System.out.println(door.getNextRoom(map.get(i)).getName() + ", ");
+                System.out.println("\t\t\t" + door.getNextRoom(map.get(i)).getName());
             }
             System.out.println("\n");
-            System.out.println("Targyai: ");
+            System.out.println("\t\tTargyai: ");
             for(Item item : map.get(i).getItems()){
-                System.out.println(item.getName() + ", ");
+                System.out.println("\t\t\t" + item.getName());
             }
             System.out.println("\n");
         }
-        System.out.println("Hallgatok:\n");
+        System.out.println("\t\tHallgatok:\n");
         for(Student student : students){
-            System.out.println("Neve: " + student.getName() + ", helye: " + student.getPosition().getName() + ", eletereje: " + student.getHealth() + "\n");
+            System.out.println("\t\t\tNeve: " + student.getName() + ", helye: " + student.getPosition().getName() + ", eletereje: " + student.getHealth() + "\n");
         }
-        System.out.println("Professzorok:");
+        System.out.println("\t\tProfesszorok:");
         for (Professor professor : professors) {
-            System.out.println("Neve: " + professor.getName() + ", helye: " + professor.getPosition().getName() + "\n");
+            System.out.println("\t\t\tNeve: " + professor.getName() + ", helye: " + professor.getPosition().getName() + "\n");
         }
     }
 
