@@ -1,5 +1,8 @@
-import java.io.IOException;
 import java.util.*;
+
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
 
 
 public class Prototype {
@@ -11,6 +14,8 @@ public class Prototype {
     private static final Scanner scan = new Scanner(System.in);
     private static Game game = new Game();
     private static Person pickedPerson = null;
+
+    private static Tests tests = new Tests();
 
     public static void PickUpInput(int size) {
         System.out.println("Melyik targyat szeretne felvenni? (Szobaban levo targyak, 1.oszlop index alapjan)");
@@ -240,7 +245,7 @@ public class Prototype {
     public static void main(String[] args) {
         boolean exit = false;
         while (!exit) {
-            System.out.println("----------------------------------------");
+            System.out.println("-----------------------------------");
             if(game.getStudents().isEmpty()) {
                 System.out.println("Nincs jatekos!");
             } else {
@@ -248,7 +253,7 @@ public class Prototype {
                 String kivJatekos = pickedPerson != null ? pickedPerson.getName() : "Nincs kivalasztott";
                 System.out.println("Kivalasztott jatekos: " + kivJatekos);
             }
-            System.out.println("----------------------------------------");
+            System.out.println("-----------------------------------");
 
             System.out.println("0. Exit");
             System.out.println("Szekvenciak:");
@@ -263,9 +268,9 @@ public class Prototype {
             System.out.println("9. Takarito valasztasa");
             System.out.println("10. Szoba egyesules");
             System.out.println("11. Szoba osztodas");
-            System.out.println("12. Teszt1: Sima lepes");
+            System.out.println("12. Tesztek futtatasa");
 
-            System.out.println("----------------------------------------");
+            System.out.println("-----------------------------------");
             String line = scan.nextLine();
             try
             {
@@ -310,6 +315,19 @@ public class Prototype {
                         mergeRooms();
                         break;
                     case 11:
+                        break;
+                    case 12:
+                        Result result = JUnitCore.runClasses(Tests.class);
+
+                        for (Failure failure : result.getFailures()) {
+                            System.out.println(failure.toString());
+                        }
+
+                        if (result.wasSuccessful()) {
+                            System.out.println("All tests passed successfully!");
+                        } else {
+                            System.out.println("Tests failed.");
+                        }
                         break;
                     default:
                         System.out.println("Ismeretlen parancs!\n");

@@ -1,21 +1,21 @@
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 public class Tests {
     private Game game;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         game = new Game();
         game.gameLoad("testMap.txt");
     }
 
     @Test
-    void testSimpleMove() {
+    public void testSimpleMove() {
         Student s = game.getStudents().get(0);
         Room actual = s.getPosition();
         Door d = actual.getNeighbourDoors().get(0);
@@ -25,7 +25,7 @@ public class Tests {
     }
 
     @Test
-    void testCantMove() {
+    public void testCantMove() {
         Student s = game.getStudents().get(0);
         Room actual = s.getPosition();
         Door d = actual.getNeighbourDoors().get(1);
@@ -37,7 +37,7 @@ public class Tests {
     }
 
     @Test
-    void testDamageMove() {
+    public void testDamageMove() {
         Student s = game.getStudents().get(0);
         Room actual = s.getPosition();
         Door d = actual.getNeighbourDoors().get(0);
@@ -50,7 +50,7 @@ public class Tests {
     }
 
     @Test
-    void testPickUp() {
+    public void testPickUp() {
         Student s = game.getStudents().get(0);
         List<Item> items = s.getPosition().getItems();
         int itemsCount = items.size();
@@ -62,7 +62,7 @@ public class Tests {
     }
 
     @Test
-    void testCantPickUp() {
+    public void testCantPickUp() {
         Student s = game.getStudents().get(0);
         List<Item> items = s.getPosition().getItems();
         int itemsCount = items.size();
