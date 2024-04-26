@@ -3,19 +3,24 @@
  * Az objektum felel a játék megnyeréséért.
  */
 public class Logarlec extends Item {
+    private Game game;
     /**
      * logarléc konstruktor: a megadott névvel létre hoz egy logarlécet
      * @param name ezzel a névvel hozza létre a logarlécet
      */
     public Logarlec(String name) {
         super(name);
+        this.game = null;
+    }
+    public void setGame(Game g) {
+        this.game = g;
     }
 
     /**
      * winGame függvény: feladata levezényelni a játék végét, miután a játékosok nyernek
      */
     public void winGame() {
-
+        game.setWon();
     }
 
     /**

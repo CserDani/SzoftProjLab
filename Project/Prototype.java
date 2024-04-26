@@ -213,7 +213,8 @@ public class Prototype {
 
     public static void listRooms() {
         for(int i = 0; i < game.getMap().size(); i++) {
-            System.out.println(i + ". " + game.getMap().get(i).getName());
+            String str = game.getMap().get(i).getPersons().isEmpty() ? "Lehet" : "Nem lehet";
+            System.out.println(i + ". " + game.getMap().get(i).getName() + " " + str);
         }
     }
 
@@ -239,6 +240,24 @@ public class Prototype {
             }
         } else {
             System.out.println("Nem lehet 2 szobat mergeolni, nincs 2 ures!");
+        }
+    }
+    public static void divideRoom() {
+        int divideable = 0;
+        for(Room r : game.getMap()) {
+            if(r.getPersons().isEmpty()) {
+                divideable++;
+            }
+        }
+
+        if(divideable > 0) {
+            Room r = null;
+            listRooms();
+            while (r == null)
+                r = roomInput();
+            game.divideRoom(r);
+        } else {
+            System.out.println("Nincs szoba amit szetosztani lehetne!");
         }
     }
 
@@ -315,6 +334,7 @@ public class Prototype {
                         mergeRooms();
                         break;
                     case 11:
+                        divideRoom();
                         break;
                     case 12:
                         Result result = JUnitCore.runClasses(Tests.class);

@@ -602,7 +602,27 @@ public class Skeleton {
         idDoorInput();
         System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
     }
-
+    public static void transistorTry() {
+        buildTwoRoomMapAndPlayer();
+        System.out.println("-----------------------------------");
+        Transistor t1 = new Transistor("t1");
+        Transistor t2 = new Transistor("t2");
+        map.get(0).addItem(t1);
+        map.get(0).addItem(t2);
+        studentActor.pickUp(studentActor.getPosition().getItems().get(0));
+        studentActor.pickUp(studentActor.getPosition().getItems().get(0));
+        studentActor.useItem(studentActor.getInventory().get(0));
+        studentActor.useItem(studentActor.getInventory().get(1));
+        studentActor.dropItem(studentActor.getInventory().get(0));
+        studentActor.pickUp(studentActor.getPosition().getItems().get(0));
+        listItemsInStudentsInventory();
+        listItemsInStudentsRoom();
+        studentActor.move(studentActor.getPosition().getNeighbourDoors().get(0));
+        studentActor.dropItem(studentActor.getInventory().get(0));
+        studentActor.pickUp(studentActor.getPosition().getItems().get(0));
+        listItemsInStudentsInventory();
+        System.out.println(studentActor.getPosition().getName());
+    }
     public static void main(String[] args) {
         boolean exit = false;
         //camembertUse();
@@ -613,6 +633,7 @@ public class Skeleton {
         //holyPintTry();
         //fakeItemsTry();
         //curseTry();
+        //transistorTry();
 
         while(!exit) {
             System.out.println("----------------------------------------");

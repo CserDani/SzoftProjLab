@@ -39,8 +39,10 @@ public class Professor extends Person implements ActionListener {
      */
     public void pickUp(Item t) {
         if (!getNotConscious()) {
-            if (getInventorySize() < 5) {
-                t.pickedUpBy(this);
+            if(getPosition().getAfterCleanCount() > 0) {
+                if (getInventorySize() < 5) {
+                    t.pickedUpBy(this);
+                }
             }
         }
     }

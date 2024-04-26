@@ -66,9 +66,11 @@ public class Student extends Person implements ActionListener {
      * @param t A tárgy
      */
     public void pickUp(Item t) {
-        if(!getNotConscious()) {
-            if (getInventorySize() < 5) {
-                t.pickedUpBy(this);
+        if (!getNotConscious()) {
+            if(getPosition().getAfterCleanCount() > 0) {
+                if (getInventorySize() < 5) {
+                    t.pickedUpBy(this);
+                }
             }
         }
     }

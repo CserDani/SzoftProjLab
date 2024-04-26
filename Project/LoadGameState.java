@@ -3,7 +3,6 @@ import java.nio.file.*;
 import java.util.*;
 
 public class LoadGameState {
-    //private Controller controller;
     private Game game;
     private int studID = 0;
     private int profID = 0;
@@ -15,9 +14,8 @@ public class LoadGameState {
     private int roomID = 0;
     public Game getGame() { return game; }
 
-    public LoadGameState(String filename) throws IOException {
-        //this.controller = new Controller();
-        this.game = new Game();
+    public LoadGameState(String filename, Game g) throws IOException {
+        this.game = g;
         readFile(filename);
     }
 
@@ -182,6 +180,7 @@ public class LoadGameState {
                 int position = Integer.parseInt(line);
                 Logarlec log = new Logarlec("Logarlec" + logID);
                 game.getMap().get(position).addItem(log);
+                log.setGame(game);
                 logID++;
             } else {
                 return i - 1;

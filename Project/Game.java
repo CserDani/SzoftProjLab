@@ -7,6 +7,7 @@ public class Game {
     private List<Student> students = new ArrayList<>();
     private List<Professor> professors = new ArrayList<>();
     private List<Cleaner> cleaners = new ArrayList<>();
+    private boolean gameWon = false;
 
     public List<Student> getStudents() { return students; }
     public List<Professor> getProfessors() { return professors; }
@@ -17,16 +18,16 @@ public class Game {
 
     public void gameLoad(String filename){
         try{
-            LoadGameState newMap = new LoadGameState(filename);
-            this.map = newMap.getGame().getMap();
-            this.students = newMap.getGame().getStudents();
-            this.professors = newMap.getGame().getProfessors();
-            this.cleaners = newMap.getGame().getCleaners();
+            new LoadGameState(filename, this);
         } catch (IOException e){
             System.out.println("Sikertelen beolvasas: " + e.getMessage());
         }
     }
 
+    public void setWon() {
+        gameWon = true;
+    }
+    public boolean getWon() { return gameWon; }
     public void addRoom(Room r) {
         map.add(r);
     }

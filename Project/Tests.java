@@ -109,9 +109,6 @@ public class Tests {
         actual = s.getPosition();
         d = actual.getNeighbourDoors().get(0);
         game.move(s, d);
-        actual = s.getPosition();
-        d = actual.getNeighbourDoors().get(2);
-        game.move(s, d);
         game.drop(s, t2);
 
         assertEquals("Szoba1", s.getPosition().getName());
@@ -195,51 +192,140 @@ public class Tests {
 
     @Test
     public void testSplitRooms() {
+        int roomNumber = game.getMap().size();
+        Room r = game.getMap().get(5);
 
+        game.divideRoom(r);
+        Room newR = game.getMap().get(6);
+
+        assertEquals(roomNumber+1, game.getMap().size());
+        assertEquals(1, newR.getNeighbourDoors().size());
+        assertEquals(r, newR.getNeighbourDoors().get(0).getNextRoom(newR));
     }
 
     @Test
     public void testBoardCleaner() {
+        Student s = game.getStudents().get(0);
+        Room actual = s.getPosition();
+        Item it = actual.getItems().get(8);
+        game.pickUp(s, it);
+        Door d = actual.getNeighbourDoors().get(0);
+        game.move(s, d);
+        game.use(s, s.getInventory().get(0));
 
+        assertTrue(s.getPosition().getPersons().get(0).getNotConscious());
     }
 
     @Test
     public void testHolyPint() {
-
+        Student s = game.getStudents().get(0);
+        List<Item> items = s.getPosition().getItems();
+        Item i = items.get(7);
+        game.pickUp(s, i);
+        game.use(s, i);
+        Room actual = s.getPosition();
+        Door d = actual.getNeighbourDoors().get(0);
+        game.move(s, d);
+        actual = s.getPosition();
+        assertEquals(100, s.getHealth());
     }
 
     @Test
     public void testCleanerMove() {
+        Cleaner c = game.getCleaners().get(0);
+        Room actual = c.getPosition();
+        Door d = actual.getNeighbourDoors().get(0);
+        game.move(c, d);
 
+        assertEquals("Szoba1", c.getPosition().getName());
     }
 
     @Test
     public void testSticky() {
+        Cleaner c = game.getCleaners().get(0);
+        Room actual = c.getPosition();
+        Door d = actual.getNeighbourDoors().get(2);
+        game.move(c, d);
 
+        Student s = game.getStudents().get(0);
+        actual = s.getPosition();
+        d = actual.getNeighbourDoors().get(2);
+        for(int i = 0; i<5; i++) {
+            game.move(s, d);
+            game.move(s, s.getPosition().getNeighbourDoors().get(0));
+        }
+        game.move(s, d);
+        List<Item> items = s.getPosition().getItems();
+        Item i = items.get(0);
+        game.pickUp(s, i);
+
+        assertEquals(1, items.size());
+        assertEquals(0, s.getInventory().size());
     }
 
     @Test
     public void testFakeFFP2() {
-
+        Student s = game.getStudents().get(0);
+        List<Item> items = s.getPosition().getItems();
+        int itemsCount = items.size();
+        Item i = items.get(6);
+        game.pickUp(s, i);
+        Room actual = s.getPosition();
+        Door d = actual.getNeighbourDoors().get(2);
+        game.move(s, d);
+        actual = s.getPosition();
+        assertEquals("Szoba3", s.getPosition().getName());
+        assertTrue(s.getPosition().getIsGassed());
+        assertTrue(s.getNotConscious());
     }
 
     @Test
     public void testFakeLogar() {
+        Student s = game.getStudents().get(0);
+        List<Item> items = s.getPosition().getItems();
+        Item i = items.get(9);
+        int itemsCount = items.size();
+        game.pickUp(s, i);
 
+        assertEquals(itemsCount-1, items.size());
+        assertEquals(1, s.getInventory().size());
+        assertFalse(game.getWon());
     }
 
     @Test
     public void testFakeTVSZ() {
-
+        Student s = game.getStudents().get(0);
+        List<Item> items = s.getPosition().getItems();
+        int itemsCount = items.size();
+        Item i = items.get(5);
+        game.pickUp(s, i);
+        Room actual = s.getPosition();
+        Door d = actual.getNeighbourDoors().get(0);
+        game.move(s, d);
+        actual = s.getPosition();
+        assertEquals(90, s.getHealth());
     }
 
     @Test
     public void testLogarlec() {
+        Student s = game.getStudents().get(0);
+        List<Item> items = s.getPosition().getItems();
+        Item i = items.get(3);
+        int itemsCount = items.size();
+        game.pickUp(s, i);
 
+        assertEquals(itemsCount-1, items.size());
+        assertEquals(1, s.getInventory().size());
+        assertTrue(game.getWon());
     }
 
     @Test
     public void testProfMove() {
+        Professor p = game.getProfessors().get(0);
+        Room actual = p.getPosition();
+        Door d = actual.getNeighbourDoors().get(0);
+        game.move(p, d);
 
+        assertEquals("Szoba0", p.getPosition().getName());
     }
 }
