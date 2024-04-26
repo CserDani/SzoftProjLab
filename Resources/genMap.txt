@@ -1,8 +1,8 @@
 SZOBAK
-5
-5
-5
-10
+5 false
+5 false
+5 false
+10 false
 AJTOK1
 AJTOK2
 0 1
