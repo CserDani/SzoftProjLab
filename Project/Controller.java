@@ -201,9 +201,9 @@ public class Controller {
             System.out.println("0. Exit");
             System.out.println("Szekvenciak:");
             System.out.println("1. Targy felvetele");
-            System.out.println("2. Aktiv targy hasznalata");
+            System.out.println("2. Targy hasznalata");
             System.out.println("3. Targy eldobasa");
-            System.out.println("4. Tranzisztor parositas"); // Kérdés: inventory-ban való ellenőrzés típusellenőrzés nélkül.
+            //System.out.println("4. Tranzisztor parositas"); // Kérdés: inventory-ban való ellenőrzés típusellenőrzés nélkül.
             System.out.println("5. Jatekos leptetese");
             System.out.println("6. Palya betoltese");
             System.out.println("7. Parancsok beolvasasa es azok kimeneteinek kiirasa egy fajlba");
@@ -221,6 +221,9 @@ public class Controller {
             {
                 int sorszam = Integer.parseInt(line);
                 switch (sorszam) {
+                    case 0:
+                        System.exit(0);
+                        break;
                     case 1:
                         targyFelvetel();
                         break;
