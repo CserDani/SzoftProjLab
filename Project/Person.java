@@ -109,7 +109,6 @@ public abstract class Person implements ActionListener {
      */
     protected Person(String name) {
         this.name = name;
-        System.out.println("Person constructor!");
     }
 
     /**

@@ -6,7 +6,6 @@ public class AirFreshener extends Active {
      */
     public AirFreshener(String name) {
         super(name);
-        System.out.println("AirFreshener constructor");
     }
     /**
      * drop függvény: szól s hallgatónak, hogy dobja el ezt a tárgyat

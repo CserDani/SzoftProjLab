@@ -4,7 +4,7 @@ public abstract class FakeItems extends Item {
     }
 
     public void joked() {
-        System.out.println("Haha it's fake!");
+
     }
 
     @Override

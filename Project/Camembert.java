@@ -8,7 +8,6 @@ public class Camembert extends Active {
      */
     public Camembert(String name) {
         super(name);
-        System.out.println("Camembert constructor!");
     }
 
     /**

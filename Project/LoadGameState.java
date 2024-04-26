@@ -3,7 +3,8 @@ import java.nio.file.*;
 import java.util.*;
 
 public class LoadGameState {
-    private Controller controller;
+    //private Controller controller;
+    private Game game;
     private int studID = 0;
     private int profID = 0;
 
@@ -12,15 +13,17 @@ public class LoadGameState {
     private int logID = 0;
 
     private int roomID = 0;
+    public Game getGame() { return game; }
 
     public LoadGameState(String filename) throws IOException {
-        this.controller = new Controller();
+        //this.controller = new Controller();
+        this.game = new Game();
         readFile(filename);
     }
 
-    public Controller getController(){
+    /*public Controller getController(){
         return controller;
-    }
+    }*/
 
     public void readFile(String filename) throws IOException{
         Path path = FileSystems.getDefault().getPath("Resources", filename);
@@ -93,7 +96,7 @@ public class LoadGameState {
 
             if(line.matches("\\d+")){
                 int capacity = Integer.parseInt(line);
-                controller.getMap().add(new Room("Szoba" + roomID, false, false, capacity));
+                game.getMap().add(new Room("Szoba" + roomID, false, false, capacity));
                 roomID++;
             } else {
                 return i - 1;
@@ -110,7 +113,7 @@ public class LoadGameState {
                 String[] rooms = line.split(" ");
                 int r1 = Integer.parseInt(rooms[0]);
                 int r2 = Integer.parseInt(rooms[1]);
-                controller.getMap().get(r1).addNeighbour(controller.getMap().get(r2), true);
+                game.getMap().get(r1).addNeighbour(game.getMap().get(r2), true);
             } else {
                 return i - 1;
             }
@@ -126,7 +129,7 @@ public class LoadGameState {
                 String[] rooms = line.split(" ");
                 int r1 = Integer.parseInt(rooms[0]);
                 int r2 = Integer.parseInt(rooms[1]);
-                controller.getMap().get(r1).addNeighbour(controller.getMap().get(r2), false);
+                game.getMap().get(r1).addNeighbour(game.getMap().get(r2), false);
             } else {
                 return i - 1;
             }
@@ -141,8 +144,8 @@ public class LoadGameState {
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
                 Student stud = new Student("Hallgato" + studID);
-                stud.setStartPosition(controller.getMap().get(position));
-                controller.getStudents().add(stud);
+                stud.setStartPosition(game.getMap().get(position));
+                game.getStudents().add(stud);
                 studID++;
             } else {
                 return i - 1;
@@ -158,9 +161,9 @@ public class LoadGameState {
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
                 Professor prof = new Professor("Professzor" + profID);
-                prof.setStartPosition(controller.getMap().get(position));
-                controller.getMap().get(position).incProfCount();
-                controller.getProfessors().add(prof);
+                prof.setStartPosition(game.getMap().get(position));
+                game.getMap().get(position).incProfCount();
+                game.getProfessors().add(prof);
                 profID++;
             } else {
                 return i - 1;
@@ -176,7 +179,7 @@ public class LoadGameState {
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
                 Logarlec log = new Logarlec("Logarlec" + logID);
-                controller.getMap().get(position).addItem(log);
+                game.getMap().get(position).addItem(log);
                 logID++;
             } else {
                 return i - 1;
@@ -192,8 +195,8 @@ public class LoadGameState {
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
                 Cleaner cl = new Cleaner("Takarito" + cleanID);
-                cl.setStartPosition(controller.getMap().get(position));
-                controller.getCleaners().add(cl);
+                cl.setStartPosition(game.getMap().get(position));
+                game.getCleaners().add(cl);
                 cleanID++;
             } else {
                 return i - 1;
@@ -209,7 +212,7 @@ public class LoadGameState {
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
                 AirFreshener item = new AirFreshener("Legtisztito" + logID);
-                controller.getMap().get(position).addItem(item);
+                game.getMap().get(position).addItem(item);
                 logID++;
             } else {
                 return i - 1;
@@ -225,7 +228,7 @@ public class LoadGameState {
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
                 BoardCleaner item = new BoardCleaner("Tablatorlo" + logID);
-                controller.getMap().get(position).addItem(item);
+                game.getMap().get(position).addItem(item);
                 logID++;
             } else {
                 return i - 1;
@@ -241,7 +244,7 @@ public class LoadGameState {
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
                 Camembert item = new Camembert("Camembert" + logID);
-                controller.getMap().get(position).addItem(item);
+                game.getMap().get(position).addItem(item);
                 logID++;
             } else {
                 return i - 1;
@@ -257,7 +260,7 @@ public class LoadGameState {
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
                 FakeFFP2 item = new FakeFFP2("FakeFFP2" + logID);
-                controller.getMap().get(position).addItem(item);
+                game.getMap().get(position).addItem(item);
                 logID++;
             } else {
                 return i - 1;
@@ -273,7 +276,7 @@ public class LoadGameState {
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
                 FakeLogarlec item = new FakeLogarlec("FakeLogarlec" + logID);
-                controller.getMap().get(position).addItem(item);
+                game.getMap().get(position).addItem(item);
                 logID++;
             } else {
                 return i - 1;
@@ -289,7 +292,7 @@ public class LoadGameState {
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
                 FakeTVSZ item = new FakeTVSZ("FakeTVSZ" + logID);
-                controller.getMap().get(position).addItem(item);
+                game.getMap().get(position).addItem(item);
                 logID++;
             } else {
                 return i - 1;
@@ -305,7 +308,7 @@ public class LoadGameState {
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
                 FFP2 item = new FFP2("FFP2" + logID);
-                controller.getMap().get(position).addItem(item);
+                game.getMap().get(position).addItem(item);
                 logID++;
             } else {
                 return i - 1;
@@ -321,7 +324,7 @@ public class LoadGameState {
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
                 HolyPint item = new HolyPint("HolyPint" + logID);
-                controller.getMap().get(position).addItem(item);
+                game.getMap().get(position).addItem(item);
                 logID++;
             } else {
                 return i - 1;
@@ -337,7 +340,7 @@ public class LoadGameState {
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
                 Transistor item = new Transistor("Tranzisztor" + logID);
-                controller.getMap().get(position).addItem(item);
+                game.getMap().get(position).addItem(item);
                 logID++;
             } else {
                 return i - 1;
@@ -353,7 +356,7 @@ public class LoadGameState {
             if(line.matches("\\d+")){
                 int position = Integer.parseInt(line);
                 TVSZ item = new TVSZ("TVSZ" + logID);
-                controller.getMap().get(position).addItem(item);
+                game.getMap().get(position).addItem(item);
                 logID++;
             } else {
                 return i - 1;

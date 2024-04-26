@@ -18,4 +18,14 @@ public class FFP2 extends Passive {
         Room r = p.getPosition();
         r.removeItem(this);
     }
+
+    @Override
+    public void drop(Student s) {
+        s.getGasHelpItems().remove(this);
+    }
+
+    @Override
+    public void drop(Professor p) {
+        p.getGasHelpItems().remove(this);
+    }
 }

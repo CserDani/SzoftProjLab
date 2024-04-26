@@ -16,7 +16,6 @@ public abstract class Passive extends Item {
     public Passive(String name, int durability) {
         super(name);
         this.durability = durability;
-        System.out.println("Passive constructor!");
     }
 
     /**

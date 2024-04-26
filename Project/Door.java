@@ -9,6 +9,8 @@ public class Door {
     private boolean vanished = false;
     private boolean oneWay;
 
+    public void setVanish() { vanished = !vanished; }
+
     public boolean canMove(Room r) {
         if(!oneWay) {
             return true;
@@ -65,7 +67,6 @@ public class Door {
         this.firstRoom = firstRoom;
         this.secondRoom = secondRoom;
         this.oneWay = oneWay;
-        System.out.println("Door constructor!");
     }
 
     /**

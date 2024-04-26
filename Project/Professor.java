@@ -20,7 +20,6 @@ public class Professor extends Person implements ActionListener {
      */
     public Professor(String name) {
         super(name);
-        System.out.println("Professor constructor!");
     }
 
     /**

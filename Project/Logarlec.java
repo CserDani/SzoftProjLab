@@ -9,14 +9,13 @@ public class Logarlec extends Item {
      */
     public Logarlec(String name) {
         super(name);
-        System.out.println("Logarlec constructor!");
     }
 
     /**
      * winGame függvény: feladata levezényelni a játék végét, miután a játékosok nyernek
      */
     public void winGame() {
-        System.out.println("Game Won!");
+
     }
 
     /**

@@ -30,6 +30,18 @@ public class Skeleton {
         studentActor.setPosition(r1);
     }
 
+    public static void buildTwoRoomMapSecondCurse() {
+        map.clear();
+
+        Room r1 = new Room("Szoba1", false, false, 2);
+        Room r2 = new Room("Szoba2", false, true, 1);
+        r1.addNeighbour(r2, false);
+        map.add(r1);
+        map.add(r2);
+
+        studentActor.setPosition(r1);
+    }
+
     public static void buildTwoRoomMapAndPlayerAndProf() {
         map.clear();
 
@@ -576,6 +588,21 @@ public class Skeleton {
         listItemsInStudentsInventory();
     }
 
+    public static void curseTry() {
+        buildTwoRoomMapSecondCurse();
+        System.out.println("-----------------------------------");
+        System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        listDoorsOfRoom(studentActor.getPosition());
+        System.out.println("Valasszon egy ajto sorszamot!");
+        idDoorInput();
+        System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+        listDoorsOfRoom(studentActor.getPosition());
+        System.out.println("Valasszon egy ajto sorszamot!");
+        idDoorInput();
+        System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
+    }
+
     public static void main(String[] args) {
         boolean exit = false;
         //camembertUse();
@@ -585,6 +612,7 @@ public class Skeleton {
         //boardCleanerTry();
         //holyPintTry();
         //fakeItemsTry();
+        //curseTry();
 
         while(!exit) {
             System.out.println("----------------------------------------");

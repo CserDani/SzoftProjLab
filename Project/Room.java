@@ -1,10 +1,13 @@
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 /**
  * A Szoba objektum felelős a szobák tulajdonságaiért és műveleteiért. Tehát ez az objektum implementálja például azokat a funkciókat, amelyek a szobák osztódását és egyesülését viszik végbe. A tulajdonságok közé például a kapacitás tartozik.
  */
-public class Room {
+public class Room implements ActionListener {
     private String name;
     private boolean isGassed;
     private boolean isCursed;
@@ -13,6 +16,7 @@ public class Room {
     private List<Door> neighbourDoors = new ArrayList<>();
     private List<Person> persons = new ArrayList<>();
     private List<Item> items = new ArrayList<>();
+    private Timer doorVanish = new Timer(20000, this);
     private boolean cleaned = false;
     private int afterCleanCount = 5;
     Random rand = new Random();
@@ -103,7 +107,9 @@ public class Room {
         this.isGassed = isGassed;
         this.isCursed = isCursed;
         this.capacity = capacity;
-        System.out.println("Room constructor!");
+        if(this.isCursed) {
+            doorVanish.start();
+        }
     }
 
     /**
@@ -175,31 +181,31 @@ public class Room {
             c.getPosition().persons.remove(c);
             c.setPosition(this);
 
-            List<Person> personList = new ArrayList<>(persons);
-            for(Person p : personList) {
-                if(!p.getNotConscious()) {
-                    Door d = null;
+            if(this.isGassed) {
+                List<Person> personList = new ArrayList<>(persons);
+                for (Person p : personList) {
+                    if (!p.getNotConscious()) {
+                        Door d = null;
 
-                    for(Door door : neighbourDoors) {
-                        if(door.canMove(this)) {
-                            if(door.getNextRoom(this).isNotFull()) {
-                                d = door;
-                                break;
+                        for (Door door : neighbourDoors) {
+                            if (door.canMove(this)) {
+                                if (door.getNextRoom(this).isNotFull()) {
+                                    d = door;
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    if(d != null) {
-                        p.move(d);
+                        if (d != null) {
+                            p.move(d);
+                        }
                     }
                 }
+
+                this.setGas();
             }
 
             persons.add(c);
-
-            if(this.isGassed) {
-                this.setGas();
-            }
 
             if(cleaned && afterCleanCount > 0) {
                 afterCleanCount--;
@@ -230,11 +236,15 @@ public class Room {
                     r.getNeighbourDoors().get(i).setRoom(r, this);
                 }
             }
+            List<Door> neighDoors = new ArrayList<>(this.neighbourDoors);
+            for(Door d : neighDoors) {
+                if(d.getNextRoom(this) == r) {
+                    this.neighbourDoors.remove(d);
+                }
+            }
             for(int i = 0; i<r.getItems().size(); i++) {
                 this.addItem((r.getItems().get(i)));
             }
-
-            r = null;
         }
     }
 
@@ -242,7 +252,7 @@ public class Room {
      * roomDivision függvény
      * A szobák osztódását valósítja meg
      */
-    public void roomDivision() {
+    public Room roomDivision() {
         if(this.getPersons().isEmpty()) {
             int newcap = rand.nextInt(this.capacity);
             if(newcap == this.capacity) {
@@ -275,7 +285,9 @@ public class Room {
             }
 
             this.addNeighbour(r, false);
+            return r;
         }
+        return null;
     }
 
     /**
@@ -321,4 +333,13 @@ public class Room {
      */
     public void incProfCount() { profcount++; }
     public void decrProfCount() { profcount--; }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == doorVanish) {
+            for(Door d : neighbourDoors) {
+                d.setVanish();
+            }
+        }
+    }
 }

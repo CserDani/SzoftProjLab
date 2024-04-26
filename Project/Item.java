@@ -11,7 +11,6 @@ public abstract class Item {
      */
     protected Item(String name) {
         this.name = name;
-        System.out.println("Item constructor!");
     }
 
     /**

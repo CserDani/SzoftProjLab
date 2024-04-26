@@ -59,7 +59,6 @@ public class Student extends Person implements ActionListener {
         super(name);
         this.health = 100;
         this.prevUsedTrans = null;
-        System.out.println("Student constructor!");
     }
 
     /**

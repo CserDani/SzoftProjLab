@@ -55,7 +55,6 @@ public class Transistor extends Item {
      */
     public Transistor(String name) {
         super(name);
-        System.out.println("Transistor constructor!");
     }
 
     /**
