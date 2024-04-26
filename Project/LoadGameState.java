@@ -94,9 +94,11 @@ public class LoadGameState {
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
 
-            if(line.matches("\\d+")){
-                int capacity = Integer.parseInt(line);
-                game.getMap().add(new Room("Szoba" + roomID, false, false, capacity));
+            if(line.matches("\\d+(.*)")){
+                String[] ln = line.split(" ");
+                int capacity = Integer.parseInt(ln[0]);
+                boolean gas = Boolean.parseBoolean(ln[1]);
+                game.getMap().add(new Room("Szoba" + roomID, gas, false, capacity));
                 roomID++;
             } else {
                 return i - 1;
