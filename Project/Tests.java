@@ -336,7 +336,9 @@ public class Tests {
         Room actualRoom = s.getPosition();
         Door cursedRoomDoor = actualRoom.getNeighbourDoors().get(3);
         Room cursedRoom = cursedRoomDoor.getNextRoom(actualRoom);
-        cursedRoomDoor.setVanish();
+        if(!cursedRoomDoor.getVanish()) {
+            cursedRoomDoor.setVanish();
+        }
 
         assertEquals("Szoba0", s.getPosition().getName());
     }

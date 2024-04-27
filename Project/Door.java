@@ -10,6 +10,7 @@ public class Door {
     private boolean oneWay;
 
     public void setVanish() { vanished = !vanished; }
+    public boolean getVanish() { return vanished; }
 
     public boolean canMove(Room r) {
         if(!oneWay) {
