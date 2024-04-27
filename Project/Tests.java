@@ -300,11 +300,16 @@ public class Tests {
         int itemsCount = items.size();
         Item i = items.get(5);
         game.pickUp(s, i);
+        int newCount = items.size();
         Room actual = s.getPosition();
         Door d = actual.getNeighbourDoors().get(0);
         game.move(s, d);
         actual = s.getPosition();
+
         assertEquals(90, s.getHealth());
+        assertEquals(2, actual.getPersons().size());
+        assertEquals(itemsCount-1, newCount);
+        assertEquals("Szoba1", actual.getName());
     }
 
     @Test
