@@ -96,7 +96,8 @@ public class LoadGameState {
                 String[] ln = line.split(" ");
                 int capacity = Integer.parseInt(ln[0]);
                 boolean gas = Boolean.parseBoolean(ln[1]);
-                game.getMap().add(new Room("Szoba" + roomID, gas, false, capacity));
+                boolean curse = Boolean.parseBoolean(ln[2]);
+                game.getMap().add(new Room("Szoba" + roomID, gas, curse, capacity));
                 roomID++;
             } else {
                 return i - 1;

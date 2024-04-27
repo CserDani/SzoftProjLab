@@ -6,19 +6,18 @@ import org.junit.runner.notification.Failure;
 
 
 public class Prototype {
-    public Prototype() {}
-
-    public Prototype(Prototype c) {
-        this.game = c.game;
-    }
     private static final Scanner scan = new Scanner(System.in);
     private static Game game = new Game();
     private static Person pickedPerson = null;
 
-    private static Tests tests = new Tests();
-
     public static void PickUpInput(int size) {
+        if(pickedPerson == null) {
+            return;
+        }
+
         System.out.println("Melyik targyat szeretne felvenni? (Szobaban levo targyak, 1.oszlop index alapjan)");
+        Room actualRoom = pickedPerson.getPosition();
+        List<Item> roomItems = actualRoom.getItems();
         boolean exit = false;
         while(!exit) {
             String line = scan.nextLine();
@@ -27,7 +26,8 @@ public class Prototype {
                 sorszam = Integer.parseInt(line);
                 for(int i = 0; i < size; i++) {
                     if(i == sorszam) {
-                        pickedPerson.pickUp(pickedPerson.getPosition().getItems().get(sorszam));
+                        Item item = roomItems.get(i);
+                        pickedPerson.pickUp(item);
                         exit = true;
                     }
                 }
@@ -40,7 +40,7 @@ public class Prototype {
         }
 
         System.out.println("Szobaban levo targyak:");
-        for(Item it : pickedPerson.getPosition().getItems()) {
+        for(Item it : roomItems) {
             System.out.println("\t" + it.getName());
         }
     }
@@ -49,9 +49,9 @@ public class Prototype {
             return;
         }
         System.out.println("-----------------------------------");
-        listItemsInStudentsRoom();
-        int size = getStudentsRoomItemsSize();
-        if(size == 0) {
+        listItemsInPersonRoom();
+        int size = getPersonRoomItemsSize();
+        if(size <= 0) {
             System.out.println("Nincs targy a szobaban!");
             return;
         }
@@ -59,19 +59,22 @@ public class Prototype {
     }
 
     public static void useItemInput() {
-        if(pickedPerson.getInventory().size() == 0)
+        if(pickedPerson.getInventory().isEmpty() || pickedPerson == null)
             return;
+
         System.out.println("Melyik targyat szeretne hasznalni (Student-nel levo targyak, 1.oszlop index alapjan)");
 
         boolean exit = false;
         while(!exit) {
             String line = scan.nextLine();
+            List<Item> inventory = pickedPerson.getInventory();
             int sorszam;
             try {
                 sorszam = Integer.parseInt(line);
-                for(int i = 0; i < pickedPerson.getInventory().size(); i++) {
+                for(int i = 0; i < inventory.size(); i++) {
                     if(i == sorszam) {
-                        pickedPerson.useItem(pickedPerson.getInventory().get(i));
+                        Item item = inventory.get(i);
+                        pickedPerson.useItem(item);
                         exit = true;
                     }
                 }
@@ -83,24 +86,26 @@ public class Prototype {
             return;
         }
         System.out.println("-----------------------------------");
-        listItemsInStudentsInventory();
+        listItemsInPersonInventory();
         useItemInput();
     }
 
     public static void dropIteminput() {
-        if(pickedPerson.getInventory().size() == 0)
+        if(pickedPerson.getInventory().isEmpty() || pickedPerson == null)
             return;
-        System.out.println("Melyik targyat szeretne eldobni? (Student-nel levo targyak, 1.oszlop index alapjan)");
 
+        System.out.println("Melyik targyat szeretne eldobni? (Student-nel levo targyak, 1.oszlop index alapjan)");
+        List<Item> inventory = pickedPerson.getInventory();
         boolean exit = false;
         while(!exit) {
             String line = scan.nextLine();
             int sorszam;
             try {
                 sorszam = Integer.parseInt(line);
-                for(int i = 0; i < pickedPerson.getInventory().size(); i++) {
+                for(int i = 0; i < inventory.size(); i++) {
                     if(i == sorszam) {
-                        pickedPerson.dropItem(pickedPerson.getInventory().get(i));
+                        Item item = inventory.get(i);
+                        pickedPerson.dropItem(item);
                         exit = true;
                     }
                 }
@@ -122,23 +127,28 @@ public class Prototype {
             return;
         }
         System.out.println("-----------------------------------");
-        listItemsInStudentsInventory();
+        listItemsInPersonInventory();
         dropIteminput();
     }
 
     public static void idDoorInput() {
+        if(pickedPerson == null) {
+            return;
+        }
+
         boolean exit = false;
         int sorszam = -1;
         while(!exit) {
             String line = scan.nextLine();
-            List<Door> neighbours = pickedPerson.getPosition().getNeighbourDoors();
             Room actualRoom = pickedPerson.getPosition();
+            List<Door> neighbours = actualRoom.getNeighbourDoors();
             try {
                 sorszam = Integer.parseInt(line);
                 for(int i = 0; i < neighbours.size(); i++) {
                     if(i == sorszam) {
                         Door door = neighbours.get(i);
-                        if(!door.getNextRoom(actualRoom).isNotFull()) {
+                        Room nextRoom = door.getNextRoom(actualRoom);
+                        if(!nextRoom.isNotFull()) {
                             System.out.println("A szoba megtelt!");
                         } else {
                             pickedPerson.move(door);
@@ -153,6 +163,7 @@ public class Prototype {
         if(pickedPerson == null) {
             return;
         }
+
         System.out.println("-----------------------------------");
         System.out.println("Jelenlegi hely: " + pickedPerson.getPosition().getName());
         listDoorsOfRoom(pickedPerson.getPosition());
@@ -165,28 +176,45 @@ public class Prototype {
         System.out.println("Szomszedos szobak:");
         int id = 0;
         for(Door d : r.getNeighbourDoors()) {
-            System.out.println(id++ + "\t" + d.getNextRoom(r).getName());
+            Room nextRoom = d.getNextRoom(r);
+            System.out.println(id++ + "\t" + nextRoom.getName());
         }
     }
-    public static void listItemsInStudentsInventory() {
+    public static void listItemsInPersonInventory() {
+        if(pickedPerson == null) {
+            return;
+        }
+
         int j = 0;
         for(Item it : pickedPerson.getInventory()) {
             System.out.println(j++ + "\t" + it.getName());
         }
     }
-    public static void listItemsInStudentsRoom() {
+    public static void listItemsInPersonRoom() {
+        if(pickedPerson == null) {
+            return;
+        }
+
         int j = 0;
-        for(Room r : game.getMap()) {
-            if(r.getName().equals(pickedPerson.getPosition().getName())) {
+        List<Room> map = game.getMap();
+        Room personRoom = pickedPerson.getPosition();
+        for(Room r : map) {
+            if(r.getName().equals(personRoom.getName())) {
                 for(Item it : r.getItems()) {
                     System.out.println(j++ + "\t" + it.getName());
                 }
             }
         }
     }
-    public static int getStudentsRoomItemsSize() {
-        for(Room r : game.getMap()) {
-            if(r.getName().equals(pickedPerson.getPosition().getName())) {
+    public static int getPersonRoomItemsSize() {
+        if(pickedPerson == null) {
+            return -1;
+        }
+
+        List<Room> map = game.getMap();
+        Room personRoom = pickedPerson.getPosition();
+        for(Room r : map) {
+            if(r.getName().equals(personRoom.getName())) {
                 return r.getItems().size();
             }
         }
@@ -199,10 +227,12 @@ public class Prototype {
         Room room = null;
         try {
             sorszam = Integer.parseInt(line);
-            for(int i = 0; i < game.getMap().size(); i++) {
+            List<Room> map = game.getMap();
+            for(int i = 0; i < map.size(); i++) {
                 if(i == sorszam) {
-                    if(game.getMap().get(i).getPersons().isEmpty()) {
-                        room = game.getMap().get(i);
+                    Room r = map.get(i);
+                    if(r.getPersons().isEmpty()) {
+                        room = r;
                     }
                 }
             }
@@ -212,9 +242,11 @@ public class Prototype {
     }
 
     public static void listRooms() {
-        for(int i = 0; i < game.getMap().size(); i++) {
-            String str = game.getMap().get(i).getPersons().isEmpty() ? "Lehet" : "Nem lehet";
-            System.out.println(i + ". " + game.getMap().get(i).getName() + " " + str);
+        List<Room> map = game.getMap();
+        for(int i = 0; i < map.size(); i++) {
+            Room room = map.get(i);
+            String str = room.getPersons().isEmpty() ? "Lehet" : "Nem lehet";
+            System.out.println(i + ". " + room.getName() + " " + str);
         }
     }
 
@@ -262,16 +294,18 @@ public class Prototype {
     }
 
     public static void main(String[] args) {
-        boolean exit = false;
-        while (!exit) {
+        while (true) {
             System.out.println("-----------------------------------");
-            if(game.getStudents().isEmpty()) {
+            if(game.getStudents().isEmpty() && game.getProfessors().isEmpty() && game.getCleaners().isEmpty()) {
                 System.out.println("Nincs jatekos!");
             } else {
-                System.out.println("Jatekosok szama: " + game.getStudents().size());
+                System.out.println("Hallgatok szama: " + game.getStudents().size());
+                System.out.println("Oktatok szama: " + game.getProfessors().size());
+                System.out.println("Takaritok szama: " + game.getCleaners().size());
                 String kivJatekos = pickedPerson != null ? pickedPerson.getName() : "Nincs kivalasztott";
-                System.out.println("Kivalasztott jatekos: " + kivJatekos);
+                System.out.println("Kivalasztott karakter: " + kivJatekos);
             }
+
             System.out.println("-----------------------------------");
 
             System.out.println("0. Exit");
@@ -290,6 +324,7 @@ public class Prototype {
             System.out.println("12. Tesztek futtatasa");
 
             System.out.println("-----------------------------------");
+
             String line = scan.nextLine();
             try
             {
@@ -348,6 +383,8 @@ public class Prototype {
                         } else {
                             System.out.println("Tests failed.");
                         }
+
+                        System.out.println("To check the tests, check Tests class in the project!");
                         break;
                     default:
                         System.out.println("Ismeretlen parancs!\n");
@@ -365,30 +402,39 @@ public class Prototype {
 
     public static void jatekAllapot(){
         System.out.println("Palya:");
-        for(int i = 0; i < game.getMap().size(); i++){
-            System.out.println("\tSzoba neve: " + game.getMap().get(i).getName() + " Szoba index: " + i + ", Szoba kapacitas: " + game.getMap().get(i).getCapacity());
+        List<Room> map = game.getMap();
+        List<Student> students = game.getStudents();
+        List<Professor> professors = game.getProfessors();
+        List<Cleaner> cleaners = game.getCleaners();
+        for(int i = 0; i < map.size(); i++){
+            Room room = map.get(i);
+            System.out.println("\tSzoba neve: " + room.getName() + ", Szoba index: " + i
+                    + ", Szoba kapacitas: " + room.getCapacity()
+                    + ", Szoba gazos: " + room.getIsGassed()
+                    + ", Szoba atkozott: " + room.getIsCursed());
             System.out.println("\t\tSzomszedai: ");
-            for(Door door : game.getMap().get(i).getNeighbourDoors()){
-                System.out.println("\t\t\t" + door.getNextRoom(game.getMap().get(i)).getName());
+            for(Door door : room.getNeighbourDoors()){
+                Room nextRoom = door.getNextRoom(room);
+                System.out.println("\t\t\t" + nextRoom.getName());
             }
             System.out.println("\t\tTargyai: ");
-            for(Item item : game.getMap().get(i).getItems()){
+            for(Item item : room.getItems()){
                 System.out.println("\t\t\t" + item.getName());
             }
         }
         System.out.println("Karakterek:");
         System.out.println("\tHallgatok:");
-        for(Student student : game.getStudents()){
+        for(Student student : students){
             System.out.println("\t\tNeve: " + student.getName() + ", helye: " + student.getPosition().getName()
                     + ", eletereje: " + student.getHealth() + ", kabult: " + student.getNotConscious());
         }
         System.out.println("\tProfesszorok:");
-        for (Professor professor : game.getProfessors()) {
+        for (Professor professor : professors) {
             System.out.println("\t\tNeve: " + professor.getName() + ", helye: " + professor.getPosition().getName()
                     + ", kabult: " + professor.getNotConscious());
         }
         System.out.println("\tTakaritok:");
-        for (Cleaner cleaner : game.getCleaners()) {
+        for (Cleaner cleaner : cleaners) {
             System.out.println("\t\tNeve: " + cleaner.getName() + ", helye: " + cleaner.getPosition().getName());
         }
     }

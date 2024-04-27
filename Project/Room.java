@@ -71,6 +71,8 @@ public class Room implements ActionListener {
      */
     public boolean getIsGassed() { return isGassed; }
 
+    public boolean getIsCursed() { return isCursed; }
+
     /**
      * isGassed setter
      * Beállítja a szobában lévő gázt

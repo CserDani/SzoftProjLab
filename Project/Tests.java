@@ -193,10 +193,11 @@ public class Tests {
     @Test
     public void testSplitRooms() {
         int roomNumber = game.getMap().size();
+        int maxIndex = game.getMap().size() - 1;
         Room r = game.getMap().get(5);
 
         game.divideRoom(r);
-        Room newR = game.getMap().get(6);
+        Room newR = game.getMap().get(maxIndex+1);
 
         assertEquals(roomNumber+1, game.getMap().size());
         assertEquals(1, newR.getNeighbourDoors().size());
@@ -327,5 +328,29 @@ public class Tests {
         game.move(p, d);
 
         assertEquals("Szoba0", p.getPosition().getName());
+    }
+
+    @Test
+    public void testCantMoveVanish() {
+        Student s = game.getStudents().get(0);
+        Room actualRoom = s.getPosition();
+        Door cursedRoomDoor = actualRoom.getNeighbourDoors().get(3);
+        Room cursedRoom = cursedRoomDoor.getNextRoom(actualRoom);
+        cursedRoomDoor.setVanish();
+
+        assertEquals("Szoba0", s.getPosition().getName());
+    }
+
+    @Test
+    public void testOneWay() {
+        Student s = game.getStudents().get(0);
+        Room actualRoom = s.getPosition();
+        Door oneWayDoor = actualRoom.getNeighbourDoors().get(4);
+        game.move(s, oneWayDoor);
+        game.move(s, oneWayDoor);
+        actualRoom = s.getPosition();
+
+        assertTrue(oneWayDoor.isOneWay());
+        assertEquals("Szoba7", actualRoom.getName());
     }
 }
