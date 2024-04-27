@@ -81,7 +81,9 @@ public class Room implements ActionListener {
         isGassed = !isGassed;
     }
     public void setCleaned() { cleaned = true; }
+    public boolean getCleaned() { return cleaned; }
     public int getAfterCleanCount() { return afterCleanCount; }
+    public void decrAfterCleanCount() { afterCleanCount--; }
 
     /**
      * isNeighbour függvény

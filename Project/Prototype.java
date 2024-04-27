@@ -131,7 +131,7 @@ public class Prototype {
         dropIteminput();
     }
 
-    public static void idDoorInput() {
+    public static void idDoorInput(Person p) {
         if(pickedPerson == null) {
             return;
         }
@@ -140,7 +140,7 @@ public class Prototype {
         int sorszam = -1;
         while(!exit) {
             String line = scan.nextLine();
-            Room actualRoom = pickedPerson.getPosition();
+            Room actualRoom = p.getPosition();
             List<Door> neighbours = actualRoom.getNeighbourDoors();
             try {
                 sorszam = Integer.parseInt(line);
@@ -151,9 +151,42 @@ public class Prototype {
                         if(!nextRoom.isNotFull()) {
                             System.out.println("A szoba megtelt!");
                         } else {
-                            pickedPerson.move(door);
+                            p.move(door);
                         }
                         exit = true;
+                    }
+                }
+            } catch (Exception e) {}
+        }
+    }
+
+    public static void idDoorInputWhileNotMoved(Person p) {
+        if(pickedPerson == null) {
+            return;
+        }
+
+        System.out.println("Valasszon egy ajtot " + p.getName() + "-nek!");
+        listDoorsOfRoom(p.getPosition());
+        boolean exit = false;
+        int sorszam = -1;
+        while(!exit) {
+            String line = scan.nextLine();
+            Room actualRoom = p.getPosition();
+            List<Door> neighbours = actualRoom.getNeighbourDoors();
+            try {
+                sorszam = Integer.parseInt(line);
+                for(int i = 0; i < neighbours.size(); i++) {
+                    if(i == sorszam) {
+                        Door door = neighbours.get(i);
+                        Room nextRoom = door.getNextRoom(actualRoom);
+                        if(!nextRoom.isNotFull()) {
+                            System.out.println("A szoba megtelt!");
+                        } else {
+                            if(door.canMove(actualRoom)) {
+                                p.move(door);
+                                exit = true;
+                            }
+                        }
                     }
                 }
             } catch (Exception e) {}
@@ -168,7 +201,7 @@ public class Prototype {
         System.out.println("Jelenlegi hely: " + pickedPerson.getPosition().getName());
         listDoorsOfRoom(pickedPerson.getPosition());
         System.out.println("Valasszon egy ajto sorszamot!");
-        idDoorInput();
+        idDoorInput(pickedPerson);
         System.out.println("Jelenlegi hely: " + pickedPerson.getPosition().getName());
     }
 
@@ -293,7 +326,68 @@ public class Prototype {
         }
     }
 
+    public static void cleanerRandomOffMove() {
+        if(pickedPerson == null) {
+            return;
+        }
+
+        System.out.println("-----------------------------------");
+        System.out.println("Jelenlegi hely: " + pickedPerson.getPosition().getName());
+        listDoorsOfRoom(pickedPerson.getPosition());
+        System.out.println("Valasszon egy ajto sorszamot!");
+
+        boolean exit = false;
+        int sorszam = -1;
+        while(!exit) {
+            String line = scan.nextLine();
+            Room actualRoom = pickedPerson.getPosition();
+            List<Person> actualRoomPersons = actualRoom.getPersons();
+            List<Door> neighbours = actualRoom.getNeighbourDoors();
+            try {
+                sorszam = Integer.parseInt(line);
+                for(int i = 0; i < neighbours.size(); i++) {
+                    if(i == sorszam) {
+                        Door door = neighbours.get(i);
+                        Room nextRoom = door.getNextRoom(actualRoom);
+                        List<Person> personList = new ArrayList<>(nextRoom.getPersons());
+                        if(!nextRoom.isNotFull()) {
+                            System.out.println("A szoba megtelt!");
+                        } else {
+                            if (door.canMove(actualRoom)) {
+                                actualRoomPersons.remove(pickedPerson);
+
+                                if (nextRoom.getIsGassed()) {
+                                    for (Person p : personList) {
+                                        if (!p.getNotConscious()) {
+                                            idDoorInputWhileNotMoved(p);
+                                        }
+                                    }
+
+                                    nextRoom.setGas();
+                                }
+
+                                pickedPerson.setPosition(nextRoom);
+                                nextRoom.getPersons().add(pickedPerson);
+
+                                if (nextRoom.getCleaned() && nextRoom.getAfterCleanCount() > 0) {
+                                    nextRoom.decrAfterCleanCount();
+                                }
+
+                                if (!nextRoom.getCleaned()) {
+                                    nextRoom.setCleaned();
+                                }
+                            }
+                        }
+
+                        exit = true;
+                    }
+                }
+            } catch (Exception e) {}
+        }
+    }
+
     public static void main(String[] args) {
+        boolean randomOn = true;
         while (true) {
             System.out.println("-----------------------------------");
             if(game.getStudents().isEmpty() && game.getProfessors().isEmpty() && game.getCleaners().isEmpty()) {
@@ -306,6 +400,8 @@ public class Prototype {
                 System.out.println("Kivalasztott karakter: " + kivJatekos);
             }
 
+            System.out.println("Random kapcsolasa: " + randomOn);
+
             System.out.println("-----------------------------------");
 
             System.out.println("0. Exit");
@@ -313,15 +409,16 @@ public class Prototype {
             System.out.println("1. Targy felvetele");
             System.out.println("2. Targy hasznalata");
             System.out.println("3. Targy eldobasa");
-            System.out.println("4. Jatekos leptetese");
+            System.out.println("4. Karakter leptetese");
             System.out.println("5. Palya betoltese");
             System.out.println("6. A jatek allapotanak kiiratasa");
-            System.out.println("7. Jatekos valasztasa");
+            System.out.println("7. Hallgato valasztasa");
             System.out.println("8. Oktato valasztasa");
             System.out.println("9. Takarito valasztasa");
             System.out.println("10. Szoba egyesules");
             System.out.println("11. Szoba osztodas");
-            System.out.println("12. Tesztek futtatasa");
+            System.out.println("12. Random kapcsolasa");
+            System.out.println("13. Tesztek futtatasa");
 
             System.out.println("-----------------------------------");
 
@@ -343,7 +440,11 @@ public class Prototype {
                         targyEldobas();
                         break;
                     case 4:
-                        lepes();
+                        if(randomOn || !game.getCleaners().contains(pickedPerson)) {
+                            lepes();
+                        } else {
+                            cleanerRandomOffMove();
+                        }
                         break;
                     case 5:
                         System.out.println("Adja meg a fajl nevet: ");
@@ -372,6 +473,9 @@ public class Prototype {
                         divideRoom();
                         break;
                     case 12:
+                        randomOn = !randomOn;
+                        break;
+                    case 13:
                         Result result = JUnitCore.runClasses(Tests.class);
 
                         for (Failure failure : result.getFailures()) {
@@ -411,7 +515,9 @@ public class Prototype {
             System.out.println("\tSzoba neve: " + room.getName() + ", Szoba index: " + i
                     + ", Szoba kapacitas: " + room.getCapacity()
                     + ", Szoba gazos: " + room.getIsGassed()
-                    + ", Szoba atkozott: " + room.getIsCursed());
+                    + ", Szoba atkozott: " + room.getIsCursed()
+                    + ", Szoba kitakaritott: " + room.getCleaned()
+                    + ", Szoba letszama: " + room.getPersons().size());
             System.out.println("\t\tSzomszedai: ");
             for(Door door : room.getNeighbourDoors()){
                 Room nextRoom = door.getNextRoom(room);
