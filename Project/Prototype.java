@@ -297,7 +297,7 @@ public class Prototype {
         while (true) {
             System.out.println("-----------------------------------");
             if(game.getStudents().isEmpty() && game.getProfessors().isEmpty() && game.getCleaners().isEmpty()) {
-                System.out.println("Nincs jatekos!");
+                System.out.println("Nincs karakter!");
             } else {
                 System.out.println("Hallgatok szama: " + game.getStudents().size());
                 System.out.println("Oktatok szama: " + game.getProfessors().size());
