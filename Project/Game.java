@@ -24,6 +24,14 @@ public class Game {
         }
     }
 
+    public void testLoad(String filename){
+        try{
+            new LoadTest(filename, this);
+        } catch (IOException e) {
+            System.out.println("Sikertelen beolvasas: " + e.getMessage());
+        }
+    }
+
     public void setWon() {
         gameWon = true;
     }

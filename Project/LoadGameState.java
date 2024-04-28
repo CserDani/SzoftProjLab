@@ -19,10 +19,6 @@ public class LoadGameState {
         readFile(filename);
     }
 
-    /*public Controller getController(){
-        return controller;
-    }*/
-
     public void readFile(String filename) throws IOException{
         Path path = FileSystems.getDefault().getPath("Resources", filename);
         List<String> lines = Files.readAllLines(path);

@@ -1,6 +1,10 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -14,14 +18,74 @@ public class Tests {
         game.gameLoad("testMap.txt");
     }
 
+    public void readExpected(String filename) throws IOException {
+        Path path = FileSystems.getDefault().getPath("Resources/tests", filename);
+        List<String> lines = Files.readAllLines(path);
+
+        for(int i = 0; i < lines.size(); i++){
+            String line = lines.get(i).trim();
+
+            switch(line) {
+                case "STUDENTPOS":
+                    i = studentPos(lines, i+1);
+                    break;
+                case "STUDENTHEALTH":
+                    //i = (lines, i+1);
+                    break;
+                case "STUDENTINVENTORYSIZE":
+                    break;
+                case "STUDENTNOTCONSCIOUS":
+                    break;
+                case "PROFESSORPOS":
+                    //i = (lines, i+1);
+                    break;
+                case "CLEANERPOS":
+                    //i = (lines, i+1);
+                    break;
+                case "ROOMITEMSSIZE":
+                    //i = (lines, i+1);
+                    break;
+                case "ROOMISGASSED":
+                    //i = (lines, i+1);
+                    break;
+                case "MERGE":
+                    //i = (lines, i+1);
+                    break;
+                case "DIVIDE":
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public int studentPos(List<String> l, int si) {
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            try {
+                if (line.matches("\\d+ (.*)")) {
+                    String[] ln = line.split(" ");
+                    int studId = Integer.parseInt(ln[0]);
+                    Student s = game.getStudents().get(studId);
+                    String roomName = ln[1];
+
+                    assertEquals(roomName, s.getPosition().getName());
+                } else {
+                    return i - 1;
+                }
+            } catch (Exception e) { System.out.println("Hibas test fajl beolvasas!"); }
+        }
+
+        return l.size();
+    }
+
     @Test
     public void testSimpleMove() {
-        Student s = game.getStudents().get(0);
-        Room actual = s.getPosition();
-        Door d = actual.getNeighbourDoors().get(0);
-        game.move(s, d);
-
-        assertEquals("Szoba1", s.getPosition().getName());
+        game.testLoad("testMove/input.txt");
+        try {
+            readExpected("testMove/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
@@ -98,7 +162,6 @@ public class Tests {
         Door d = actual.getNeighbourDoors().get(0);
         game.move(s, d);
         List<Item> items = s.getPosition().getItems();
-        int itemsCount = items.size();
         Item t1 = items.get(0);
         Item t2 = items.get(1);
         game.pickUp(s, t1);
@@ -118,14 +181,13 @@ public class Tests {
     public void testTVSZ() {
         Student s = game.getStudents().get(0);
         List<Item> items = s.getPosition().getItems();
-        int itemsCount = items.size();
         Item i = items.get(0);
         game.pickUp(s, i);
         Room actual = s.getPosition();
         Door d = actual.getNeighbourDoors().get(0);
         game.move(s, d);
-        actual = s.getPosition();
         Passive p = s.getDamageHelpItems().get(0);
+
         assertEquals(100, s.getHealth());
         assertEquals(2, p.getDurability());
     }
@@ -134,7 +196,6 @@ public class Tests {
     public void testCamembert() {
         Student s = game.getStudents().get(0);
         List<Item> items = s.getPosition().getItems();
-        int itemsCount = items.size();
         Item i = items.get(2);
         game.pickUp(s, i);
         game.use(s, i);
@@ -142,7 +203,8 @@ public class Tests {
         Door d = actual.getNeighbourDoors().get(0);
         game.move(s, d);
         actual = s.getPosition();
-        assertEquals("Szoba0", s.getPosition().getName());
+
+        assertEquals("Szoba0", actual.getName());
         assertEquals(0, s.getInventory().size());
     }
 
