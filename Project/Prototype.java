@@ -439,7 +439,8 @@ public class Prototype {
                     }
                 } catch (Exception e) {}
             }
-            Room newRoom = new Room("New Room", gassed, cursed, newCap);
+            String name = "New Room" + game.getMap().size();
+            Room newRoom = new Room(name, gassed, cursed, newCap);
             Door newDoor = new Door(r, newRoom, false);
             listDoorsOfRoom(r);
             System.out.println("Melyik ajtok tartozzanak az uj szobahoz? ('-' a kilepeshez)");

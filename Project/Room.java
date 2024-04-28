@@ -258,14 +258,23 @@ public class Room implements ActionListener {
      */
     public Room roomDivision() {
         if(this.getPersons().isEmpty()) {
-            int newcap = rand.nextInt(this.capacity);
-            if(newcap == this.capacity) {
-                newcap -= 1;
-            } else if(newcap == 0) {
+            int newcap;
+            if(this.capacity == 1) {
                 newcap = 1;
+            } else {
+                newcap = rand.nextInt(this.capacity);
+            }
+            if(this.capacity > 1) {
+                if (newcap == this.capacity) {
+                    newcap -= 1;
+                } else if (newcap == 0) {
+                    newcap = 1;
+                }
             }
             Room r = new Room("New Room", this.isGassed && rand.nextBoolean(), this.isCursed && rand.nextBoolean(), newcap);
-            this.capacity -= r.capacity;
+            if(this.capacity > 1) {
+                this.capacity -= r.capacity;
+            }
             int doorSeparation = rand.nextInt(this.getNeighbourDoors().size()+1);
             List<Door> doorsToRemove = new ArrayList<>();
             for(int i = 0; i < doorSeparation; i++) {
