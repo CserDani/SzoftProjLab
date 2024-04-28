@@ -1,0 +1,10 @@
+
+K
+java:S1066¹"/Merge this if statement with the enclosing one.(Â«òßøÿÿÿÿ
+0
+java:S1220""Move this file to a named package.
+E	java:S106j"+Replace this use of System.out by a logger.(€¯Úóøÿÿÿÿ
+n
+java:S3776­"RRefactor this method to reduce its Cognitive Complexity from 32 to the 15 allowed.(·™‰„üÿÿÿÿ
+Q
+java:S1854í"5Remove this useless assignment to local variable "r".(Ù°ÿÂþÿÿÿÿ
