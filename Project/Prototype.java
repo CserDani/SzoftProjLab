@@ -386,6 +386,90 @@ public class Prototype {
         }
     }
 
+    public static void divideRoomWithoutRandom() {
+        int divideable = 0;
+        List<Room> map = game.getMap();
+        for(Room r : map) {
+            if(r.getPersons().isEmpty()) {
+                divideable++;
+            }
+        }
+
+        if(divideable > 0) {
+            Room r = null;
+            listRooms();
+            while(r == null) {
+                r = roomInput();
+            }
+            String line;
+            boolean gassed = false;
+            boolean cursed = false;
+            int newCap = 0;
+            if (r.getIsGassed()) {
+                System.out.println("Az eredeti szoba gazos, az uj is legyen? (true/false)");
+                boolean gasInputEnded = false;
+                while(!gasInputEnded) {
+                    try {
+                        line = scan.nextLine();
+                        gassed = Boolean.parseBoolean(line);
+                        gasInputEnded = true;
+                    } catch (Exception e) {}
+                }
+            }
+            if(r.getIsCursed()) {
+                System.out.println("Az eredeti szoba atkozott, az uj is legyen? (true/false)");
+                boolean curseInputEnded = false;
+                while(!curseInputEnded) {
+                    try {
+                        line = scan.nextLine();
+                        cursed = Boolean.parseBoolean(line);
+                        curseInputEnded = true;
+                    } catch (Exception e) {}
+                }
+            }
+
+            System.out.println("Mekkora kapacitasa legyen az uj szobanak? Max: " + (r.getCapacity() - 1));
+            boolean capInputEnded = false;
+            while(!capInputEnded) {
+                try {
+                    line = scan.nextLine();
+                    newCap = Integer.parseInt(line);
+                    if(newCap < r.getCapacity() && newCap > 0) {
+                        capInputEnded = true;
+                    }
+                } catch (Exception e) {}
+            }
+            Room newRoom = new Room("New Room", gassed, cursed, newCap);
+            Door newDoor = new Door(r, newRoom, false);
+            listDoorsOfRoom(r);
+            System.out.println("Melyik ajtok tartozzanak az uj szobahoz? ('-' a kilepeshez)");
+            boolean doorInputEnded = false;
+            int doorIdx;
+            List<Door> originalDoors = r.getNeighbourDoors();
+            while(!doorInputEnded) {
+                try {
+                    line = scan.nextLine();
+                    if(line.equals("-")) {
+                        doorInputEnded = true;
+                    } else {
+                        doorIdx = Integer.parseInt(line);
+                        Door door = originalDoors.get(doorIdx);
+                        originalDoors.remove(door);
+                        door.setRoom(r, newRoom);
+                        newRoom.getNeighbourDoors().add(door);
+                    }
+                } catch (Exception e) {}
+            }
+            r.getNeighbourDoors().add(newDoor);
+            int originalCap = r.getCapacity();
+            r.setCapacity(originalCap - newCap);
+            newRoom.getNeighbourDoors().add(newDoor);
+            map.add(newRoom);
+        } else {
+            System.out.println("Nincs szoba amit szetosztani lehetne!");
+        }
+    }
+
     public static void main(String[] args) {
         boolean randomOn = true;
         while (true) {
@@ -470,7 +554,11 @@ public class Prototype {
                         mergeRooms();
                         break;
                     case 11:
-                        divideRoom();
+                        if(randomOn) {
+                            divideRoom();
+                        } else {
+                            divideRoomWithoutRandom();
+                        }
                         break;
                     case 12:
                         randomOn = !randomOn;

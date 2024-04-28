@@ -2,7 +2,7 @@ SZOBAK
 5 false false
 5 false false
 5 false false
-10 false false
+10 true true
 AJTOK1
 AJTOK2
 0 1
