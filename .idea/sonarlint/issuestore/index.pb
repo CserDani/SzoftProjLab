@@ -9,8 +9,6 @@ F
 Project/Professor.java,5\1\51274359e3a454129b0ff16bb5ce81cff0f8107c
 D
 Project/Student.java,0\b\0b772e20f8ede5387a45be16301a77004d9f4819
-A
-Project/Main.java,7\1\7141de7148be0e5f0bd24c3f8713a4f77b6725f6
 E
 Project/Logarlec.java,b\4\b4fda0e29a27f91b50edaa88e11caff73751de7b
 G
@@ -19,5 +17,15 @@ C
 Project/Active.java,e\9\e9ab9789cca01e37a522122c32fe89d0c154ea92
 D
 Project/Passive.java,a\c\acdf5ce6bc564a924835fef53e891b74444544df
-F
-Project/ActiveGas.java,8\8\88c00ef5bd2f02793af8f371662eb0cdb65659e1
+I
+Project/BoardCleaner.java,c\9\c955b0f072be26ad65ff45ef780cd0e5ba0b1f09
+A
+Project/TVSZ.java,9\f\9f981d61f563f62dcec921ee45ea72e7655f6192
+E
+Project/Skeleton.java,2\2\223e35c9e90a5320f2bbbc4b64bcbedebbca39b3
+D
+Project/Cleaner.java,8\8\88070822ffb947804ac9b0f4c0682da374f38388
+A
+Project/Door.java,1\4\149fc105bce830607cc8d32300913cf4abec7849
+A
+Project/Room.java,c\2\c2927c74e0d9125200b5e7edba76ffb4a867e2ab
