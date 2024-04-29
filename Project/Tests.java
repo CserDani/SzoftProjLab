@@ -288,7 +288,7 @@ public class Tests {
                     String[] ln = line.split(" ");
                     int roomId = Integer.parseInt(ln[0]);
                     Room r = game.getMap().get(roomId);
-                    int num = Integer.parseInt(ln[0]);
+                    int num = Integer.parseInt(ln[1]);
 
                     assertEquals(num, r.getNeighbourDoors().size());
                 } else {
@@ -311,9 +311,11 @@ public class Tests {
                     Room r = game.getMap().get(roomId);
                     int doorId = Integer.parseInt(ln[1]);
                     Door d = r.getNeighbourDoors().get(doorId);
-                    String neighbourName = ln[3];
+                    int neighbourId = Integer.parseInt(ln[2]);
+                    Room neighbourRoom = game.getMap().get(neighbourId);
+                    String neighbourName = neighbourRoom.getName();
 
-                    assertEquals(neighbourName, d.getNextRoom(r));
+                    assertEquals(neighbourName, d.getNextRoom(r).getName());
                 } else {
                     return i - 1;
                 }

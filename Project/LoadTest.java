@@ -195,7 +195,7 @@ public class LoadTest {
             String line = l.get(i).trim();
 
             try {
-                if (line.matches("(.*)+\\d+ \\d+")) {
+                if (line.matches("\\d+")) {
                     String[] ln = line.split(" ");
                     int roomIdx = Integer.parseInt(ln[0]);
 
