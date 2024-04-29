@@ -1,0 +1,6 @@
+PICKUP
+0 7
+USE
+0 7
+MOVE
+0 0
