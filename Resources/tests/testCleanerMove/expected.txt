@@ -1,0 +1,2 @@
+CLEANERPOS
+0 Szoba1

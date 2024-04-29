@@ -1,0 +1,2 @@
+MOVE
+CLEANER 0 0

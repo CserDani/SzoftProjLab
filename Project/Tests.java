@@ -30,28 +30,40 @@ public class Tests {
                     i = studentPos(lines, i+1);
                     break;
                 case "STUDENTHEALTH":
-                    //i = (lines, i+1);
+                    i = studentHealth(lines, i+1);
                     break;
                 case "STUDENTINVENTORYSIZE":
+                    i = studentInventorySize(lines, i+1);
                     break;
                 case "STUDENTNOTCONSCIOUS":
+                    i = studentNotConscious(lines, i+1);
                     break;
                 case "PROFESSORPOS":
-                    //i = (lines, i+1);
+                    i = professorPos(lines, i+1);
                     break;
                 case "CLEANERPOS":
-                    //i = (lines, i+1);
+                    i = cleanerPos(lines, i+1);
                     break;
                 case "ROOMITEMSSIZE":
-                    //i = (lines, i+1);
+                    i = roomItemsSize(lines, i+1);
                     break;
                 case "ROOMISGASSED":
-                    //i = (lines, i+1);
+                    i = roomIsGassed(lines, i+1);
                     break;
-                case "MERGE":
-                    //i = (lines, i+1);
+                case "ROOMCAPACITY":
+                    i = roomCapacity(lines, i+1);
                     break;
-                case "DIVIDE":
+                case "MAPSIZE":
+                    i = mapSize(lines, i+1);
+                    break;
+                case "NUMOFDOORS":
+                    i = numOfDoors(lines, i+1);
+                    break;
+                case "NEIGHBOURS":
+                    i = neighbours(lines, i+1);
+                    break;
+                case "GAMEWON":
+                    i = gameWon(lines, i+1);
                     break;
                 default:
                     break;
@@ -80,6 +92,255 @@ public class Tests {
         return l.size();
     }
 
+    public int cleanerPos(List<String> l, int si) {
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            try {
+                if (line.matches("\\d+ (.*)")) {
+                    String[] ln = line.split(" ");
+                    int cleanId = Integer.parseInt(ln[0]);
+                    Cleaner c = game.getCleaners().get(cleanId);
+                    String roomName = ln[1];
+
+                    assertEquals(roomName, c.getPosition().getName());
+                } else {
+                    return i - 1;
+                }
+            } catch (Exception e) { System.out.println("Hibas test fajl beolvasas!"); }
+        }
+
+        return l.size();
+    }
+
+    public int professorPos(List<String> l, int si) {
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            try {
+                if (line.matches("\\d+ (.*)")) {
+                    String[] ln = line.split(" ");
+                    int profId = Integer.parseInt(ln[0]);
+                    Professor p = game.getProfessors().get(profId);
+                    String roomName = ln[1];
+
+                    assertEquals(roomName, p.getPosition().getName());
+                } else {
+                    return i - 1;
+                }
+            } catch (Exception e) { System.out.println("Hibas test fajl beolvasas!"); }
+        }
+
+        return l.size();
+    }
+
+    public int studentHealth(List<String> l, int si) {
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            try {
+                if (line.matches("\\d+ (.*)")) {
+                    String[] ln = line.split(" ");
+                    int studId = Integer.parseInt(ln[0]);
+                    Student s = game.getStudents().get(studId);
+                    int health = Integer.parseInt(ln[1]);
+
+                    assertEquals(health, s.getHealth());
+                } else {
+                    return i - 1;
+                }
+            } catch (Exception e) { System.out.println("Hibas test fajl beolvasas!"); }
+        }
+
+        return l.size();
+    }
+
+    public int studentInventorySize(List<String> l, int si) {
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            try {
+                if (line.matches("\\d+ (.*)")) {
+                    String[] ln = line.split(" ");
+                    int studId = Integer.parseInt(ln[0]);
+                    Student s = game.getStudents().get(studId);
+                    int inventorySize = Integer.parseInt(ln[1]);
+
+                    assertEquals(inventorySize, s.getInventorySize());
+                } else {
+                    return i - 1;
+                }
+            } catch (Exception e) { System.out.println("Hibas test fajl beolvasas!"); }
+        }
+
+        return l.size();
+    }
+
+    public int roomItemsSize(List<String> l, int si) {
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            try {
+                if (line.matches("\\d+ (.*)")) {
+                    String[] ln = line.split(" ");
+                    int roomId = Integer.parseInt(ln[0]);
+                    Room r = game.getMap().get(roomId);
+                    int itemsSize = Integer.parseInt(ln[1]);
+
+                    assertEquals(itemsSize, r.getItems().size());
+                } else {
+                    return i - 1;
+                }
+            } catch (Exception e) { System.out.println("Hibas test fajl beolvasas!"); }
+        }
+
+        return l.size();
+    }
+
+    public int roomIsGassed(List<String> l, int si) {
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            try {
+                if (line.matches("\\d+ (.*)")) {
+                    String[] ln = line.split(" ");
+                    int roomId = Integer.parseInt(ln[0]);
+                    Room r = game.getMap().get(roomId);
+                    int isGassed = Integer.parseInt(ln[1]);
+
+                    assertEquals(isGassed, r.getIsGassed() ? 1 : 0);
+                } else {
+                    return i - 1;
+                }
+            } catch (Exception e) { System.out.println("Hibas test fajl beolvasas!"); }
+        }
+
+        return l.size();
+    }
+
+    public int roomCapacity(List<String> l, int si) {
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            try {
+                if (line.matches("\\d+ (.*)")) {
+                    String[] ln = line.split(" ");
+                    int roomId = Integer.parseInt(ln[0]);
+                    Room r = game.getMap().get(roomId);
+                    int capacity = Integer.parseInt(ln[1]);
+
+                    assertEquals(capacity, r.getCapacity());
+                } else {
+                    return i - 1;
+                }
+            } catch (Exception e) { System.out.println("Hibas test fajl beolvasas!"); }
+        }
+
+        return l.size();
+    }
+
+    public int studentNotConscious(List<String> l, int si) {
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            try {
+                if (line.matches("\\d+ (.*)")) {
+                    String[] ln = line.split(" ");
+                    int studId = Integer.parseInt(ln[0]);
+                    Student s = game.getStudents().get(studId);
+                    int isNotConscious = Integer.parseInt(ln[1]);
+
+                    assertEquals(isNotConscious, s.getNotConscious() ? 1 : 0);
+                } else {
+                    return i - 1;
+                }
+            } catch (Exception e) { System.out.println("Hibas test fajl beolvasas!"); }
+        }
+
+        return l.size();
+    }
+
+    public int mapSize(List<String> l, int si) {
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            try {
+                if (line.matches("\\d+ (.*)")) {
+                    String[] ln = line.split(" ");
+                    int size = Integer.parseInt(ln[0]);
+
+                    assertEquals(size, game.getMap().size());
+                } else {
+                    return i - 1;
+                }
+            } catch (Exception e) { System.out.println("Hibas test fajl beolvasas!"); }
+        }
+
+        return l.size();
+    }
+
+    public int numOfDoors(List<String> l, int si) {
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            try {
+                if (line.matches("\\d+ (.*)")) {
+                    String[] ln = line.split(" ");
+                    int roomId = Integer.parseInt(ln[0]);
+                    Room r = game.getMap().get(roomId);
+                    int num = Integer.parseInt(ln[0]);
+
+                    assertEquals(num, r.getNeighbourDoors().size());
+                } else {
+                    return i - 1;
+                }
+            } catch (Exception e) { System.out.println("Hibas test fajl beolvasas!"); }
+        }
+
+        return l.size();
+    }
+
+    public int neighbours(List<String> l, int si) {
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            try {
+                if (line.matches("\\d+ (.*)")) {
+                    String[] ln = line.split(" ");
+                    int roomId = Integer.parseInt(ln[0]);
+                    Room r = game.getMap().get(roomId);
+                    int doorId = Integer.parseInt(ln[1]);
+                    Door d = r.getNeighbourDoors().get(doorId);
+                    String neighbourName = ln[3];
+
+                    assertEquals(neighbourName, d.getNextRoom(r));
+                } else {
+                    return i - 1;
+                }
+            } catch (Exception e) { System.out.println("Hibas test fajl beolvasas!"); }
+        }
+
+        return l.size();
+    }
+    public int gameWon(List<String> l, int si) {
+        for(int i = si; i < l.size(); i++){
+            String line = l.get(i).trim();
+
+            try {
+                if (line.matches("\\d+ (.*)")) {
+                    String[] ln = line.split(" ");
+                    int gameWon = Integer.parseInt(ln[0]);
+
+                    assertEquals(gameWon, game.getWon() ? 1 : 0);
+                } else {
+                    return i - 1;
+                }
+            } catch (Exception e) { System.out.println("Hibas test fajl beolvasas!"); }
+        }
+
+        return l.size();
+    }
+
     @Test
     public void testSimpleMove() {
         game.testLoad("testMove/input.txt");
@@ -90,336 +351,185 @@ public class Tests {
 
     @Test
     public void testCantMove() {
-        Student s = game.getStudents().get(0);
-        Room actual = s.getPosition();
-        Door d = actual.getNeighbourDoors().get(1);
-        Room next = d.getNextRoom(actual);
-        game.move(s, d);
-
-        assertEquals("Szoba0", s.getPosition().getName());
-        assertFalse(next.isNotFull());
+        game.testLoad("testCantMove/input.txt");
+        try {
+            readExpected("testCantMove/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testDamageMove() {
-        Student s = game.getStudents().get(0);
-        Room actual = s.getPosition();
-        Door d = actual.getNeighbourDoors().get(0);
-        game.move(s, d);
-        s = game.getStudents().get(0);
-
-        assertEquals("Szoba1", s.getPosition().getName());
-        assertEquals(90, s.getHealth());
-        assertEquals(2, s.getPosition().getPersons().size());
+        game.testLoad("testDamageMove/input.txt");
+        try {
+            readExpected("testDamageMove/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testPickUp() {
-        Student s = game.getStudents().get(0);
-        List<Item> items = s.getPosition().getItems();
-        int itemsCount = items.size();
-        Item i = items.get(0);
-        game.pickUp(s, i);
-
-        assertEquals(itemsCount-1, items.size());
-        assertEquals(1, s.getInventory().size());
+        game.testLoad("testPickUp/input.txt");
+        try {
+            readExpected("testPickUp/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testCantPickUp() {
-        Student s = game.getStudents().get(0);
-        List<Item> items = s.getPosition().getItems();
-        int itemsCount = items.size();
-        Item it;
-        for(int i = 0; i < 5; i++) {
-            it = items.get(0);
-            game.pickUp(s, it);
-        }
-        it = items.get(0);
-        game.pickUp(s, it);
-
-        assertEquals(5, s.getInventory().size());
-        assertEquals(itemsCount-5, items.size());
+        game.testLoad("testCantPickUp/input.txt");
+        try {
+            readExpected("testCantPickUp/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testDrop() {
-        Student s = game.getStudents().get(0);
-        List<Item> items = s.getPosition().getItems();
-        int itemsCount = items.size();
-        Item i = items.get(0);
-        game.pickUp(s, i);
-        game.drop(s, i);
-
-        assertEquals(itemsCount, items.size());
-        assertEquals(0, s.getInventory().size());
+        game.testLoad("testDrop/input.txt");
+        try {
+            readExpected("testDrop/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testTransistorUse() {
-        Student s = game.getStudents().get(0);
-        Room actual = s.getPosition();
-        Door d = actual.getNeighbourDoors().get(0);
-        game.move(s, d);
-        List<Item> items = s.getPosition().getItems();
-        Item t1 = items.get(0);
-        Item t2 = items.get(1);
-        game.pickUp(s, t1);
-        game.pickUp(s, t2);
-        game.use(s, t1);
-        game.use(s, t2);
-        game.drop(s, t1);
-        actual = s.getPosition();
-        d = actual.getNeighbourDoors().get(0);
-        game.move(s, d);
-        game.drop(s, t2);
-
-        assertEquals("Szoba1", s.getPosition().getName());
+        game.testLoad("testTransistorUse/input.txt");
+        try {
+            readExpected("testTransistorUse/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testTVSZ() {
-        Student s = game.getStudents().get(0);
-        List<Item> items = s.getPosition().getItems();
-        Item i = items.get(0);
-        game.pickUp(s, i);
-        Room actual = s.getPosition();
-        Door d = actual.getNeighbourDoors().get(0);
-        game.move(s, d);
-        Passive p = s.getDamageHelpItems().get(0);
-
-        assertEquals(100, s.getHealth());
-        assertEquals(2, p.getDurability());
+        game.testLoad("testTVSZ/input.txt");
+        try {
+            readExpected("testTVSZ/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testCamembert() {
-        Student s = game.getStudents().get(0);
-        List<Item> items = s.getPosition().getItems();
-        Item i = items.get(2);
-        game.pickUp(s, i);
-        game.use(s, i);
-        Room actual = s.getPosition();
-        Door d = actual.getNeighbourDoors().get(0);
-        game.move(s, d);
-        actual = s.getPosition();
-
-        assertEquals("Szoba0", actual.getName());
-        assertEquals(0, s.getInventory().size());
+        game.testLoad("testCamembert/input.txt");
+        try {
+            readExpected("testCamembert/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testFFP2() {
-        Student s = game.getStudents().get(0);
-        List<Item> items = s.getPosition().getItems();
-        int itemsCount = items.size();
-        Item i = items.get(1);
-        game.pickUp(s, i);
-        Room actual = s.getPosition();
-        Door d = actual.getNeighbourDoors().get(2);
-        game.move(s, d);
-        actual = s.getPosition();
-        assertEquals("Szoba3", s.getPosition().getName());
-        assertTrue(s.getPosition().getIsGassed());
-        assertFalse(s.getNotConscious());
+        game.testLoad("testFFP2/input.txt");
+        try {
+            readExpected("testFFP2/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testAirFreshener() {
-        Student s = game.getStudents().get(0);
-        List<Item> items = s.getPosition().getItems();
-        int itemsCount = items.size();
-        Item i1 = items.get(1);
-        game.pickUp(s, i1);
-        Item i2 = items.get(3);
-        game.pickUp(s, i2);
-        Room actual = s.getPosition();
-        Door d = actual.getNeighbourDoors().get(2);
-        game.move(s, d);
-        game.drop(s, i2);
-        actual = s.getPosition();
-        assertEquals("Szoba3", s.getPosition().getName());
-        assertFalse(s.getPosition().getIsGassed());
+        game.testLoad("testAirFreshener/input.txt");
+        try {
+            readExpected("testAirFreshener/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testMergeRooms() {
-        Room r1 = game.getMap().get(3);
-        Room r2 = game.getMap().get(4);
-        game.mergeRooms(r2, r1);
-        assertEquals(10, r2.getCapacity());
-        assertTrue(r2.getIsGassed());
-        assertEquals(2, r2.getItems().size());
+        game.testLoad("testMergeRooms/input.txt");
+        try {
+            readExpected("testMergeRooms/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testSplitRooms() {
-        int roomNumber = game.getMap().size();
-        int maxIndex = game.getMap().size() - 1;
-        Room r = game.getMap().get(5);
-
-        game.divideRoom(r);
-        Room newR = game.getMap().get(maxIndex+1);
-
-        assertEquals(roomNumber+1, game.getMap().size());
-        assertEquals(1, newR.getNeighbourDoors().size());
-        assertEquals(r, newR.getNeighbourDoors().get(0).getNextRoom(newR));
+        game.testLoad("testSplitRooms/input.txt");
+        try {
+            readExpected("testSplitRooms/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testBoardCleaner() {
-        Student s = game.getStudents().get(0);
-        Room actual = s.getPosition();
-        Item it = actual.getItems().get(8);
-        game.pickUp(s, it);
-        Door d = actual.getNeighbourDoors().get(0);
-        game.move(s, d);
-        game.use(s, s.getInventory().get(0));
-
-        assertTrue(s.getPosition().getPersons().get(0).getNotConscious());
+        game.testLoad("testBoardCleaner/input.txt");
+        try {
+            readExpected("testBoardCleaner/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testHolyPint() {
-        Student s = game.getStudents().get(0);
-        List<Item> items = s.getPosition().getItems();
-        Item i = items.get(7);
-        game.pickUp(s, i);
-        game.use(s, i);
-        Room actual = s.getPosition();
-        Door d = actual.getNeighbourDoors().get(0);
-        game.move(s, d);
-        actual = s.getPosition();
-        assertEquals(100, s.getHealth());
+        game.testLoad("testHolyPint/input.txt");
+        try {
+            readExpected("testHolyPint/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testCleanerMove() {
-        Cleaner c = game.getCleaners().get(0);
-        Room actual = c.getPosition();
-        Door d = actual.getNeighbourDoors().get(0);
-        game.move(c, d);
-
-        assertEquals("Szoba1", c.getPosition().getName());
+        game.testLoad("testCleanerMove/input.txt");
+        try {
+            readExpected("testCleanerMove/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testSticky() {
-        Cleaner c = game.getCleaners().get(0);
-        Room actual = c.getPosition();
-        Door d = actual.getNeighbourDoors().get(2);
-        game.move(c, d);
-
-        Student s = game.getStudents().get(0);
-        actual = s.getPosition();
-        d = actual.getNeighbourDoors().get(2);
-        for(int i = 0; i<5; i++) {
-            game.move(s, d);
-            game.move(s, s.getPosition().getNeighbourDoors().get(0));
-        }
-        game.move(s, d);
-        List<Item> items = s.getPosition().getItems();
-        Item i = items.get(0);
-        game.pickUp(s, i);
-
-        assertEquals(1, items.size());
-        assertEquals(0, s.getInventory().size());
+        game.testLoad("testSticky/input.txt");
+        try {
+            readExpected("testSticky/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testFakeFFP2() {
-        Student s = game.getStudents().get(0);
-        List<Item> items = s.getPosition().getItems();
-        int itemsCount = items.size();
-        Item i = items.get(6);
-        game.pickUp(s, i);
-        Room actual = s.getPosition();
-        Door d = actual.getNeighbourDoors().get(2);
-        game.move(s, d);
-        actual = s.getPosition();
-        assertEquals("Szoba3", s.getPosition().getName());
-        assertTrue(s.getPosition().getIsGassed());
-        assertTrue(s.getNotConscious());
+        game.testLoad("testFakeFFP2/input.txt");
+        try {
+            readExpected("testFakeFFP2/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testFakeLogar() {
-        Student s = game.getStudents().get(0);
-        List<Item> items = s.getPosition().getItems();
-        Item i = items.get(9);
-        int itemsCount = items.size();
-        game.pickUp(s, i);
-
-        assertEquals(itemsCount-1, items.size());
-        assertEquals(1, s.getInventory().size());
-        assertFalse(game.getWon());
+        game.testLoad("testFakeLogar/input.txt");
+        try {
+            readExpected("testFakeLogar/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testFakeTVSZ() {
-        Student s = game.getStudents().get(0);
-        List<Item> items = s.getPosition().getItems();
-        int itemsCount = items.size();
-        Item i = items.get(5);
-        game.pickUp(s, i);
-        int newCount = items.size();
-        Room actual = s.getPosition();
-        Door d = actual.getNeighbourDoors().get(0);
-        game.move(s, d);
-        actual = s.getPosition();
-
-        assertEquals(90, s.getHealth());
-        assertEquals(2, actual.getPersons().size());
-        assertEquals(itemsCount-1, newCount);
-        assertEquals("Szoba1", actual.getName());
+        game.testLoad("testFakeTVSZ/input.txt");
+        try {
+            readExpected("testFakeTVSZ/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testLogarlec() {
-        Student s = game.getStudents().get(0);
-        List<Item> items = s.getPosition().getItems();
-        Item i = items.get(3);
-        int itemsCount = items.size();
-        game.pickUp(s, i);
-
-        assertEquals(itemsCount-1, items.size());
-        assertEquals(1, s.getInventory().size());
-        assertTrue(game.getWon());
+        game.testLoad("testLogarlec/input.txt");
+        try {
+            readExpected("testLogarlec/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testProfMove() {
-        Professor p = game.getProfessors().get(0);
-        Room actual = p.getPosition();
-        Door d = actual.getNeighbourDoors().get(0);
-        game.move(p, d);
-
-        assertEquals("Szoba0", p.getPosition().getName());
+        game.testLoad("testProfMove/input.txt");
+        try {
+            readExpected("testProfMove/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testCantMoveVanish() {
-        Student s = game.getStudents().get(0);
-        Room actualRoom = s.getPosition();
-        Door cursedRoomDoor = actualRoom.getNeighbourDoors().get(3);
-        Room cursedRoom = cursedRoomDoor.getNextRoom(actualRoom);
-        if(!cursedRoomDoor.getVanish()) {
-            cursedRoomDoor.setVanish();
-        }
-
-        assertEquals("Szoba0", s.getPosition().getName());
+        game.testLoad("testCantMoveVanish/input.txt");
+        try {
+            readExpected("testCantMoveVanish/expected.txt");
+        } catch (IOException e) {}
     }
 
     @Test
     public void testOneWay() {
-        Student s = game.getStudents().get(0);
-        Room actualRoom = s.getPosition();
-        Door oneWayDoor = actualRoom.getNeighbourDoors().get(4);
-        game.move(s, oneWayDoor);
-        game.move(s, oneWayDoor);
-        actualRoom = s.getPosition();
-
-        assertTrue(oneWayDoor.isOneWay());
-        assertEquals("Szoba7", actualRoom.getName());
+        game.testLoad("testOneWay/input.txt");
+        try {
+            readExpected("testOneWay/expected.txt");
+        } catch (IOException e) {}
     }
 }
