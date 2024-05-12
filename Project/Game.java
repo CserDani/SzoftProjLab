@@ -3,18 +3,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
-    private List<Room> map = new ArrayList<>();
-    private List<Student> students = new ArrayList<>();
-    private List<Professor> professors = new ArrayList<>();
-    private List<Cleaner> cleaners = new ArrayList<>();
+    private final List<Room> map = new ArrayList<>();
+    private final List<Student> students = new ArrayList<>();
+    private final List<Professor> professors = new ArrayList<>();
+    private final List<Cleaner> cleaners = new ArrayList<>();
     private boolean gameWon = false;
+    private GameView viewObserver = null;
 
     public List<Student> getStudents() { return students; }
     public List<Professor> getProfessors() { return professors; }
     public List<Cleaner> getCleaners() { return cleaners; }
     public List<Room> getMap() { return map; }
 
-    public Game() {}
+    public Game() {
+        /* To initialize Game, the Game object is always made after gameLoad */
+    }
+
+    public void setViewObserver(GameView viewObserver) {
+        this.viewObserver = viewObserver;
+    }
 
     public void gameLoad(String filename){
         try{
@@ -34,6 +41,9 @@ public class Game {
 
     public void setWon() {
         gameWon = true;
+        if(viewObserver != null) {
+            viewObserver.notifyWin();
+        }
     }
     public boolean getWon() { return gameWon; }
     public void addRoom(Room r) {

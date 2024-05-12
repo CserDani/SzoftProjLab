@@ -8,15 +8,15 @@ import java.util.Random;
  * A Szoba objektum felelős a szobák tulajdonságaiért és műveleteiért. Tehát ez az objektum implementálja például azokat a funkciókat, amelyek a szobák osztódását és egyesülését viszik végbe. A tulajdonságok közé például a kapacitás tartozik.
  */
 public class Room implements ActionListener {
-    private String name;
+    private final String name;
     private boolean isGassed;
     private boolean isCursed;
     private int capacity;
     private int profcount = 0;
-    private List<Door> neighbourDoors = new ArrayList<>();
-    private List<Person> persons = new ArrayList<>();
-    private List<Item> items = new ArrayList<>();
-    private Timer doorVanish = new Timer(20000, this);
+    private final List<Door> neighbourDoors = new ArrayList<>();
+    private final List<Person> persons = new ArrayList<>();
+    private final List<Item> items = new ArrayList<>();
+    private final Timer doorVanish = new Timer(20000, this);
     private boolean cleaned = false;
     private int afterCleanCount = 5;
     Random rand = new Random();

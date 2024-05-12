@@ -7,7 +7,7 @@ public class Door {
     private Room firstRoom;
     private Room secondRoom;
     private boolean vanished = false;
-    private boolean oneWay;
+    private final boolean oneWay;
 
     public void setVanish() { vanished = !vanished; }
     public boolean getVanish() { return vanished; }
@@ -16,11 +16,7 @@ public class Door {
         if(!oneWay) {
             return true;
         } else {
-            if(r == firstRoom) {
-                return true;
-            } else {
-                return false;
-            }
+            return r == firstRoom;
         }
     }
 

@@ -3,7 +3,7 @@
  * és azokért felelős. Ezen kívül másért nem felelős, csak a tulajdonságait reprezentálja.
  */
 public abstract class Item {
-    private String name;
+    private final String name;
 
     /**
      * Tárgy konstruktor: a megadott névvel létre hoz egy tárgyat

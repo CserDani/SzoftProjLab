@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -127,5 +128,10 @@ public class Professor extends Person implements ActionListener {
                 setNotConscious();
             }
         }
+    }
+
+    @Override
+    public Shape getView() {
+        return null;
     }
 }

@@ -13,7 +13,7 @@ public abstract class Passive extends Item {
      *
      * @param  name a tárgy megnevezése
      */
-    public Passive(String name, int durability) {
+    protected Passive(String name, int durability) {
         super(name);
         this.durability = durability;
     }

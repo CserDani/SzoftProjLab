@@ -44,20 +44,28 @@ public class Logarlec extends Item {
      * drop absztrakt függvény: a tárgyak tanuló általi eldobásáért felel
      * @param s a tanuló, aki eldobja a logarlécet
      */
-    public void drop(Student s) {}
+    public void drop(Student s) {
+        //If student picked it up the game is ended hence he can't drop it
+    }
     /**
      * drop absztrakt függvény: a tárgyak tanárok általi eldobásáért felel
      * @param p a tanár, aki eldobja a logarlécet
      */
-    public void drop(Professor p) {}
+    public void drop(Professor p) {
+        //Professor can't pick it up, so it can't drop it
+    }
     /**
      * use absztrakt függvény: a tárgyak hatásainak kiváltásáért felel
      * @param s a tanuló, akire a tárgy hat
      */
-    public void use(Student s) {}
+    public void use(Student s) {
+        //It can't be used
+    }
     /**
      * use absztrakt függvény: a tárgyak hatásainak kiváltásáért felel
      * @param p a tanár, akire a tárgy hat
      */
-    public void use(Professor p) {}
+    public void use(Professor p) {
+        //It can't be used
+    }
 }

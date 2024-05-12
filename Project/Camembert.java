@@ -14,6 +14,7 @@ public class Camembert extends Active {
      * use függvény: a tárgy használatáért felelős
      * @param s
      */
+    @Override
     public void use(Student s) {
         if(!s.getPosition().getIsGassed()) {
             s.getPosition().setGas();
@@ -26,6 +27,7 @@ public class Camembert extends Active {
         }
     }
 
+    @Override
     public void use(Professor p) {
         if(!p.getPosition().getIsGassed()) {
             p.getPosition().setGas();

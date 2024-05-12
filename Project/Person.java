@@ -1,4 +1,5 @@
 import javax.swing.Timer;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,15 +10,15 @@ import java.util.List;
  * Az alapvető tulajdonságok közé tartozik például a személy neve, raktára stb. Tehát azokat az információkat reprezentálja az objektum, amelyekkel minden szereplő kötelezően rendelkezik.
  */
 public abstract class Person implements ActionListener {
-    private String name;
-    private List<Item> inventory = new ArrayList<>();
-    private List<Passive> damageHelpItems = new ArrayList<>();
-    private List<Passive> gasHelpItems = new ArrayList<>();
+    private final String name;
+    private final List<Item> inventory = new ArrayList<>();
+    private final List<Passive> damageHelpItems = new ArrayList<>();
+    private final List<Passive> gasHelpItems = new ArrayList<>();
     private Room position;
     private boolean notConscious = false;
-    private Timer knockOutTimer = new Timer(1000, this);
+    private final Timer knockOutTimer = new Timer(1000, this);
     private int cooldown;
-    private Timer gasTimer = new Timer(1000, this);
+    private final Timer gasTimer = new Timer(1000, this);
 
     /**
      * Name getter
@@ -181,4 +182,6 @@ public abstract class Person implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {}
+
+    public abstract Shape getView();
 }

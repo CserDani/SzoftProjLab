@@ -1,5 +1,9 @@
+import java.awt.*;
+
 public class Cleaner extends Person {
-    public void boardCleanerConscious() {}
+    public void boardCleanerConscious() {
+        //Cleaner can't be made unconscious
+    }
 
     protected Cleaner(String name) {
         super(name);
@@ -22,5 +26,10 @@ public class Cleaner extends Person {
 
     public void getDamaged() {
         //Cleaner can't be damaged, can't die
+    }
+
+    @Override
+    public Shape getView() {
+        return null;
     }
 }

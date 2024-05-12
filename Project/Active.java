@@ -7,7 +7,6 @@
 public abstract class Active extends Item {
     /**
      * Aktív konstruktor: a megadott névvel létre hoz egy aktív tárgyat
-     * @param name
      */
     public Active(String name) {
         super(name);

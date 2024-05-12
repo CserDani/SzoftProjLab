@@ -14,10 +14,7 @@ public class AirFreshener extends Active {
     public void drop(Student s) {
         if(s.getPosition().getIsGassed()) {
             s.getPosition().setGas();
-            s.getInventory().remove(this);
-        } else {
-            s.getPosition().addItem(this);
-            s.getInventory().remove(this);
+            s.getPosition().removeItem(this);
         }
     }
 

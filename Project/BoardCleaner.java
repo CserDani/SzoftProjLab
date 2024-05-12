@@ -4,7 +4,10 @@ public class BoardCleaner extends Active {
     }
 
     @Override
-    public void pickedUpBy(Professor p) {}
+    public void pickedUpBy(Professor p) {
+        //Professor can't pick it up, it overrides default function in Active as Professor
+        //can pick up other items
+    }
 
     @Override
     public void use(Student s) {

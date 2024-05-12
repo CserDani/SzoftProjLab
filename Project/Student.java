@@ -1,4 +1,5 @@
 import javax.swing.Timer;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,9 +11,11 @@ public class Student extends Person implements ActionListener {
     private int health;
     private Transistor prevUsedTrans;
     private int immunityCounter = 0;
-    private Timer immunityTimer = new Timer(1000, this);
+    private final Timer immunityTimer = new Timer(1000, this);
 
-    public void boardCleanerConscious() {}
+    public void boardCleanerConscious() {
+        //Board cleaner can't stun a student, so this function's implementation is empty
+    }
 
     /**
      * Health getter
@@ -172,5 +175,10 @@ public class Student extends Person implements ActionListener {
                 }
             }
         }
+    }
+
+    @Override
+    public Shape getView() {
+        return new Rectangle(10,10, 20,20);
     }
 }
