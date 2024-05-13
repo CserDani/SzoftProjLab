@@ -17,6 +17,7 @@ public class Controller implements KeyListener {
         this.game.setViewObserver(view);
         this.view.setVisible(true);
         this.view.addClassAsKeyListener(this);
+        this.game.startTimers();
     }
     @Override
     public void keyTyped(KeyEvent e) { /* The Game only works when key is Pressed */ }
@@ -106,21 +107,15 @@ public class Controller implements KeyListener {
             }
 
             if(ch == 'r' || ch == 'R') {
-                List<JList<String>> menus = this.view.getMenus();
-                JList<String> actualMenu = menus.get(i);
-
                 if(playerOneNextMenu) {
-                    this.view.setDefaultMenu(actualMenu);
+                    this.view.setDefaultMenu(i);
                     playerOneNextMenu = !playerOneNextMenu;
                 }
             }
 
             if(ch == 'l' || ch == 'L') {
-                List<JList<String>> menus = this.view.getMenus();
-                JList<String> actualMenu = menus.get(i);
-
                 if(playerTwoNextMenu) {
-                    this.view.setDefaultMenu(actualMenu);
+                    this.view.setDefaultMenu(i);
                     playerTwoNextMenu = !playerTwoNextMenu;
                 }
             }
@@ -151,7 +146,7 @@ public class Controller implements KeyListener {
                     playerTwoNextMenu = !playerTwoNextMenu;
                 }
 
-                this.view.setMenu(value, currentStudent, actualMenu);
+                this.view.setMenu(value, currentStudent, i);
             }
         } else {
             int idx;
@@ -172,33 +167,21 @@ public class Controller implements KeyListener {
                         break;
                     case "DROP ITEM":
                         List<Item> itemsInInv2 = currentStudent.getInventory();
-                        currentStudent.dropItem(itemsInInv2.get(idx));
+                        game.drop(currentStudent, itemsInInv2.get(idx));
                         break;
                     default:
                         break;
                 }
 
-                this.view.setDefaultMenu(actualMenu);
+                this.view.setDefaultMenu(i);
 
                 if (i == 0) {
                     playerOneAction = null;
                     playerOneNextMenu = !playerOneNextMenu;
-                    if(playerTwoAction != null) {
-                        actualMenu = menus.get(1);
-                        List<Student> students = this.game.getStudents();
-                        Student otherStudent = students.get(1);
-                        this.view.setMenu(playerTwoAction, otherStudent, actualMenu);
-                    }
                 }
                 if (i == 1) {
                     playerTwoAction = null;
                     playerTwoNextMenu = !playerTwoNextMenu;
-                    if(playerOneAction != null) {
-                        actualMenu = menus.get(0);
-                        List<Student> students = this.game.getStudents();
-                        Student otherStudent = students.get(0);
-                        this.view.setMenu(playerOneAction, otherStudent, actualMenu);
-                    }
                 }
             }
         }

@@ -300,8 +300,10 @@ public class Prototype {
             while (r2 == null)
                 r2 = roomInput();
             if(r1 != r2) {
-                r1.mergeRooms(r2);
-                game.getMap().remove(r2);
+                boolean mergeResult = r1.mergeRooms(r2);
+                if(mergeResult) {
+                    game.getMap().remove(r2);
+                }
             }
         } else {
             System.out.println("Nem lehet 2 szobat mergeolni, nincs 2 ures!");

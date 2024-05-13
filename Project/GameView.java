@@ -10,6 +10,7 @@ import java.util.List;
 public class GameView extends JFrame implements ActionListener {
     private final List<String> menuItems = new ArrayList<>();
     private final List<JList<String>> menus = new ArrayList<>();
+    private List<String> actionsForPlayers = new ArrayList<>();
     private final Timer gameTimer = new Timer(1000,this);
     private int gameTime = 600;
     private JTextField gameTimeField;
@@ -41,6 +42,7 @@ public class GameView extends JFrame implements ActionListener {
 
         int studentsSize = game.getStudents().size();
         for(int i = 0; i < studentsSize; i++) {
+            actionsForPlayers.add(null);
             JPanel jp = new JPanel(new GridBagLayout());
 
             DefaultListModel<String> model = new DefaultListModel<>();
@@ -136,21 +138,24 @@ public class GameView extends JFrame implements ActionListener {
         this.setEnabled(false);
     }
 
-    public void setDefaultMenu(JList<String> menu) {
-        for(JList<String> m : menus) {
-            if(menu == m) {
-                DefaultListModel<String> model = new DefaultListModel<>();
-                for (String item : menuItems) {
-                    model.addElement(item);
-                }
-                m.setModel(model);
-                m.setSelectedIndex(0);
-                break;
-            }
+    public void setDefaultMenu(int i) {
+        JList<String> menu = menus.get(i);
+        actionsForPlayers.set(i, null);
+
+        DefaultListModel<String> model = new DefaultListModel<>();
+
+        for (String item : menuItems) {
+            model.addElement(item);
         }
+
+        menu.setModel(model);
+        menu.setSelectedIndex(0);
     }
 
-    public void setMenu(String action, Student currentStudent, JList<String> menu) {
+    public void setMenu(String action, Student currentStudent, int i) {
+        JList<String> menu = menus.get(i);
+        actionsForPlayers.set(i, action);
+
         Room currentRoom = currentStudent.getPosition();
         List<Item> itemsInPlayerInventory = currentStudent.getInventory();
         DefaultListModel<String> model = new DefaultListModel<>();
@@ -177,11 +182,16 @@ public class GameView extends JFrame implements ActionListener {
                 break;
         }
 
-        for(JList<String> m : menus) {
-            if(menu == m) {
-                m.setModel(model);
-                m.setSelectedIndex(0);
-                break;
+        menu.setModel(model);
+        menu.setSelectedIndex(0);
+    }
+
+    public void updateUI(List<Student> students) {
+        for(int i = 0; i < students.size(); i++) {
+            Student currentStudent = students.get(i);
+            String action = actionsForPlayers.get(i);
+            if(action != null) {
+                this.setMenu(action, currentStudent, i);
             }
         }
     }

@@ -226,7 +226,7 @@ public class Room implements ActionListener {
      * A szobák egyesülését valósítja meg
      * @param r A szoba, amellyel egyesíteni szeretnénk
      */
-    public void mergeRooms(Room r) {
+    public boolean mergeRooms(Room r) {
         if(this.getPersons().isEmpty() && r.getPersons().isEmpty() && this.isNeighbour(r)) {
             if(r.isGassed)
                 this.isGassed = true;
@@ -249,6 +249,10 @@ public class Room implements ActionListener {
             for(int i = 0; i<r.getItems().size(); i++) {
                 this.addItem((r.getItems().get(i)));
             }
+
+            return true;
+        } else {
+            return false;
         }
     }
 

@@ -353,8 +353,10 @@ public class Skeleton {
             }
         }
 
-        map.get(0).mergeRooms(map.get(1));
-        map.remove(1);
+        boolean mergeResult = map.get(0).mergeRooms(map.get(1));
+        if(mergeResult) {
+            map.remove(1);
+        }
         System.out.println("Szobak az osszeolvasztas utan: (a szobat szukseges meg kivenni a palyabol, ezt megtettuk)");
         for(Room r : map) {
             if(r != null) {
