@@ -187,6 +187,11 @@ public class GameView extends JFrame implements ActionListener {
     }
 
     public void updateUI(List<Student> students) {
+        if(students.size() != menus.size() && students.size() != actionsForPlayers.size()) {
+            System.out.println("Nagy baj van!");
+            return;
+        }
+
         for(int i = 0; i < students.size(); i++) {
             Student currentStudent = students.get(i);
             String action = actionsForPlayers.get(i);

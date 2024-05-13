@@ -51,24 +51,10 @@ public class Game implements ActionListener {
         }
     }
     public boolean getWon() { return gameWon; }
-    public void addRoom(Room r) {
-        map.add(r);
-    }
-    public void addPlayer(Student s) {
-        students.add(s);
-    }
-    public void addProfessor(Professor p) {
-        professors.add(p);
-    }
-    public void addCleaner(Cleaner c) {
-        cleaners.add(c);
-    }
 
     public void move(Person p, Door d) {
         p.move(d);
-    }
-    public void teleport(Person p, Room r) {
-        p.teleport(r);
+        viewObserver.updateUI(students);
     }
     public void pickUp(Person p, Item i) {
         p.pickUp(i);
