@@ -69,9 +69,10 @@ public class Game implements ActionListener {
     }
     public void divideRoom(Room r1) {
         Room r2 = r1.roomDivision();
-        if(r2 != null)
+        if(r2 != null) {
             map.add(r2);
-        viewObserver.updateUI(students);
+            viewObserver.updateUI(students);
+        }
     }
     public void mergeRooms(Room r1, Room r2) {
         boolean mergeResult = r1.mergeRooms(r2);
