@@ -30,14 +30,13 @@ public class Game implements ActionListener {
 
     public void setGameObservers() {
         for(Student student : students) {
-            student.setConsObserver(this);
+            student.setGameObserver(this);
         }
     }
 
     public void gameLoad(String filename){
         try{
             new LoadGameState(filename, this);
-            setGameObservers();
         } catch (IOException e){
             System.out.println("Sikertelen beolvasas: " + e.getMessage());
         }
@@ -90,7 +89,7 @@ public class Game implements ActionListener {
         }
     }
 
-    public void notifyConsciousness() {
+    public void notifyGame() {
         viewObserver.updateUI(students);
     }
 

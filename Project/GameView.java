@@ -34,8 +34,6 @@ public class GameView extends JFrame implements ActionListener {
         JPanel northEp = new JPanel(new FlowLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(0,5,0,5);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
 
         UIManager.put("Label.disabledForeground", Color.BLACK);
         UIManager.put("TextField.inactiveForeground", Color.BLACK);
@@ -48,10 +46,13 @@ public class GameView extends JFrame implements ActionListener {
         playersDataItems.add("Position: ");
         playersDataItems.add("Inventory size: ");
         playersDataItems.add("Consciousness: ");
+        playersDataItems.add("Immunity time: ");
 
         List<Student> students = game.getStudents();
         int studentsSize = students.size();
         for(int i = 0; i < studentsSize; i++) {
+            gbc.gridx = 0;
+            gbc.gridy = 0;
             actionsForPlayers.add(null);
             JPanel jp = new JPanel(new GridBagLayout());
 
@@ -138,6 +139,11 @@ public class GameView extends JFrame implements ActionListener {
                     String conscious = notConscious ? "Not conscious" : "Conscious";
                     String conString = item + conscious;
                     modelForPlayData.addElement(conString);
+                    break;
+                case "Immunity time: ":
+                    int immunityTime = student.getImmunityCounter();
+                    String immunity = item + immunityTime;
+                    modelForPlayData.addElement(immunity);
                     break;
                 default:
                     break;
