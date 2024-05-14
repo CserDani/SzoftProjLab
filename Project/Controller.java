@@ -18,6 +18,7 @@ public class Controller implements KeyListener {
         this.view.addClassAsKeyListener(this);
         this.game.setViewObserver(view);
         this.game.setGameObservers();
+        this.game.setVanishObservers();
         this.game.startTimers();
     }
     @Override

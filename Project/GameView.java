@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GameView extends JFrame implements ActionListener {
     private final List<String> menuItems = new ArrayList<>();
@@ -223,7 +224,10 @@ public class GameView extends JFrame implements ActionListener {
                 List<Door> doorsInCurrentRoom = currentRoom.getNeighbourDoors();
                 for (Door door : doorsInCurrentRoom) {
                     Room nextRoom = door.getNextRoom(currentRoom);
-                    model.addElement(nextRoom.getName());
+                    String canMove = door.canMove(currentRoom) ? " - Can move" : " - Can't move";
+                    String doorVanish = door.getVanish() ? ", Vanished" : "";
+                    String element = nextRoom.getName() + canMove + doorVanish;
+                    model.addElement(element);
                 }
                 break;
             case "USE ITEM", "DROP ITEM":
@@ -277,5 +281,19 @@ public class GameView extends JFrame implements ActionListener {
 
         updateMenu(students);
         updateData(students);
+    }
+
+    public void notifyVanishInMenu(Student student, int i) {
+        if(i > menus.size()) {
+            return;
+        }
+
+        String action = actionsForPlayers.get(i);
+        if(action.equals("MOVE")) {
+            JList<String> actualMenu = menus.get(i);
+            int selectedIdx = actualMenu.getSelectedIndex();
+            this.setMenu(action, student, i);
+            actualMenu.setSelectedIndex(selectedIdx);
+        }
     }
 }

@@ -19,7 +19,12 @@ public class Room implements ActionListener {
     private final Timer doorVanish = new Timer(20000, this);
     private boolean cleaned = false;
     private int afterCleanCount = 5;
-    Random rand = new Random();
+    private Random rand = new Random();
+    private Game gameObserver = null;
+
+    public void setGameObserver(Game game) {
+        this.gameObserver = game;
+    }
 
     /**
      * Name getter
@@ -351,11 +356,18 @@ public class Room implements ActionListener {
     public void incProfCount() { profcount++; }
     public void decrProfCount() { profcount--; }
 
+    public void notifyGame() {
+        if(gameObserver != null) {
+            this.gameObserver.notifyVanish(this);
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == doorVanish) {
             for(Door d : neighbourDoors) {
                 d.setVanish();
+                notifyGame();
             }
         }
     }
