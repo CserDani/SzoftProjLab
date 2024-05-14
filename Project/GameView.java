@@ -235,8 +235,14 @@ public class GameView extends JFrame implements ActionListener {
                 break;
         }
 
-        menu.setModel(model);
-        menu.setSelectedIndex(0);
+        if(!model.isEmpty()) {
+            menu.setModel(model);
+            menu.setSelectedIndex(0);
+        } else {
+            model.addElement("There is no option for this action!");
+            menu.setModel(model);
+        }
+
     }
 
     private void updateMenu(List<Student> students) {

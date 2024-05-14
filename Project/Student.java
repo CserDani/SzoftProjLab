@@ -164,14 +164,18 @@ public class Student extends Person implements ActionListener {
         }
 
         if(e.getSource() == getGasTimer()) {
-            Passive gasItem = getGasHelpItems().get(0);
-            gasItem.durabilityDecr();
-            if(gasItem.getDurability() == 0) {
-                getGasHelpItems().remove(gasItem);
-                getInventory().remove(gasItem);
+            if(getPosition().getIsGassed()) {
+                Passive gasItem = getGasHelpItems().get(0);
+                gasItem.durabilityDecr();
+                if (gasItem.getDurability() == 0) {
+                    getGasHelpItems().remove(gasItem);
+                    getInventory().remove(gasItem);
+                    getGasTimer().stop();
+                    setNotConscious();
+                    notifyConsObserver();
+                }
+            } else {
                 getGasTimer().stop();
-                setNotConscious();
-                notifyConsObserver();
             }
         }
 
