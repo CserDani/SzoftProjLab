@@ -2,7 +2,6 @@ import java.util.Random;
 
 public class HolyPint extends Active {
     private final int time;
-    private boolean wasUsed = false;
     private final Random r = new Random();
     public HolyPint(String name) {
         super(name);
@@ -17,7 +16,7 @@ public class HolyPint extends Active {
 
     @Override
     public void use(Student s) {
-        if(!wasUsed && s.getImmunityCounter() == 0) {
+        if(s.getImmunityCounter() == 0) {
             s.setImmunityCounter(time);
             s.startImmunityTimer();
             if(s.getInventorySize() > 1) {
@@ -25,19 +24,17 @@ public class HolyPint extends Active {
                 do {
                     idx = r.nextInt(s.getInventorySize());
                 } while (s.getInventory().get(idx) == this);
-                s.dropItem(s.getInventory().get(idx));
+                Item item = s.getInventory().get(idx);
+                s.getInventory().remove(item);
+                s.getPosition().addItem(item);
             }
 
-            wasUsed = true;
+            s.getInventory().remove(this);
         }
     }
 
     @Override
     public void drop(Student s) {
-        if(s.getImmunityCounter() > 0 && wasUsed) {
-            s.setImmunityCounter(0);
-            s.stopImmunityTimer();
-        }
-        s.getPosition().removeItem(this);
+        //Nothing happens if it's dropped
     }
 }
