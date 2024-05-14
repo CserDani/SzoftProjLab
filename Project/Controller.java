@@ -159,7 +159,7 @@ public class Controller implements KeyListener {
                         break;
                     case "USE ITEM":
                         List<Item> itemsInInv = currentStudent.getInventory();
-                        currentStudent.useItem(itemsInInv.get(idx));
+                        game.use(currentStudent, itemsInInv.get(idx));
                         break;
                     case "PICK UP ITEM":
                         List<Item> itemsInRoom = currentRoom.getItems();

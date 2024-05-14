@@ -66,6 +66,7 @@ public class Game implements ActionListener {
     }
     public void use(Person p, Item i) {
         p.useItem(i);
+        viewObserver.updateUI(students);
     }
     public void divideRoom(Room r1) {
         Room r2 = r1.roomDivision();

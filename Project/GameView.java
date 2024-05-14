@@ -10,7 +10,9 @@ import java.util.List;
 public class GameView extends JFrame implements ActionListener {
     private final List<String> menuItems = new ArrayList<>();
     private final List<JList<String>> menus = new ArrayList<>();
-    private List<String> actionsForPlayers = new ArrayList<>();
+    private final List<String> playersDataItems = new ArrayList<>();
+    private final List<JList<String>> playersData = new ArrayList<>();
+    private final List<String> actionsForPlayers = new ArrayList<>();
     private final Timer gameTimer = new Timer(1000,this);
     private int gameTime = 600;
     private JTextField gameTimeField;
@@ -22,7 +24,9 @@ public class GameView extends JFrame implements ActionListener {
     }
 
     public void initWindow(Game game) {
+        this.setTitle("Rektori Rejtvenyek");
         this.setLayout(new BorderLayout());
+        this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         JPanel north = new JPanel(new BorderLayout());
@@ -40,16 +44,22 @@ public class GameView extends JFrame implements ActionListener {
         menuItems.add("PICK UP ITEM");
         menuItems.add("DROP ITEM");
 
-        int studentsSize = game.getStudents().size();
+        playersDataItems.add("Health: ");
+        playersDataItems.add("Position: ");
+        playersDataItems.add("Inventory size: ");
+        playersDataItems.add("Consciousness: ");
+
+        List<Student> students = game.getStudents();
+        int studentsSize = students.size();
         for(int i = 0; i < studentsSize; i++) {
             actionsForPlayers.add(null);
             JPanel jp = new JPanel(new GridBagLayout());
 
-            DefaultListModel<String> model = new DefaultListModel<>();
+            DefaultListModel<String> modelForMenu = new DefaultListModel<>();
             for(String item : menuItems) {
-                model.addElement(item);
+                modelForMenu.addElement(item);
             }
-            JList<String> jlist = new JList<>(model);
+            JList<String> jlist = new JList<>(modelForMenu);
             jlist.setLayoutOrientation(JList.VERTICAL);
             jlist.setSelectedIndex(0);
             jlist.setEnabled(false);
@@ -58,9 +68,21 @@ public class GameView extends JFrame implements ActionListener {
             menus.add(jlist);
             jp.add(jlist, gbc);
 
+            gbc.gridx++;
+
+            Student currentStudent = students.get(i);
+            JList<String> jListForData = new JList<>();
+            jListForData.setModel(buildDataModelForStudent(currentStudent));
+            jListForData.setLayoutOrientation(JList.VERTICAL);
+            jListForData.setEnabled(false);
+
+            playersData.add(jListForData);
+            jp.add(jListForData, gbc);
+
             if(i < studentsSize - 1) {
                 jp.add(Box.createHorizontalStrut(200));
             }
+
             northWp.add(jp);
             gbc.gridx++;
         }
@@ -92,6 +114,37 @@ public class GameView extends JFrame implements ActionListener {
         this.add(center, BorderLayout.CENTER);
         this.pack();
         gameTimer.start();
+    }
+
+    private DefaultListModel<String> buildDataModelForStudent(Student student) {
+        DefaultListModel<String> modelForPlayData = new DefaultListModel<>();
+        for(int i = 0; i < playersDataItems.size(); i++) {
+            String item = playersDataItems.get(i);
+            switch(item) {
+                case "Health: ":
+                    String healthString = item + student.getHealth();
+                    modelForPlayData.addElement(healthString);
+                    break;
+                case "Position: ":
+                    String posString = item + student.getPosition().getName();
+                    modelForPlayData.addElement(posString);
+                    break;
+                case "Inventory size: ":
+                    String invString = item + student.getInventory().size();
+                    modelForPlayData.addElement(invString);
+                    break;
+                case "Consciousness: ":
+                    boolean notConscious = student.getNotConscious();
+                    String conscious = notConscious ? "Not conscious" : "Conscious";
+                    String conString = item + conscious;
+                    modelForPlayData.addElement(conString);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return modelForPlayData;
     }
 
     public void addClassAsKeyListener(KeyListener kl) {
@@ -198,6 +251,9 @@ public class GameView extends JFrame implements ActionListener {
             if(action != null) {
                 this.setMenu(action, currentStudent, i);
             }
+
+            JList<String> dataList = playersData.get(i);
+            dataList.setModel(buildDataModelForStudent(currentStudent));
         }
     }
 }
