@@ -214,7 +214,13 @@ public class GameView extends JFrame implements ActionListener {
 
     public void setMenu(String action, Student currentStudent, int i) {
         JList<String> menu = menus.get(i);
-        actionsForPlayers.set(i, action);
+        int idx = 0;
+        if(action.equals(actionsForPlayers.get(i))) {
+            idx = menu.getSelectedIndex();
+        } else {
+            actionsForPlayers.set(i, action);
+
+        }
 
         Room currentRoom = currentStudent.getPosition();
         List<Item> itemsInPlayerInventory = currentStudent.getInventory();
@@ -247,9 +253,9 @@ public class GameView extends JFrame implements ActionListener {
 
         if(!model.isEmpty()) {
             menu.setModel(model);
-            menu.setSelectedIndex(0);
+            menu.setSelectedIndex(idx);
         } else {
-            model.addElement("There is no option for this action!");
+            model.addElement("No option!");
             menu.setModel(model);
         }
 
@@ -281,19 +287,5 @@ public class GameView extends JFrame implements ActionListener {
 
         updateMenu(students);
         updateData(students);
-    }
-
-    public void notifyVanishInMenu(Student student, int i) {
-        if(i > menus.size()) {
-            return;
-        }
-
-        String action = actionsForPlayers.get(i);
-        if(action.equals("MOVE")) {
-            JList<String> actualMenu = menus.get(i);
-            int selectedIdx = actualMenu.getSelectedIndex();
-            this.setMenu(action, student, i);
-            actualMenu.setSelectedIndex(selectedIdx);
-        }
     }
 }

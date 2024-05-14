@@ -97,19 +97,7 @@ public class Game implements ActionListener {
 
     public void notifyGameData() {
         if(viewObserver != null) {
-            viewObserver.updateData(students);
-        }
-    }
-
-    public void notifyVanish(Room room) {
-        if(viewObserver != null) {
-            for(int i = 0; i < students.size(); i++) {
-                Student currentStudent = students.get(i);
-                Room currentPos = currentStudent.getPosition();
-                if(currentPos == room || currentPos.isNeighbour(room)) {
-                    this.viewObserver.notifyVanishInMenu(currentStudent, i);
-                }
-            }
+            viewObserver.updateUI(students);
         }
     }
 

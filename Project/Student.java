@@ -2,6 +2,7 @@ import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 /**
  * A Hallgató objektum igazából a játékost magát képviseli, és így a játékos tulajdonságait és a játékos működtetését szolgáló funkciókat implementálja.
@@ -138,6 +139,20 @@ public class Student extends Person implements ActionListener {
                     getInventory().remove(passive);
                     getDamageHelpItems().remove(passive);
                 }
+            }
+        }
+    }
+
+    public void removeItem(Item item) {
+        if(getInventory().contains(item)) {
+            boolean inGasHelp = getGasHelpItems().removeIf(p -> p == item);
+            getDamageHelpItems().removeIf(p -> p == item);
+            getInventory().remove(item);
+            getPosition().addItem(item);
+
+            if(inGasHelp && getPosition().getIsGassed()) {
+                getGasTimer().stop();
+                setNotConscious();
             }
         }
     }

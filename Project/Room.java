@@ -358,7 +358,7 @@ public class Room implements ActionListener {
 
     public void notifyGame() {
         if(gameObserver != null) {
-            this.gameObserver.notifyVanish(this);
+            this.gameObserver.notifyGameData();
         }
     }
 
