@@ -89,8 +89,10 @@ public class Game implements ActionListener {
         }
     }
 
-    public void notifyGame() {
-        viewObserver.updateUI(students);
+    public void notifyGameData() {
+        if(viewObserver != null) {
+            viewObserver.updateData(students);
+        }
     }
 
     public void startTimers() {

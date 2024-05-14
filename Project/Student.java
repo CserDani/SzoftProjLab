@@ -12,7 +12,7 @@ public class Student extends Person implements ActionListener {
     private Transistor prevUsedTrans;
     private int immunityCounter = 0;
     private final Timer immunityTimer = new Timer(1000, this);
-    private Game gameObserver;
+    private Game gameObserver = null;
 
     public void boardCleanerConscious() {
         //Board cleaner can't stun a student, so this function's implementation is empty
@@ -143,7 +143,9 @@ public class Student extends Person implements ActionListener {
     }
 
     public void notifyGameObserver() {
-        this.gameObserver.notifyGame();
+        if(gameObserver != null) {
+            this.gameObserver.notifyGameData();
+        }
     }
 
     public void setGameObserver(Game game) { this.gameObserver = game; }
