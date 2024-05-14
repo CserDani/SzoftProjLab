@@ -16,21 +16,19 @@ public class HolyPint extends Active {
 
     @Override
     public void use(Student s) {
-        if(s.getImmunityCounter() == 0) {
-            s.setImmunityCounter(time);
-            s.startImmunityTimer();
-            if(s.getInventorySize() > 1) {
-                int idx;
-                do {
-                    idx = r.nextInt(s.getInventorySize());
-                } while (s.getInventory().get(idx) == this);
-                Item item = s.getInventory().get(idx);
-                s.getInventory().remove(item);
-                s.getPosition().addItem(item);
-            }
-
-            s.getInventory().remove(this);
+        s.addImmunityCounter(time);
+        s.startImmunityTimer();
+        if(s.getInventorySize() > 1) {
+            int idx;
+            do {
+                idx = r.nextInt(s.getInventorySize());
+            } while (s.getInventory().get(idx) == this);
+            Item item = s.getInventory().get(idx);
+            s.getInventory().remove(item);
+            s.getPosition().addItem(item);
         }
+
+        s.getInventory().remove(this);
     }
 
     @Override

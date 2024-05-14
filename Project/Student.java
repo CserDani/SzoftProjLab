@@ -41,8 +41,8 @@ public class Student extends Person implements ActionListener {
      * Az előzőleg használt tranzisztort törli
      */
     public void setUsedTransNull() { this.prevUsedTrans = null; }
-    public void setImmunityCounter(int count) {
-        this.immunityCounter = count;
+    public void addImmunityCounter(int count) {
+        this.immunityCounter += count;
     }
     public int getImmunityCounter() { return immunityCounter; }
     public void startImmunityTimer() {
