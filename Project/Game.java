@@ -28,9 +28,16 @@ public class Game implements ActionListener {
         this.viewObserver = viewObserver;
     }
 
+    public void setGameObservers() {
+        for(Student student : students) {
+            student.setConsObserver(this);
+        }
+    }
+
     public void gameLoad(String filename){
         try{
             new LoadGameState(filename, this);
+            setGameObservers();
         } catch (IOException e){
             System.out.println("Sikertelen beolvasas: " + e.getMessage());
         }
@@ -81,6 +88,10 @@ public class Game implements ActionListener {
             map.remove(r2);
             viewObserver.updateUI(students);
         }
+    }
+
+    public void notifyConsciousness() {
+        viewObserver.updateUI(students);
     }
 
     public void startTimers() {

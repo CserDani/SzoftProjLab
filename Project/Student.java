@@ -12,6 +12,7 @@ public class Student extends Person implements ActionListener {
     private Transistor prevUsedTrans;
     private int immunityCounter = 0;
     private final Timer immunityTimer = new Timer(1000, this);
+    private Game consObserver;
 
     public void boardCleanerConscious() {
         //Board cleaner can't stun a student, so this function's implementation is empty
@@ -141,6 +142,12 @@ public class Student extends Person implements ActionListener {
         }
     }
 
+    public void notifyConsObserver() {
+        this.consObserver.notifyConsciousness();
+    }
+
+    public void setConsObserver(Game game) { this.consObserver = game; }
+
     /**
      * actionPerformed függvény
      * A Visszaszámláló vezérléséhez szükséges eseménykezelő
@@ -152,6 +159,7 @@ public class Student extends Person implements ActionListener {
             if (getCooldown() == 0) {
                 stopTimer();
                 setNotConsciousFalse();
+                notifyConsObserver();
             }
         }
 
@@ -163,6 +171,7 @@ public class Student extends Person implements ActionListener {
                 getInventory().remove(gasItem);
                 getGasTimer().stop();
                 setNotConscious();
+                notifyConsObserver();
             }
         }
 

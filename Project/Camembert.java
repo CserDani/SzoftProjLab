@@ -19,11 +19,11 @@ public class Camembert extends Active {
         if(!s.getPosition().getIsGassed()) {
             s.getPosition().setGas();
 
+            s.getInventory().remove(this);
+
             for (Person p : s.getPosition().getPersons()) {
                 p.setNotConscious();
             }
-
-            s.getInventory().remove(this);
         }
     }
 

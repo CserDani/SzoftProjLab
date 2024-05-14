@@ -239,21 +239,31 @@ public class GameView extends JFrame implements ActionListener {
         menu.setSelectedIndex(0);
     }
 
+    private void updateMenu(List<Student> students) {
+        for(int i = 0; i < students.size(); i++) {
+            Student student = students.get(i);
+            String action = actionsForPlayers.get(i);
+            if (action != null) {
+                this.setMenu(action, student, i);
+            }
+        }
+    }
+
+    public void updateData(List<Student> students) {
+        for(int i = 0; i < students.size(); i++) {
+            Student student = students.get(i);
+            JList<String> dataList = playersData.get(i);
+            dataList.setModel(buildDataModelForStudent(student));
+        }
+    }
+
     public void updateUI(List<Student> students) {
         if(students.size() != menus.size() && students.size() != actionsForPlayers.size()) {
             System.out.println("Nagy baj van!");
             return;
         }
 
-        for(int i = 0; i < students.size(); i++) {
-            Student currentStudent = students.get(i);
-            String action = actionsForPlayers.get(i);
-            if(action != null) {
-                this.setMenu(action, currentStudent, i);
-            }
-
-            JList<String> dataList = playersData.get(i);
-            dataList.setModel(buildDataModelForStudent(currentStudent));
-        }
+        updateMenu(students);
+        updateData(students);
     }
 }
