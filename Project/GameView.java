@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class GameView extends JFrame implements ActionListener {
     private final List<String> menuItems = new ArrayList<>();
@@ -120,9 +119,8 @@ public class GameView extends JFrame implements ActionListener {
 
     private DefaultListModel<String> buildDataModelForStudent(Student student) {
         DefaultListModel<String> modelForPlayData = new DefaultListModel<>();
-        for(int i = 0; i < playersDataItems.size(); i++) {
-            String item = playersDataItems.get(i);
-            switch(item) {
+        for (String item : playersDataItems) {
+            switch (item) {
                 case "Health: ":
                     String healthString = item + student.getHealth();
                     modelForPlayData.addElement(healthString);
@@ -132,7 +130,9 @@ public class GameView extends JFrame implements ActionListener {
                     modelForPlayData.addElement(posString);
                     break;
                 case "Inventory size: ":
-                    String invString = item + student.getInventory().size();
+                    int inventorySize = student.getInventorySize();
+                    String isFull = inventorySize == 5 ? " - Full" : "";
+                    String invString = item + student.getInventory().size() + isFull;
                     modelForPlayData.addElement(invString);
                     break;
                 case "Consciousness: ":

@@ -19,7 +19,7 @@ public class Room implements ActionListener {
     private final Timer doorVanish = new Timer(20000, this);
     private boolean cleaned = false;
     private int afterCleanCount = 5;
-    private Random rand = new Random();
+    private final Random rand = new Random();
     private Game gameObserver = null;
 
     public void setGameObserver(Game game) {

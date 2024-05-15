@@ -8,7 +8,7 @@ public abstract class Active extends Item {
     /**
      * Aktív konstruktor: a megadott névvel létre hoz egy aktív tárgyat
      */
-    public Active(String name) {
+    protected Active(String name) {
         super(name);
     }
 

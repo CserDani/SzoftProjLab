@@ -11,6 +11,7 @@ public class AirFreshener extends Active {
      * drop függvény: szól s hallgatónak, hogy dobja el ezt a tárgyat
      * @param s
      */
+    @Override
     public void drop(Student s) {
         if(s.getPosition().getIsGassed()) {
             s.getPosition().setGas();
@@ -22,6 +23,7 @@ public class AirFreshener extends Active {
      * drop függvény: szól p tanárnak, hogy dobja el ezt a tárgyat
      * @param p
      */
+    @Override
     public void drop(Professor p) {
         if(p.getPosition().getIsGassed()) {
             p.getPosition().setGas();

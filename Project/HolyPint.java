@@ -3,7 +3,7 @@ import java.util.Random;
 public class HolyPint extends Active {
     private final int time;
     private final Random r = new Random();
-    private boolean wasUsed = false;
+
     public HolyPint(String name) {
         super(name);
         this.time = 10;
@@ -21,10 +21,7 @@ public class HolyPint extends Active {
         s.startImmunityTimer();
         s.getInventory().remove(this);
         if(s.getInventorySize() > 0) {
-            int idx;
-            do {
-                idx = r.nextInt(s.getInventorySize());
-            } while (s.getInventory().get(idx) == this);
+            int idx = r.nextInt(s.getInventorySize());
             Item item = s.getInventory().get(idx);
             s.removeItem(item);
         }
