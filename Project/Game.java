@@ -14,7 +14,10 @@ public class Game implements ActionListener {
     private int mergeCounter = 60;
     private boolean gameWon = false;
     private GameView viewObserver = null;
+    private int gameTime = 600;
+    private final Timer gameTimer = new Timer(1000,this);
 
+    public int getGameTime() { return gameTime; }
     public List<Student> getStudents() { return students; }
     public List<Professor> getProfessors() { return professors; }
     public List<Cleaner> getCleaners() { return cleaners; }
@@ -102,6 +105,7 @@ public class Game implements ActionListener {
     }
 
     public void startTimers() {
+        gameTimer.start();
         mergeTimer.start();
     }
 
@@ -111,6 +115,18 @@ public class Game implements ActionListener {
             mergeCounter--;
             if(mergeCounter == 0) {
                 mergeCounter = 60;
+            }
+        }
+
+        if(e.getSource() == gameTimer) {
+            gameTime--;
+
+            if(gameTime == 0) {
+                gameTimer.stop();
+            }
+
+            if(viewObserver != null) {
+                viewObserver.notifyGameTime(gameTime);
             }
         }
     }

@@ -102,6 +102,17 @@ public class Professor extends Person implements ActionListener {
         //Professor can't be damaged (It can't die).
     }
 
+    @Override
+    public void setNotConscious() {
+        if(getGasHelpItems().isEmpty()) {
+            setNotConsciousAndTimer();
+            getPosition().decrProfCount();
+            getInventory().clear();
+        } else {
+            getGasTimer().restart();
+        }
+    }
+
     /**
      * actionPerformed függvény
      * A Visszaszámláló vezérléséhez szükséges eseménykezelő

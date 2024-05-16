@@ -15,7 +15,7 @@ public class Cleaner extends Person {
         //Can't pick up items, so can't drop it
     }
     public void useItem(Item t) {
-        //Can't pick up item, so can' use it
+        //Can't pick up item, so can't use it
     }
     public void move(Door d) {
         d.movedBy(this);

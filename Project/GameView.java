@@ -7,14 +7,12 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameView extends JFrame implements ActionListener {
+public class GameView extends JFrame {
     private final List<String> menuItems = new ArrayList<>();
     private final List<JList<String>> menus = new ArrayList<>();
     private final List<String> playersDataItems = new ArrayList<>();
     private final List<JList<String>> playersData = new ArrayList<>();
     private final List<String> actionsForPlayers = new ArrayList<>();
-    private final Timer gameTimer = new Timer(1000,this);
-    private int gameTime = 600;
     private JTextField gameTimeField;
     public List<JList<String>> getMenus() {
         return menus;
@@ -91,7 +89,7 @@ public class GameView extends JFrame implements ActionListener {
         northWp.add(Box.createHorizontalStrut(100));
 
         gameTimeField = new JTextField();
-        setGameTimeText();
+        setGameTimeText(game.getGameTime());
         gameTimeField.setBorder(new LineBorder(Color.BLACK));
         gameTimeField.setEnabled(false);
         gameTimeField.setPreferredSize(new Dimension(70, 20));
@@ -114,7 +112,6 @@ public class GameView extends JFrame implements ActionListener {
         this.add(north, BorderLayout.NORTH);
         this.add(center, BorderLayout.CENTER);
         this.pack();
-        gameTimer.start();
     }
 
     private DefaultListModel<String> buildDataModelForStudent(Student student) {
@@ -162,15 +159,7 @@ public class GameView extends JFrame implements ActionListener {
         this.pack();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == gameTimer) {
-            gameTime--;
-            setGameTimeText();
-        }
-    }
-
-    private void setGameTimeText() {
+    private void setGameTimeText(int gameTime) {
         int minute = gameTime / 60;
         int second = gameTime % 60;
         String minuteString;
@@ -188,13 +177,15 @@ public class GameView extends JFrame implements ActionListener {
         gameTimeField.setText(minuteString + ":" + secondString);
 
         if(minute == 0 && second == 0) {
-            gameTimer.stop();
             this.setEnabled(false);
         }
     }
 
+    public void notifyGameTime(int gameTime) {
+        setGameTimeText(gameTime);
+    }
+
     public void notifyWin() {
-        gameTimer.stop();
         this.setEnabled(false);
     }
 
@@ -210,6 +201,7 @@ public class GameView extends JFrame implements ActionListener {
 
         menu.setModel(model);
         menu.setSelectedIndex(0);
+        packChanges();
     }
 
     public void setMenu(String action, Student currentStudent, int i) {
@@ -258,7 +250,6 @@ public class GameView extends JFrame implements ActionListener {
             model.addElement("No option!");
             menu.setModel(model);
         }
-
     }
 
     private void updateMenu(List<Student> students) {
@@ -287,5 +278,6 @@ public class GameView extends JFrame implements ActionListener {
 
         updateMenu(students);
         updateData(students);
+        packChanges();
     }
 }

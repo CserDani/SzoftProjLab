@@ -190,31 +190,32 @@ public class Room implements ActionListener {
             c.getPosition().persons.remove(c);
             c.setPosition(this);
 
-            if(this.isGassed) {
-                List<Person> personList = new ArrayList<>(persons);
-                for (Person p : personList) {
-                    if (!p.getNotConscious()) {
-                        Door d = null;
+            List<Person> personList = new ArrayList<>(persons);
+            for (Person p : personList) {
+                if (!p.getNotConscious()) {
+                    Door d = null;
 
-                        for (Door door : neighbourDoors) {
-                            if (door.canMove(this)) {
-                                if (door.getNextRoom(this).isNotFull()) {
-                                    d = door;
-                                    break;
-                                }
+                    for (Door door : neighbourDoors) {
+                        if (door.canMove(this)) {
+                            if (door.getNextRoom(this).isNotFull()) {
+                                d = door;
+                                break;
                             }
                         }
+                    }
 
-                        if (d != null) {
-                            p.move(d);
-                        }
+                    if (d != null) {
+                        p.move(d);
                     }
                 }
-
-                this.setGas();
             }
 
             persons.add(c);
+
+            if(this.isGassed) {
+                this.setGas();
+            }
+
 
             if(cleaned && afterCleanCount > 0) {
                 afterCleanCount--;
@@ -224,6 +225,7 @@ public class Room implements ActionListener {
                 this.setCleaned();
             }
         }
+
     }
 
     /**

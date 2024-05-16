@@ -96,8 +96,6 @@ public class Controller implements KeyListener {
             if(i == 1) {
                 setModelByInput(playerTwoNextMenu, playerTwoAction, i);
             }
-
-            this.view.packChanges();
         }
 
         if(ch == 'r' || ch == 'R' || ch == 'l' || ch == 'L') {
@@ -121,8 +119,6 @@ public class Controller implements KeyListener {
                     playerTwoNextMenu = !playerTwoNextMenu;
                 }
             }
-
-            this.view.packChanges();
         }
     }
 
@@ -187,5 +183,7 @@ public class Controller implements KeyListener {
                 }
             }
         }
+
+        this.view.packChanges();
     }
 }
