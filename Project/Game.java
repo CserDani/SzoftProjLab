@@ -64,6 +64,7 @@ public class Game implements ActionListener {
         if(viewObserver != null) {
             viewObserver.notifyWin();
         }
+        stopTimers();
     }
     public boolean getWon() { return gameWon; }
 
@@ -107,6 +108,11 @@ public class Game implements ActionListener {
     public void startTimers() {
         gameTimer.start();
         mergeTimer.start();
+    }
+
+    public void stopTimers() {
+        gameTimer.stop();
+        mergeTimer.stop();
     }
 
     @Override

@@ -26,8 +26,11 @@ public class GameView extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         JPanel north = new JPanel(new BorderLayout());
+
         JPanel northWp = new JPanel(new GridBagLayout());
+
         JPanel northEp = new JPanel(new FlowLayout());
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(0,5,0,5);
 
@@ -51,6 +54,7 @@ public class GameView extends JFrame {
             gbc.gridy = 0;
             actionsForPlayers.add(null);
             JPanel jp = new JPanel(new GridBagLayout());
+            jp.setBorder(new LineBorder(Color.BLACK));
 
             DefaultListModel<String> modelForMenu = new DefaultListModel<>();
             for(String item : menuItems) {
@@ -76,15 +80,11 @@ public class GameView extends JFrame {
             playersData.add(jListForData);
             jp.add(jListForData, gbc);
 
-            if(i < studentsSize - 1) {
-                jp.add(Box.createHorizontalStrut(200));
-            }
+            jp.add(Box.createHorizontalStrut(100));
 
             northWp.add(jp);
             gbc.gridx++;
         }
-
-        northWp.add(Box.createHorizontalStrut(100));
 
         gameTimeField = new JTextField();
         setGameTimeText(game.getGameTime());
@@ -248,6 +248,8 @@ public class GameView extends JFrame {
             model.addElement("No option!");
             menu.setModel(model);
         }
+
+        packChanges();
     }
 
     private void updateMenu(List<Student> students) {

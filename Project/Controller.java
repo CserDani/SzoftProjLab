@@ -183,7 +183,5 @@ public class Controller implements KeyListener {
                 }
             }
         }
-
-        this.view.packChanges();
     }
 }
