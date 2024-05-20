@@ -12,12 +12,12 @@ public class Game implements ActionListener {
     private final List<Professor> professors = new ArrayList<>();
     private final List<Cleaner> cleaners = new ArrayList<>();
     private final Timer roomActionTimer = new Timer(1000, this);
-    private int roomActionCounter = 60;
+    private int roomActionCounter = 30;
     private boolean gameWon = false;
     private GameView viewObserver = null;
     private int gameTime = 600;
     private final Timer gameTimer = new Timer(1000,this);
-    private Random rand;
+    private final Random rand = new Random();
 
     public int getGameTime() { return gameTime; }
     public List<Student> getStudents() { return students; }
@@ -118,6 +118,8 @@ public class Game implements ActionListener {
     public void divideRoom(Room r1) {
         Room r2 = r1.roomDivision();
         if(r2 != null) {
+            String newRoomName = "Szoba" + map.size();
+            r2.setName(newRoomName);
             map.add(r2);
             viewObserver.updateUI(students);
         }
@@ -151,7 +153,7 @@ public class Game implements ActionListener {
         if(e.getSource() == roomActionTimer) {
             roomActionCounter--;
             if(roomActionCounter == 0) {
-                roomActionCounter = 60;
+                roomActionCounter = 10;
                 Room r1 = getRandomRoom();
                 Room r2 = getRandomDoor(r1).getNextRoom(r1);
                 mergeRooms(r1, r2);

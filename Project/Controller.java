@@ -15,15 +15,6 @@ public class Controller implements KeyListener {
         this.view = view;
         this.view.setVisible(true);
         this.view.addClassAsKeyListener(this);
-        this.view.addWindowListener(new WindowAdapter()
-        {
-            @Override
-            public void windowClosing(WindowEvent e)
-            {
-                e.getWindow().dispose();
-                new MainMenu();
-            }
-        });
         this.game.setViewObserver(view);
         this.game.setGameObservers();
         this.game.setVanishObservers();

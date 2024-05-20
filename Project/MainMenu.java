@@ -3,8 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainMenu implements ActionListener {
-    JFrame frame = new JFrame("Rektori Rejtvények");
+public class MainMenu extends JFrame implements ActionListener {
     GradientPanel mainPanel = new GradientPanel();
     JPanel buttonPanel = new JPanel();
     JPanel titlePanel = new JPanel(new GridLayout(2, 1, 10, 10));
@@ -15,12 +14,13 @@ public class MainMenu implements ActionListener {
     JButton exit = new JButton("Kilépés");
 
     public MainMenu(){
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(700, 600);
-        frame.setLocationRelativeTo(null);
+        this.setTitle("Rektori Rejtvények");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(700, 600);
+        this.setLocationRelativeTo(null);
 
         mainPanel.setLayout(new GridLayout(1, 2));
-        frame.setContentPane(mainPanel);
+        this.setContentPane(mainPanel);
 
         titleTop.setForeground(new Color(245, 245, 245));
         titleTop.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 45));
@@ -52,7 +52,7 @@ public class MainMenu implements ActionListener {
         mainPanel.add(titlePanel);
         mainPanel.add(buttonPanel);
 
-        frame.setVisible(true);
+        this.setVisible(true);
     }
 
     public void setButton(JButton button) {
@@ -68,21 +68,21 @@ public class MainMenu implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == singlePlayer) {
-            frame.dispose();
+            this.dispose();
             Game g = new Game();
             g.gameLoad("onePlayerMap.txt");
             GameView gw = new GameView(g);
 
             new Controller(g, gw);
         } else if(e.getSource() == multiPlayer) {
-            frame.dispose();
+            this.dispose();
             Game g = new Game();
             g.gameLoad("twoPlayerMap.txt");
             GameView gw = new GameView(g);
 
             new Controller(g, gw);
         } else if(e.getSource() == exit) {
-            frame.dispose();
+            this.dispose();
         }
     }
 

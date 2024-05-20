@@ -2,6 +2,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,16 @@ public class GameView extends JFrame {
         this.setLayout(new BorderLayout(0, 20));
         this.getContentPane().setBackground(Color.GRAY);
         this.setResizable(false);
+        this.addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                e.getWindow().dispose();
+                game.stopTimers();
+                new MainMenu();
+            }
+        });
 
         JPanel north = new JPanel(new BorderLayout());
         north.setBorder(new LineBorder(Color.BLACK, 2));
