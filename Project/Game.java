@@ -11,7 +11,7 @@ public class Game implements ActionListener {
     private final List<Professor> professors = new ArrayList<>();
     private final List<Cleaner> cleaners = new ArrayList<>();
     private final Timer mergeTimer = new Timer(1000, this);
-    private int mergeCounter = 10;
+    private int mergeCounter = 60;
     private boolean gameWon = false;
     private GameView viewObserver = null;
     private int gameTime = 600;

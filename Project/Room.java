@@ -237,8 +237,16 @@ public class Room implements ActionListener {
         if(this.getPersons().isEmpty() && r.getPersons().isEmpty() && this.isNeighbour(r)) {
             if(r.isGassed)
                 this.isGassed = true;
-            if(r.isCursed)
+            if(r.isCursed) {
                 this.isCursed = true;
+                this.doorVanish.start();
+                r.doorVanish.stop();
+                for(Door d : r.getNeighbourDoors()) {
+                    if(d.getVanish()) {
+                        d.setVanish();
+                    }
+                }
+            }
             if(r.capacity > this.capacity)
                 this.capacity = r.capacity;
             for(int i = 0; i < r.getNeighbourDoors().size(); i++) {
@@ -249,7 +257,8 @@ public class Room implements ActionListener {
             }
             List<Door> neighDoors = new ArrayList<>(this.neighbourDoors);
             for(Door d : neighDoors) {
-                if(d.getNextRoom(this) == r) {
+                Room nextRoom = d.getNextRoom(this);
+                if(nextRoom == r) {
                     this.neighbourDoors.remove(d);
                 }
             }
