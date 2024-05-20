@@ -76,6 +76,12 @@ public class GameView extends JFrame {
             playersData.add(jListForData);
             jp.add(jListForData, gbc);
 
+            //jp.add(Box.createVerticalStrut(200));
+            //gbc.gridx--;
+            gbc.gridy++;
+            JPanel roomPanel = genRoomPanel(currentStudent.getPosition());
+            jp.add(roomPanel, gbc);
+
             if(i < studentsSize - 1) {
                 jp.add(Box.createHorizontalStrut(200));
             }
@@ -110,6 +116,82 @@ public class GameView extends JFrame {
         this.add(north, BorderLayout.NORTH);
         this.add(center, BorderLayout.CENTER);
         this.pack();
+    }
+    
+    public JPanel genRoomPanel(Room currentRoom){
+        JPanel roomPanel = new JPanel();
+        JPanel cleanerPanel = new JPanel();
+        JPanel itemPanel = new JPanel();
+        JPanel studentPanel = new JPanel();
+
+        roomPanel.setPreferredSize(new Dimension(300, 150));
+        roomPanel.setForeground(Color.BLACK);
+        roomPanel.setBorder(new LineBorder(Color.GREEN, 3));
+        roomPanel.setLayout(new GridLayout(2,2));
+
+        roomPanel.add(setProfessorPanel(currentRoom));
+        roomPanel.add(setCleanerPanel(currentRoom));
+        roomPanel.add(setItemPanel(currentRoom));
+        roomPanel.add(setStudentPanel(currentRoom));
+
+        return roomPanel;
+    }
+
+    public JPanel setProfessorPanel(Room currentRoom){
+        JPanel professorPanel = new JPanel();
+        professorPanel.setLayout(new GridLayout());
+
+        for (int i = 0; i < currentRoom.getProfcount(); i++) {
+            JPanel professorChar = new JPanel();
+            professorChar.setBackground(Color.RED);
+            professorChar.setBorder(new LineBorder(Color.BLACK));
+
+            professorPanel.add(professorChar);
+        }
+
+        return professorPanel;
+    }
+    public JPanel setCleanerPanel(Room currentRoom){
+        JPanel cleanerPanel = new JPanel();
+        cleanerPanel.setLayout(new GridLayout());
+        /*
+        for (Cleaner cleaner : currentRoom.g) {
+            JPanel cleanerChar = new JPanel();
+            cleanerChar.setBackground(Color.BLUE);
+            cleanerChar.setBorder(new LineBorder(Color.BLACK));
+
+            cleanerPanel.add(cleanerChar);
+        }
+        */
+        return cleanerPanel;
+    }
+    public JPanel setItemPanel(Room currentRoom){
+        JPanel itemPanel = new JPanel();
+        itemPanel.setLayout(new GridLayout());
+
+        for (Item item : currentRoom.getItems()) {
+            JPanel itemI = new JPanel();
+            itemI.setBackground(Color.MAGENTA);
+            itemI.setBorder(new LineBorder(Color.BLACK));
+
+            itemPanel.add(itemI);
+        }
+
+        return itemPanel;
+    }
+    public JPanel setStudentPanel(Room currentRoom){
+        JPanel studentPanel = new JPanel();
+        studentPanel.setLayout(new GridLayout());
+        /*
+        for (Student student : currentRoom.getPersons().) {
+            JPanel studentChar = new JPanel();
+            studentChar.setBackground(Color.DARK_GRAY);
+            studentChar.setBorder(new LineBorder(Color.BLACK));
+
+            studentPanel.add(studentChar);
+        }
+        */
+        return studentPanel;
     }
 
     private DefaultListModel<String> buildDataModelForStudent(Student student) {
@@ -268,12 +350,17 @@ public class GameView extends JFrame {
         }
     }
 
+    public void updateMap(){
+
+    }
+
     public void updateUI(List<Student> students) {
         if(students.size() != menus.size() && students.size() != actionsForPlayers.size()) {
             System.out.println("Nagy baj van!");
             return;
         }
 
+        updateMap();
         updateMenu(students);
         updateData(students);
         packChanges();
