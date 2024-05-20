@@ -1,3 +1,8 @@
+import Characters.*;
+import Items.*;
+import RoomAndDoor.Door;
+import RoomAndDoor.Room;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,7 +16,7 @@ public class Skeleton {
     public static void buildOneRoomMapAndPlayer() {
         map.clear();
 
-        //A Room nem gázosított és nem elátkozott, 1 kapacitású
+        //A RoomAndDoor.Room nem gázosított és nem elátkozott, 1 kapacitású
         Room r = new Room("Szoba1", false, false, 1);
         map.add(r);
 
@@ -129,7 +134,7 @@ public class Skeleton {
         }
     }
     public static void dropIteminput() {
-        System.out.println("Melyik targyat szeretne eldobni? (Student-nel levo targyak, 1.oszlop index alapjan)");
+        System.out.println("Melyik targyat szeretne eldobni? (Characters.Student-nel levo targyak, 1.oszlop index alapjan)");
 
         boolean exit = false;
         while(!exit) {
@@ -157,7 +162,7 @@ public class Skeleton {
         }
     }
     public static void useItemInput() {
-        System.out.println("Melyik targyat szeretne hasznalni (Student-nel levo targyak, 1.oszlop index alapjan)");
+        System.out.println("Melyik targyat szeretne hasznalni (Characters.Student-nel levo targyak, 1.oszlop index alapjan)");
 
         boolean exit = false;
         while(!exit) {
@@ -438,7 +443,7 @@ public class Skeleton {
 
     public static void camembertUse() {
         buildOneRoomMapAndPlayer();
-        Camembert camembert = new Camembert("Camembert");
+        Camembert camembert = new Camembert("Items.Camembert");
         studentActor.addItemToInventory(camembert);
         System.out.println("-----------------------------------");
         studentActor.setStartPosition(map.get(0));
@@ -464,7 +469,7 @@ public class Skeleton {
         buildTwoRoomMapAndPlayer();
         System.out.println("-----------------------------------");
         System.out.println(map.get(0).getName() + " ------- " + map.get(1).getName());
-        Cleaner cleaner = new Cleaner("Cleaner");
+        Cleaner cleaner = new Cleaner("Characters.Cleaner");
         cleaner.setStartPosition(map.get(1));
         studentActor.setStartPosition(map.get(0));
         System.out.println("Jelenlegi hely: " + studentActor.getPosition().getName());
@@ -505,7 +510,7 @@ public class Skeleton {
 
     public static void FFP2Try() {
         buildTwoRoomMapAndPlayerSecondGas();
-        FFP2 mask = new FFP2("FFP2");
+        FFP2 mask = new FFP2("Items.FFP2");
         Transistor t1 = new Transistor("t1");
         map.get(0).addItem(mask);
         map.get(0).addItem(t1);
@@ -518,7 +523,7 @@ public class Skeleton {
 
     public static void boardCleanerTry() {
         buildTwoRoomMapAndPlayerAndProf();
-        BoardCleaner bc = new BoardCleaner("BoardCleaner");
+        BoardCleaner bc = new BoardCleaner("Items.BoardCleaner");
         map.get(0).addItem(bc);
         System.out.println("-----------------------------------");
         professorActor.setStartPosition(map.get(1));
@@ -542,8 +547,8 @@ public class Skeleton {
 
     public static void holyPintTry() {
         buildTwoRoomMapAndPlayerAndProf();
-        HolyPint hp = new HolyPint("HolyPint");
-        FFP2 mask = new FFP2("FFP2");
+        HolyPint hp = new HolyPint("Items.HolyPint");
+        FFP2 mask = new FFP2("Items.FFP2");
         map.get(0).addItem(hp);
         map.get(0).addItem(mask);
         System.out.println("-----------------------------------");
@@ -571,12 +576,12 @@ public class Skeleton {
     public static void fakeItemsTry() {
         buildOneRoomMapAndPlayer();
         FakeLogarlec fakelogar = new FakeLogarlec("FakeLogar");
-        FakeFFP2 fakeff = new FakeFFP2("FakeFFP2");
-        FakeTVSZ faketvsz = new FakeTVSZ("FakeTVSZ");
-        FakeTVSZ faketvsz2 = new FakeTVSZ("FakeTVSZ");
-        FakeTVSZ faketvsz3 = new FakeTVSZ("FakeTVSZ");
-        FakeTVSZ faketvsz4 = new FakeTVSZ("FakeTVSZ");
-        FakeTVSZ faketvsz5 = new FakeTVSZ("FakeTVSZ");
+        FakeFFP2 fakeff = new FakeFFP2("Items.FakeFFP2");
+        FakeTVSZ faketvsz = new FakeTVSZ("Items.FakeTVSZ");
+        FakeTVSZ faketvsz2 = new FakeTVSZ("Items.FakeTVSZ");
+        FakeTVSZ faketvsz3 = new FakeTVSZ("Items.FakeTVSZ");
+        FakeTVSZ faketvsz4 = new FakeTVSZ("Items.FakeTVSZ");
+        FakeTVSZ faketvsz5 = new FakeTVSZ("Items.FakeTVSZ");
         System.out.println("-----------------------------------");
         map.get(0).addItem(fakelogar);
         map.get(0).addItem(fakeff);

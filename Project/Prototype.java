@@ -1,5 +1,14 @@
 import java.util.*;
 
+import Characters.Cleaner;
+import Characters.Person;
+import Characters.Professor;
+import Characters.Student;
+import GUIAndMVC.Game;
+import Items.Item;
+import RoomAndDoor.Door;
+import RoomAndDoor.Room;
+import TestAndLoad.Tests;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
@@ -62,7 +71,7 @@ public class Prototype {
         if(pickedPerson.getInventory().isEmpty() || pickedPerson == null)
             return;
 
-        System.out.println("Melyik targyat szeretne hasznalni (Student-nel levo targyak, 1.oszlop index alapjan)");
+        System.out.println("Melyik targyat szeretne hasznalni (Characters.Student-nel levo targyak, 1.oszlop index alapjan)");
 
         boolean exit = false;
         while(!exit) {
@@ -94,7 +103,7 @@ public class Prototype {
         if(pickedPerson.getInventory().isEmpty() || pickedPerson == null)
             return;
 
-        System.out.println("Melyik targyat szeretne eldobni? (Student-nel levo targyak, 1.oszlop index alapjan)");
+        System.out.println("Melyik targyat szeretne eldobni? (Characters.Student-nel levo targyak, 1.oszlop index alapjan)");
         List<Item> inventory = pickedPerson.getInventory();
         boolean exit = false;
         while(!exit) {
@@ -441,7 +450,7 @@ public class Prototype {
                     }
                 } catch (Exception e) {}
             }
-            String name = "New Room" + game.getMap().size();
+            String name = "New RoomAndDoor.Room" + game.getMap().size();
             Room newRoom = new Room(name, gassed, cursed, newCap);
             Door newDoor = new Door(r, newRoom, false);
             listDoorsOfRoom(r);
@@ -576,10 +585,10 @@ public class Prototype {
                         if (result.wasSuccessful()) {
                             System.out.println("All tests passed successfully!");
                         } else {
-                            System.out.println("Tests failed.");
+                            System.out.println("Test.Tests failed.");
                         }
 
-                        System.out.println("To check the tests, check Tests class in the project!");
+                        System.out.println("To check the tests, check Test.Tests class in the project!");
                         break;
                     default:
                         System.out.println("Ismeretlen parancs!\n");
