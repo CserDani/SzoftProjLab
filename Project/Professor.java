@@ -1,6 +1,9 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 
 /**
  * Az Oktató objektum, ahogy a neve is mutatja, az oktatókat, tehát az ellenfeleket testesíti meg. Ahogyan a Hallgató objektum, így ez is saját működéséért felelős, tehát azért, hogy az ellenfeleink se hazudtolják meg a játék törvényeit, és csak úgy mozogjanak, és csináljanak más cselekvést, hogy az a szabályok szerint történjen.
@@ -142,7 +145,9 @@ public class Professor extends Person implements ActionListener {
     }
 
     @Override
-    public Shape getView() {
-        return null;
+    public Component getView() {
+        JLabel shape = new JLabel(new ImageIcon("Resources/prof.png"));
+        shape.setPreferredSize(new Dimension(25, 25));
+        return shape;
     }
 }

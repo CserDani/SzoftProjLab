@@ -8,9 +8,12 @@ import java.util.List;
 public class GameView extends JFrame {
     private final List<String> menuItems = new ArrayList<>();
     private final List<JList<String>> menus = new ArrayList<>();
+    private final JPanel center = new JPanel(new GridBagLayout());
     private final List<String> playersDataItems = new ArrayList<>();
     private final List<JList<String>> playersData = new ArrayList<>();
     private final List<String> actionsForPlayers = new ArrayList<>();
+    private int widthForPanel = 0;
+    private final Color roomBackground = new Color(126, 67, 38);
     private JTextField gameTimeField;
     public List<JList<String>> getMenus() {
         return menus;
@@ -21,15 +24,26 @@ public class GameView extends JFrame {
 
     public void initWindow(Game game) {
         this.setTitle("Rektori Rejtvenyek");
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout(0, 20));
+        this.getContentPane().setBackground(Color.GRAY);
         this.setResizable(false);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         JPanel north = new JPanel(new BorderLayout());
-        JPanel northWp = new JPanel(new GridBagLayout());
+        north.setBorder(new LineBorder(Color.BLACK, 2));
+
+        JPanel northCp = new JPanel(new GridBagLayout());
+        northCp.setBorder(new LineBorder(Color.BLACK, 2));
+        northCp.setBackground(Color.GRAY);
+
         JPanel northEp = new JPanel(new FlowLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(0,5,0,5);
+        northEp.setBorder(new LineBorder(Color.BLACK, 2));
+        northEp.setBackground(Color.GRAY);
+
+        center.setAlignmentX(Component.LEFT_ALIGNMENT);
+        center.setBackground(Color.GRAY);
+
+        GridBagConstraints gbcNorth = new GridBagConstraints();
+        gbcNorth.insets = new Insets(0,5,0,5);
 
         UIManager.put("Label.disabledForeground", Color.BLACK);
         UIManager.put("TextField.inactiveForeground", Color.BLACK);
@@ -46,11 +60,13 @@ public class GameView extends JFrame {
 
         List<Student> students = game.getStudents();
         int studentsSize = students.size();
+
         for(int i = 0; i < studentsSize; i++) {
-            gbc.gridx = 0;
-            gbc.gridy = 0;
+            gbcNorth.gridx = 0;
+            gbcNorth.gridy = 0;
             actionsForPlayers.add(null);
-            JPanel jp = new JPanel(new GridBagLayout());
+            JPanel jpNorth = new JPanel(new GridBagLayout());
+            jpNorth.setBackground(Color.GRAY);
 
             DefaultListModel<String> modelForMenu = new DefaultListModel<>();
             for(String item : menuItems) {
@@ -63,82 +79,178 @@ public class GameView extends JFrame {
             jlist.setBorder(new LineBorder(Color.BLACK));
 
             menus.add(jlist);
-            jp.add(jlist, gbc);
+            jpNorth.add(jlist, gbcNorth);
 
-            gbc.gridx++;
+            gbcNorth.gridx++;
 
             Student currentStudent = students.get(i);
             JList<String> jListForData = new JList<>();
+            jListForData.setBackground(Color.GRAY);
+
             jListForData.setModel(buildDataModelForStudent(currentStudent));
             jListForData.setLayoutOrientation(JList.VERTICAL);
             jListForData.setEnabled(false);
+            jListForData.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
+                JLabel text = new JLabel(value);
+
+                text.setForeground(Color.ORANGE);
+
+                return text;
+            });
 
             playersData.add(jListForData);
-            jp.add(jListForData, gbc);
+            jpNorth.add(jListForData, gbcNorth);
 
-            if(i < studentsSize - 1) {
-                jp.add(Box.createHorizontalStrut(200));
+            jpNorth.add(Box.createHorizontalStrut(200));
+
+            if(widthForPanel == 0) {
+                widthForPanel = jpNorth.getPreferredSize().width;
             }
 
-            northWp.add(jp);
-            gbc.gridx++;
+            northCp.add(jpNorth);
+            gbcNorth.gridx++;
         }
 
-        northWp.add(Box.createHorizontalStrut(100));
+        for(Student student : students) {
+            this.addRoomToPanel(student);
+        }
 
         gameTimeField = new JTextField();
         setGameTimeText(game.getGameTime());
-        gameTimeField.setBorder(new LineBorder(Color.BLACK));
+        gameTimeField.setBorder(new LineBorder(Color.GRAY));
         gameTimeField.setEnabled(false);
         gameTimeField.setPreferredSize(new Dimension(70, 20));
         gameTimeField.setHorizontalAlignment(SwingConstants.CENTER);
+        gameTimeField.setBackground(Color.GRAY);
+        gameTimeField.setDisabledTextColor(Color.ORANGE);
 
         Font gameTimeAreaFont = gameTimeField.getFont();
         Font newFont = new Font(gameTimeAreaFont.getName(), Font.BOLD, 20);
         gameTimeField.setFont(newFont);
 
         northEp.add(gameTimeField);
-        northEp.add(Box.createHorizontalStrut(5));
         northEp.setAlignmentX(Component.RIGHT_ALIGNMENT);
         northEp.setAlignmentY(Component.TOP_ALIGNMENT);
 
-        north.add(northWp, BorderLayout.WEST);
+        north.add(northCp, BorderLayout.CENTER);
         north.add(northEp, BorderLayout.EAST);
-
-        JPanel center = new JPanel();
 
         this.add(north, BorderLayout.NORTH);
         this.add(center, BorderLayout.CENTER);
         this.pack();
+        this.setLocationRelativeTo(null);
+    }
+
+    public JPanel genRoomPanel(Student currentStudent, Room currentRoom){
+        JPanel roomPanel = new JPanel();
+        List<Person> persons = currentRoom.getPersons();
+        List<Item> items = currentRoom.getItems();
+
+        int width = 300;
+        int height = 150;
+
+        roomPanel.setPreferredSize(new Dimension(width, height));
+        roomPanel.setBorder(new LineBorder(Color.BLACK, 3));
+        roomPanel.setLayout(new GridLayout(2,1));
+
+        JPanel personPanel = setPersonPanel(currentStudent, persons, width);
+        JPanel itemPanel = setItemPanel(items, width);
+
+        personPanel.setBackground(roomBackground);
+        itemPanel.setBackground(roomBackground);
+
+        roomPanel.add(personPanel);
+        roomPanel.add(itemPanel);
+
+        return roomPanel;
+    }
+
+    public JPanel setPersonPanel(Student currentStudent, List<Person> persons, int width) {
+        JPanel personPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        int rowSize = 0;
+
+        for(Person person : persons) {
+            JPanel personViewPanel = new JPanel();
+            personViewPanel.setBackground(roomBackground);
+            if(person == currentStudent) {
+                JLabel currentView = new JLabel(new ImageIcon("Resources/currentStudent.png"));
+                personViewPanel.add(currentView);
+            } else {
+                personViewPanel.add(person.getView());
+            }
+
+            rowSize += personViewPanel.getPreferredSize().width;
+            if(rowSize > width) {
+                rowSize = 0;
+                gbc.gridy++;
+            }
+
+            personPanel.add(personViewPanel, gbc);
+        }
+        return personPanel;
+    }
+
+    public JPanel setItemPanel(List<Item> items, int width){
+        JPanel itemsPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        int rowSize = 0;
+
+        for (Item item : items) {
+            JPanel itemViewPanel = new JPanel();
+            itemViewPanel.setBackground(roomBackground);
+            JLabel itemIcon = new JLabel(new ImageIcon("Resources/item.png"));
+            itemIcon.setPreferredSize(new Dimension(15,15));
+            itemIcon.setBorder(new LineBorder(Color.BLACK));
+            itemViewPanel.add(itemIcon);
+
+            rowSize += (itemViewPanel.getPreferredSize().width + 1);
+            if(rowSize >= width) {
+                rowSize = 0;
+                gbc.gridy++;
+            }
+
+            itemsPanel.add(itemViewPanel, gbc);
+        }
+
+        return itemsPanel;
     }
 
     private DefaultListModel<String> buildDataModelForStudent(Student student) {
         DefaultListModel<String> modelForPlayData = new DefaultListModel<>();
+        int health = student.getHealth();
         for (String item : playersDataItems) {
             switch (item) {
                 case "Health: ":
-                    String healthString = item + student.getHealth();
+                    String healthString = item;
+                    healthString += health > 0 ? health : "0";
                     modelForPlayData.addElement(healthString);
                     break;
                 case "Position: ":
-                    String posString = item + student.getPosition().getName();
+                    String roomName = student.getPosition() == null ? "-" : student.getPosition().getName();
+                    String posString = item + roomName;
                     modelForPlayData.addElement(posString);
                     break;
                 case "Inventory size: ":
                     int inventorySize = student.getInventorySize();
                     String isFull = inventorySize == 5 ? " - Full" : "";
-                    String invString = item + student.getInventory().size() + isFull;
+                    String inventoryString = health > 0 ? student.getInventory().size() + isFull : "-";
+                    String invString = item + inventoryString;
                     modelForPlayData.addElement(invString);
                     break;
                 case "Consciousness: ":
                     boolean notConscious = student.getNotConscious();
                     String conscious = notConscious ? "Not conscious" : "Conscious";
+                    conscious = health > 0 ? conscious : "-";
                     String conString = item + conscious;
                     modelForPlayData.addElement(conString);
                     break;
                 case "Immunity time: ":
                     int immunityTime = student.getImmunityCounter();
-                    String immunity = item + immunityTime;
+                    String immunityString = health > 0 ? String.valueOf(immunityTime) : "-";
+                    String immunity = item + immunityString;
                     modelForPlayData.addElement(immunity);
                     break;
                 default:
@@ -175,7 +287,7 @@ public class GameView extends JFrame {
         gameTimeField.setText(minuteString + ":" + secondString);
 
         if(minute == 0 && second == 0) {
-            this.setEnabled(false);
+            notifyLose();
         }
     }
 
@@ -185,9 +297,15 @@ public class GameView extends JFrame {
 
     public void notifyWin() {
         this.setEnabled(false);
+        new WinGameMenu(this);
     }
 
-    public void setDefaultMenu(int i) {
+    public void notifyLose() {
+        this.setEnabled(false);
+        new LoseGameWindow(this);
+    }
+
+    public void setDefaultMenu(Student student, int i) {
         JList<String> menu = menus.get(i);
         actionsForPlayers.set(i, null);
 
@@ -198,7 +316,9 @@ public class GameView extends JFrame {
         }
 
         menu.setModel(model);
-        menu.setSelectedIndex(0);
+        if(student.getHealth() != 0) {
+            menu.setSelectedIndex(0);
+        }
         packChanges();
     }
 
@@ -220,10 +340,10 @@ public class GameView extends JFrame {
                 List<Door> doorsInCurrentRoom = currentRoom.getNeighbourDoors();
                 for (Door door : doorsInCurrentRoom) {
                     Room nextRoom = door.getNextRoom(currentRoom);
+                    String element = nextRoom.getName();
                     String canMove = door.canMove(currentRoom) ? " - Can move" : " - Can't move";
                     String doorVanish = door.getVanish() ? ", Vanished" : "";
-                    String element = nextRoom.getName() + canMove + doorVanish;
-                    model.addElement(element);
+                    model.addElement(element + canMove + doorVanish);
                 }
                 break;
             case "USE ITEM", "DROP ITEM":
@@ -250,22 +370,48 @@ public class GameView extends JFrame {
         }
     }
 
-    private void updateMenu(List<Student> students) {
-        for(int i = 0; i < students.size(); i++) {
-            Student student = students.get(i);
-            String action = actionsForPlayers.get(i);
-            if (action != null) {
-                this.setMenu(action, student, i);
-            }
+    private void updateMenu(Student student, int i) {
+        String action = actionsForPlayers.get(i);
+        if (action != null) {
+            this.setMenu(action, student, i);
         }
     }
 
-    public void updateData(List<Student> students) {
-        for(int i = 0; i < students.size(); i++) {
-            Student student = students.get(i);
-            JList<String> dataList = playersData.get(i);
-            dataList.setModel(buildDataModelForStudent(student));
-        }
+    public void updateData(Student student, int i) {
+        JList<String> dataList = playersData.get(i);
+        dataList.setModel(buildDataModelForStudent(student));
+    }
+
+    public void addRoomToPanel(Student student) {
+        JPanel newPanel = genRoomPanel(student, student.getPosition());
+
+        center.add(newPanel);
+
+        int newStrut = widthForPanel - newPanel.getPreferredSize().width - 35;
+
+        center.add(Box.createHorizontalStrut(newStrut));
+    }
+
+    public void genNothingRoom() {
+        JPanel roomPanel = new JPanel();
+
+        int width = 300;
+        int height = 150;
+
+        roomPanel.setPreferredSize(new Dimension(width, height));
+        roomPanel.setBorder(new LineBorder(Color.BLACK, 3));
+        roomPanel.setBackground(roomBackground);
+
+        center.add(roomPanel);
+
+        int newStrut = widthForPanel - roomPanel.getPreferredSize().width - 35;
+
+        center.add(Box.createHorizontalStrut(newStrut));
+    }
+
+    public void setMenuClear(int i) {
+        JList<String> menu = menus.get(i);
+        menu.clearSelection();
     }
 
     public void updateUI(List<Student> students) {
@@ -274,8 +420,19 @@ public class GameView extends JFrame {
             return;
         }
 
-        updateMenu(students);
-        updateData(students);
+        center.removeAll();
+        for(int i = 0; i < students.size(); i++) {
+            Student currentStudent = students.get(i);
+            updateData(currentStudent, i);
+            if(currentStudent.getHealth() > 0) {
+                updateMenu(currentStudent, i);
+                addRoomToPanel(currentStudent);
+            } else {
+                setMenuClear(i);
+                genNothingRoom();
+            }
+        }
+
         packChanges();
     }
 }

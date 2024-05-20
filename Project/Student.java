@@ -1,4 +1,4 @@
-import javax.swing.Timer;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -207,7 +207,9 @@ public class Student extends Person implements ActionListener {
     }
 
     @Override
-    public Shape getView() {
-        return new Rectangle(10,10, 20,20);
+    public Component getView() {
+        JLabel shape = new JLabel(new ImageIcon("Resources/student.png"));
+        shape.setPreferredSize(new Dimension(25, 25));
+        return shape;
     }
 }

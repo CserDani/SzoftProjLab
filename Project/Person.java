@@ -54,6 +54,7 @@ public abstract class Person implements ActionListener {
     public void setPosition(Room r) {
         position = r;
     }
+    public void setPosNull() { position = null; }
 
     public void setStartPosition(Room r) {
         position = r;
@@ -183,5 +184,5 @@ public abstract class Person implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {}
 
-    public abstract Shape getView();
+    public abstract Component getView();
 }

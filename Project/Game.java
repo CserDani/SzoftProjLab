@@ -11,7 +11,7 @@ public class Game implements ActionListener {
     private final List<Professor> professors = new ArrayList<>();
     private final List<Cleaner> cleaners = new ArrayList<>();
     private final Timer mergeTimer = new Timer(1000, this);
-    private int mergeCounter = 60;
+    private int mergeCounter = 10;
     private boolean gameWon = false;
     private GameView viewObserver = null;
     private int gameTime = 600;
@@ -29,6 +29,10 @@ public class Game implements ActionListener {
 
     public void setViewObserver(GameView viewObserver) {
         this.viewObserver = viewObserver;
+    }
+
+    public void removeViewObserver() {
+        this.viewObserver = null;
     }
 
     public void setGameObservers() {
@@ -62,6 +66,7 @@ public class Game implements ActionListener {
     public void setWon() {
         gameWon = true;
         if(viewObserver != null) {
+            gameTimer.stop();
             viewObserver.notifyWin();
         }
     }
@@ -69,6 +74,24 @@ public class Game implements ActionListener {
 
     public void move(Person p, Door d) {
         p.move(d);
+
+        int deadStudents = 0;
+        for(int i = 0; i < students.size(); i++) {
+            Student currentStudent = students.get(i);
+            if(currentStudent.getHealth() <= 0) {
+                if(currentStudent.getPosition() != null) {
+                    Room room = currentStudent.getPosition();
+                    room.getPersons().remove(currentStudent);
+                    currentStudent.setPosNull();
+                }
+                deadStudents++;
+            }
+        }
+
+        if(deadStudents == students.size()) {
+            viewObserver.notifyLose();
+            stopTimers();
+        }
         viewObserver.updateUI(students);
     }
     public void pickUp(Person p, Item i) {
@@ -109,6 +132,11 @@ public class Game implements ActionListener {
         mergeTimer.start();
     }
 
+    public void stopTimers() {
+        gameTimer.stop();
+        mergeTimer.stop();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == mergeTimer) {
@@ -122,7 +150,7 @@ public class Game implements ActionListener {
             gameTime--;
 
             if(gameTime == 0) {
-                gameTimer.stop();
+                stopTimers();
             }
 
             if(viewObserver != null) {

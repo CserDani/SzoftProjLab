@@ -1,6 +1,5 @@
 import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.List;
 
 public class Controller implements KeyListener {
@@ -16,6 +15,15 @@ public class Controller implements KeyListener {
         this.view = view;
         this.view.setVisible(true);
         this.view.addClassAsKeyListener(this);
+        this.view.addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                e.getWindow().dispose();
+                new MainMenu();
+            }
+        });
         this.game.setViewObserver(view);
         this.game.setGameObservers();
         this.game.setVanishObservers();
@@ -40,13 +48,13 @@ public class Controller implements KeyListener {
             List<JList<String>> menus = this.view.getMenus();
             JList<String> actualMenu = menus.get(i);
             int idx = actualMenu.getSelectedIndex();
-            int newIdx = idx+1;
+            int newIdx = idx + 1;
             int max = actualMenu.getModel().getSize() - 1;
 
-            if(idx == -1)
+            if (idx == -1)
                 return;
 
-            if(idx == max) {
+            if (idx == max) {
                 actualMenu.setSelectedIndex(0);
             } else {
                 actualMenu.setSelectedIndex(newIdx);
@@ -64,12 +72,12 @@ public class Controller implements KeyListener {
             List<JList<String>> menus = this.view.getMenus();
             JList<String> actualMenu = menus.get(i);
             int idx = actualMenu.getSelectedIndex();
-            int newIdx = idx-1;
+            int newIdx = idx - 1;
 
-            if(idx == -1)
+            if (idx == -1)
                 return;
 
-            if(idx == 0) {
+            if (idx == 0) {
                 int maxIdx = actualMenu.getModel().getSize() - 1;
                 actualMenu.setSelectedIndex(maxIdx);
             } else {
@@ -108,14 +116,14 @@ public class Controller implements KeyListener {
 
             if(ch == 'r' || ch == 'R') {
                 if(playerOneNextMenu) {
-                    this.view.setDefaultMenu(i);
+                    this.view.setDefaultMenu(currentStudent, i);
                     playerOneNextMenu = !playerOneNextMenu;
                 }
             }
 
             if(ch == 'l' || ch == 'L') {
                 if(playerTwoNextMenu) {
-                    this.view.setDefaultMenu(i);
+                    this.view.setDefaultMenu(currentStudent, i);
                     playerTwoNextMenu = !playerTwoNextMenu;
                 }
             }
@@ -171,7 +179,7 @@ public class Controller implements KeyListener {
                         break;
                 }
 
-                this.view.setDefaultMenu(i);
+                this.view.setDefaultMenu(currentStudent, i);
 
                 if (i == 0) {
                     playerOneAction = null;

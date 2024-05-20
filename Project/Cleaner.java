@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 
 public class Cleaner extends Person {
@@ -29,7 +30,9 @@ public class Cleaner extends Person {
     }
 
     @Override
-    public Shape getView() {
-        return null;
+    public Component getView() {
+        JLabel shape = new JLabel(new ImageIcon("Resources/cleaner.png"));
+        shape.setPreferredSize(new Dimension(25, 25));
+        return shape;
     }
 }
