@@ -4,24 +4,33 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Game implements ActionListener {
     private final List<Room> map = new ArrayList<>();
     private final List<Student> students = new ArrayList<>();
     private final List<Professor> professors = new ArrayList<>();
     private final List<Cleaner> cleaners = new ArrayList<>();
-    private final Timer mergeTimer = new Timer(1000, this);
-    private int mergeCounter = 60;
+    private final Timer roomActionTimer = new Timer(1000, this);
+    private int roomActionCounter = 60;
     private boolean gameWon = false;
     private GameView viewObserver = null;
     private int gameTime = 600;
     private final Timer gameTimer = new Timer(1000,this);
+    private Random rand;
 
     public int getGameTime() { return gameTime; }
     public List<Student> getStudents() { return students; }
     public List<Professor> getProfessors() { return professors; }
     public List<Cleaner> getCleaners() { return cleaners; }
     public List<Room> getMap() { return map; }
+    public Room getRandomRoom() {
+        return map.get(rand.nextInt(map.size()));
+    }
+    public Door getRandomDoor(Room r) {
+        List<Door> neighbours = r.getNeighbourDoors();
+        return neighbours.get(rand.nextInt(neighbours.size()));
+    }
 
     public Game() {
         /* To initialize Game, the Game object is always made after gameLoad */
@@ -129,20 +138,24 @@ public class Game implements ActionListener {
 
     public void startTimers() {
         gameTimer.start();
-        mergeTimer.start();
+        roomActionTimer.start();
     }
 
     public void stopTimers() {
         gameTimer.stop();
-        mergeTimer.stop();
+        roomActionTimer.stop();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == mergeTimer) {
-            mergeCounter--;
-            if(mergeCounter == 0) {
-                mergeCounter = 60;
+        if(e.getSource() == roomActionTimer) {
+            roomActionCounter--;
+            if(roomActionCounter == 0) {
+                roomActionCounter = 60;
+                Room r1 = getRandomRoom();
+                Room r2 = getRandomDoor(r1).getNextRoom(r1);
+                mergeRooms(r1, r2);
+                divideRoom(getRandomRoom());
             }
         }
 
