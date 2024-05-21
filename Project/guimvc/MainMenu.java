@@ -1,4 +1,4 @@
-package GUIAndMVC;
+package guimvc;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,15 +9,15 @@ public class MainMenu extends JFrame implements ActionListener {
     GradientPanel mainPanel = new GradientPanel();
     JPanel buttonPanel = new JPanel();
     JPanel titlePanel = new JPanel(new GridLayout(2, 1, 10, 10));
-    JLabel titleTop = new JLabel("Rektori", JLabel.CENTER);
-    JLabel titleBottom = new JLabel("Rejtvények", JLabel.CENTER);
+    JLabel titleTop = new JLabel("Rektori", SwingConstants.CENTER);
+    JLabel titleBottom = new JLabel("Rejtvények", SwingConstants.CENTER);
     JButton singlePlayer = new JButton("Egyjátékos mód");
     JButton multiPlayer = new JButton("Többjátékos mód");
     JButton exit = new JButton("Kilépés");
 
     public MainMenu(){
         this.setTitle("Rektori Rejtvények");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setSize(700, 600);
         this.setLocationRelativeTo(null);
 
@@ -26,12 +26,12 @@ public class MainMenu extends JFrame implements ActionListener {
 
         titleTop.setForeground(new Color(245, 245, 245));
         titleTop.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 45));
-        titleTop.setVerticalAlignment(JLabel.BOTTOM);
+        titleTop.setVerticalAlignment(SwingConstants.BOTTOM);
         titleTop.setOpaque(false);
 
         titleBottom.setForeground(new Color(245, 245, 245));
         titleBottom.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 45));
-        titleBottom.setVerticalAlignment(JLabel.TOP);
+        titleBottom.setVerticalAlignment(SwingConstants.TOP);
         titleBottom.setOpaque(false);
 
         titlePanel.add(titleTop);
