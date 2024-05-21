@@ -27,7 +27,9 @@ public class Logarlec extends Item {
      * winGame függvény: feladata levezényelni a játék végét, miután a játékosok nyernek
      */
     public void winGame() {
-        game.setWon();
+        if(game != null) {
+            game.setWon();
+        }
     }
 
     /**
