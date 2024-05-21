@@ -34,63 +34,68 @@ public class Controller implements KeyListener {
     public void keyPressed(KeyEvent e) {
         char ch = e.getKeyChar();
         int i = -1;
+        List<Student> students = this.game.getStudents();
+        List<JList<String>> menus = this.view.getMenus();
 
         if(ch == 'q' || ch == 'Q' || ch == 'h' || ch == 'H') {
-            if(ch == 'q' || ch == 'Q') {
+            if(!students.isEmpty() && (ch == 'q' || ch == 'Q')) {
                 i = 0;
             }
-            if(ch == 'h' || ch == 'H') {
+
+            if(students.size() >= 2 && (ch == 'h' || ch == 'H')) {
                 i = 1;
             }
 
-            List<JList<String>> menus = this.view.getMenus();
-            JList<String> actualMenu = menus.get(i);
-            int idx = actualMenu.getSelectedIndex();
-            int newIdx = idx + 1;
-            int max = actualMenu.getModel().getSize() - 1;
+            if(i != -1) {
+                JList<String> actualMenu = menus.get(i);
+                int idx = actualMenu.getSelectedIndex();
+                int newIdx = idx + 1;
+                int max = actualMenu.getModel().getSize() - 1;
 
-            if (idx == -1)
-                return;
+                if (idx == -1)
+                    return;
 
-            if (idx == max) {
-                actualMenu.setSelectedIndex(0);
-            } else {
-                actualMenu.setSelectedIndex(newIdx);
+                if (idx == max) {
+                    actualMenu.setSelectedIndex(0);
+                } else {
+                    actualMenu.setSelectedIndex(newIdx);
+                }
             }
         }
 
         if(ch == 'w' || ch == 'W' || ch == 'j' || ch == 'J') {
-            if(ch == 'w' || ch == 'W') {
+            if(!students.isEmpty() && (ch == 'w' || ch == 'W')) {
                 i = 0;
             }
-            if(ch == 'j' || ch == 'J') {
+
+            if(students.size() >= 2 && (ch == 'j' || ch == 'J')) {
                 i = 1;
             }
 
-            List<JList<String>> menus = this.view.getMenus();
-            JList<String> actualMenu = menus.get(i);
-            int idx = actualMenu.getSelectedIndex();
-            int newIdx = idx - 1;
+            if(i != -1) {
+                JList<String> actualMenu = menus.get(i);
+                int idx = actualMenu.getSelectedIndex();
+                int newIdx = idx - 1;
 
-            if (idx == -1)
-                return;
+                if (idx == -1)
+                    return;
 
-            if (idx == 0) {
-                int maxIdx = actualMenu.getModel().getSize() - 1;
-                actualMenu.setSelectedIndex(maxIdx);
-            } else {
-                actualMenu.setSelectedIndex(newIdx);
+                if (idx == 0) {
+                    int maxIdx = actualMenu.getModel().getSize() - 1;
+                    actualMenu.setSelectedIndex(maxIdx);
+                } else {
+                    actualMenu.setSelectedIndex(newIdx);
+                }
             }
         }
 
         if(ch == 'e' || ch == 'E' || ch == 'k' || ch == 'K') {
-            List<Student> students = this.game.getStudents();
-
-            if(ch == 'e' || ch == 'E') {
+            if(!students.isEmpty() && (ch == 'e' || ch == 'E')) {
                 i = 0;
                 currentStudent = students.get(0);
             }
-            if(ch == 'k' || ch == 'K') {
+
+            if(students.size() >= 2 && (ch == 'k' || ch == 'K')) {
                 i = 1;
                 currentStudent = students.get(1);
             }
@@ -112,16 +117,16 @@ public class Controller implements KeyListener {
                 i = 1;
             }
 
-            if(ch == 'r' || ch == 'R' && (playerOneNextMenu)) {
-                    this.view.setDefaultMenu(currentStudent, i);
-                    playerOneNextMenu = !playerOneNextMenu;
-
+            if(!students.isEmpty() && (ch == 'r' || ch == 'R' && (playerOneNextMenu))) {
+                currentStudent = students.get(i);
+                this.view.setDefaultMenu(currentStudent, i);
+                playerOneNextMenu = false;
             }
 
-            if(ch == 'l' || ch == 'L' && (playerTwoNextMenu)) {
-                    this.view.setDefaultMenu(currentStudent, i);
-                    playerTwoNextMenu = !playerTwoNextMenu;
-
+            if(students.size() >= 2 && (ch == 'l' || ch == 'L' && (playerTwoNextMenu))) {
+                currentStudent = students.get(i);
+                this.view.setDefaultMenu(currentStudent, i);
+                playerTwoNextMenu = false;
             }
         }
     }
@@ -153,7 +158,7 @@ public class Controller implements KeyListener {
         } else {
             int idx;
             idx = actualMenu.getSelectedIndex();
-            if(idx >= 0) {
+            if(idx >= 0 && action != null) {
                 switch (action) {
                     case "MOVE":
                         List<Door> doors = currentRoom.getNeighbourDoors();
