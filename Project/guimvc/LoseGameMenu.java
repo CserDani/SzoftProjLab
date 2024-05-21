@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class LoseGameWindow extends JFrame implements ActionListener {
+public class LoseGameMenu extends JFrame implements ActionListener {
     private final JButton ok = new JButton("Ok");
     private final JFrame gameWindow;
-    public LoseGameWindow(JFrame gameWindow) {
+    public LoseGameMenu(JFrame gameWindow) {
         this.gameWindow = gameWindow;
 
         this.setResizable(false);

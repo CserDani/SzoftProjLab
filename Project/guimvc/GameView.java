@@ -322,7 +322,7 @@ public class GameView extends JFrame {
 
     public void notifyLose() {
         this.setEnabled(false);
-        new LoseGameWindow(this);
+        new LoseGameMenu(this);
     }
 
     public void setDefaultMenu(Student student, int i) {
