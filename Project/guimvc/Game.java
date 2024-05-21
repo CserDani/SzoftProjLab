@@ -18,17 +18,18 @@ import java.util.logging.Logger;
 
 public class Game implements ActionListener {
     private final List<Room> map = new ArrayList<>();
+    private int roomNameNumber;
     private final List<Student> students = new ArrayList<>();
     private final List<Professor> professors = new ArrayList<>();
     private final List<Cleaner> cleaners = new ArrayList<>();
     private final Timer roomActionTimer = new Timer(1000, this);
-    private int roomActionCounter = 30;
+    private int roomActionCounter = 60;
     private boolean gameWon = false;
     private GameView viewObserver = null;
     private int gameTime = 600;
     private final Timer gameTimer = new Timer(1000,this);
     private final Timer profMoveTimer = new Timer(1000, this);
-    private int profMoveCounter = 10;
+    private int profMoveCounter = 15;
     private final Timer cleanerMoveTimer = new Timer(1000, this);
     private int cleanerMoveCounter = 25;
     private final Random rand = new Random();
@@ -69,6 +70,7 @@ public class Game implements ActionListener {
     public void gameLoad(String filename){
         try{
             new LoadGameState(filename, this);
+            roomNameNumber = map.size();
         } catch (IOException e){
             Logger logger = Logger.getLogger(Game.class.getName());
             logger.log(Level.WARNING, "IOException when tried to load a Game", e);
@@ -135,7 +137,8 @@ public class Game implements ActionListener {
     public void divideRoom(Room r1) {
         Room r2 = r1.roomDivision();
         if(r2 != null) {
-            String newRoomName = "Szoba" + map.size();
+            String newRoomName = "Szoba" + roomNameNumber;
+            roomNameNumber++;
             r2.setName(newRoomName);
             map.add(r2);
 
@@ -176,7 +179,7 @@ public class Game implements ActionListener {
         if(e.getSource() == roomActionTimer) {
             roomActionCounter--;
             if(roomActionCounter == 0) {
-                roomActionCounter = 30;
+                roomActionCounter = 60;
                 Room r1 = getRandomRoom();
                 Room r2 = getRandomDoor(r1).getNextRoom(r1);
                 mergeRooms(r1, r2);
@@ -187,14 +190,16 @@ public class Game implements ActionListener {
         if(e.getSource() == profMoveTimer) {
             profMoveCounter--;
             if(profMoveCounter == 0) {
-                profMoveCounter = 10;
-                Professor p = professors.get(rand.nextInt(professors.size()));
-                Door d = getRandomDoor(p.getPosition());
-                move(p, d);
-                List<Item> itemsInRoom = p.getPosition().getItems();
-                if(!itemsInRoom.isEmpty()) {
-                    Item i = itemsInRoom.get(rand.nextInt(itemsInRoom.size()));
-                    pickUp(p, i);
+                profMoveCounter = 15;
+                if(!professors.isEmpty()) {
+                    Professor p = professors.get(rand.nextInt(professors.size()));
+                    Door d = getRandomDoor(p.getPosition());
+                    move(p, d);
+                    List<Item> itemsInRoom = p.getPosition().getItems();
+                    if (!itemsInRoom.isEmpty()) {
+                        Item i = itemsInRoom.get(rand.nextInt(itemsInRoom.size()));
+                        pickUp(p, i);
+                    }
                 }
             }
         }
@@ -202,11 +207,13 @@ public class Game implements ActionListener {
         if(e.getSource() == cleanerMoveTimer) {
             cleanerMoveCounter--;
             if(cleanerMoveCounter == 0) {
-                cleanerMoveCounter = 10;
+                cleanerMoveCounter = 25;
 
-                Cleaner c = cleaners.get(rand.nextInt(cleaners.size()));
-                Door d = getRandomDoor(c.getPosition());
-                move(c, d);
+                if(!cleaners.isEmpty()) {
+                    Cleaner c = cleaners.get(rand.nextInt(cleaners.size()));
+                    Door d = getRandomDoor(c.getPosition());
+                    move(c, d);
+                }
             }
         }
 

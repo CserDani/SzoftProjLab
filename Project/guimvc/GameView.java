@@ -362,8 +362,9 @@ public class GameView extends JFrame {
                     Room nextRoom = door.getNextRoom(currentRoom);
                     String element = nextRoom.getName();
                     String canMove = door.canMove(currentRoom) ? " - Can move" : " - Can't move";
+                    String full = nextRoom.isNotFull() ? "" : ", Full";
                     String doorVanish = door.getVanish() ? ", Vanished" : "";
-                    model.addElement(element + canMove + doorVanish);
+                    model.addElement(element + canMove + full + doorVanish);
                 }
                 break;
             case "USE ITEM", "DROP ITEM":

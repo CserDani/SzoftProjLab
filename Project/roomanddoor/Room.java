@@ -244,35 +244,58 @@ public class Room implements ActionListener {
      */
     public boolean mergeRooms(Room r) {
         if(this.getPersons().isEmpty() && r.getPersons().isEmpty() && this.isNeighbour(r)) {
+            List<Door> mergeNeighbourDoors = r.getNeighbourDoors();
             if(r.isGassed)
                 this.isGassed = true;
             if(r.isCursed) {
-                this.isCursed = true;
-                this.doorVanish.start();
+                if(!this.isCursed) {
+                    this.isCursed = true;
+                } else {
+                    this.doorVanish.stop();
+                    for (Door d : this.neighbourDoors) {
+                        if(d.getVanish()) {
+                            d.setVanish();
+                        }
+                    }
+                }
+
                 r.doorVanish.stop();
-                for(Door d : r.getNeighbourDoors()) {
-                    if(d.getVanish()) {
+                for (Door d : mergeNeighbourDoors) {
+                    if (d.getVanish()) {
                         d.setVanish();
                     }
                 }
             }
             if(r.capacity > this.capacity)
                 this.capacity = r.capacity;
-            for(int i = 0; i < r.getNeighbourDoors().size(); i++) {
-                if(r.getNeighbourDoors().get(i).getNextRoom(r) != this) {
-                    this.neighbourDoors.add(r.getNeighbourDoors().get(i));
-                    r.getNeighbourDoors().get(i).setRoom(r, this);
+
+            for (Door currentDoor : mergeNeighbourDoors) {
+                if (currentDoor.getNextRoom(r) != this) {
+                    this.neighbourDoors.add(currentDoor);
+                    currentDoor.setRoom(r, this);
                 }
             }
+
             List<Door> neighDoors = new ArrayList<>(this.neighbourDoors);
             for(Door d : neighDoors) {
                 Room nextRoom = d.getNextRoom(this);
-                if(nextRoom == r) {
+                if(nextRoom == r || nextRoom == this) {
                     this.neighbourDoors.remove(d);
                 }
             }
-            for(int i = 0; i<r.getItems().size(); i++) {
-                this.addItem((r.getItems().get(i)));
+
+            List<Item> rItems = r.getItems();
+            List<Item> removeItemsFromR = new ArrayList<>();
+            for (Item itemInR : rItems) {
+                this.addItem(itemInR);
+                removeItemsFromR.add(itemInR);
+            }
+            for(Item item : removeItemsFromR) {
+                r.removeItem(item);
+            }
+
+            if(this.isCursed) {
+                this.doorVanish.restart();
             }
 
             return true;
@@ -300,11 +323,11 @@ public class Room implements ActionListener {
                     newcap = 1;
                 }
             }
-            Room r = new Room("New RoomAndDoor.Room", this.isGassed && rand.nextBoolean(), this.isCursed && rand.nextBoolean(), newcap);
+            Room r = new Room("New Room", this.isGassed && rand.nextBoolean(), this.isCursed && rand.nextBoolean(), newcap);
             if(this.capacity > 1) {
                 this.capacity -= r.capacity;
             }
-            int doorSeparation = rand.nextInt(this.getNeighbourDoors().size()+1);
+            int doorSeparation = rand.nextInt(this.getNeighbourDoors().size());
             List<Door> doorsToRemove = new ArrayList<>();
             for(int i = 0; i < doorSeparation; i++) {
                 Door d = this.getNeighbourDoors().get(i);
@@ -323,12 +346,14 @@ public class Room implements ActionListener {
                 itemsToRemove.add(t);
             }
             for (Item item : itemsToRemove) {
-                this.getItems().remove(item);
+                this.removeItem(item);
             }
 
             this.addNeighbour(r, false);
+
             return r;
         }
+
         return null;
     }
 
