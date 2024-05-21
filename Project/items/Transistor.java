@@ -73,7 +73,6 @@ public class Transistor extends Item {
                 s.addItemToInventory(this);
                 Room r = s.getPosition();
                 r.removeItem(this);
-
         }
     }
 
