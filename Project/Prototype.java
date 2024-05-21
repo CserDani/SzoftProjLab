@@ -1,14 +1,14 @@
 import java.util.*;
 
-import Characters.Cleaner;
-import Characters.Person;
-import Characters.Professor;
-import Characters.Student;
-import GUIAndMVC.Game;
-import Items.Item;
-import RoomAndDoor.Door;
-import RoomAndDoor.Room;
-import TestAndLoad.Tests;
+import characters.Cleaner;
+import characters.Person;
+import characters.Professor;
+import characters.Student;
+import guimvc.Game;
+import items.Item;
+import roomanddoor.Door;
+import roomanddoor.Room;
+import testandload.Tests;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;

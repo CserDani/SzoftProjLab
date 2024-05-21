@@ -1,7 +1,7 @@
-import Characters.*;
-import Items.*;
-import RoomAndDoor.Door;
-import RoomAndDoor.Room;
+import characters.*;
+import items.*;
+import roomanddoor.Door;
+import roomanddoor.Room;
 
 import java.util.ArrayList;
 import java.util.List;
