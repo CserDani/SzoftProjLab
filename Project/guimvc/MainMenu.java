@@ -72,14 +72,14 @@ public class MainMenu extends JFrame implements ActionListener {
         if(e.getSource() == singlePlayer) {
             this.dispose();
             Game g = new Game();
-            g.gameLoad("demo.txt");
+            g.gameLoad("onePlayerMap.txt");
             GameView gw = new GameView(g);
 
             new Controller(g, gw);
         } else if(e.getSource() == multiPlayer) {
             this.dispose();
             Game g = new Game();
-            g.gameLoad("twoPlayerMap.txt");
+            g.gameLoad("demo.txt");
             GameView gw = new GameView(g);
 
             new Controller(g, gw);
