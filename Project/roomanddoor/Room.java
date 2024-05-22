@@ -223,15 +223,12 @@ public class Room implements ActionListener {
 
             if(this.isGassed) {
                 this.setGas();
+                this.setCleaned();
             }
 
 
             if(cleaned && afterCleanCount > 0) {
                 afterCleanCount--;
-            }
-
-            if(!cleaned) {
-                this.setCleaned();
             }
         }
 

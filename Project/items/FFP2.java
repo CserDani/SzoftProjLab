@@ -23,10 +23,12 @@ public class FFP2 extends Passive {
      */
     @Override
     public void pickedUpBy(Student s) {
-        s.addItemToInventory(this);
-        s.getGasHelpItems().add(this);
         Room r = s.getPosition();
-        r.removeItem(this);
+        if(r.getAfterCleanCount() > 0) {
+            s.addItemToInventory(this);
+            s.getGasHelpItems().add(this);
+            r.removeItem(this);
+        }
     }
 
     /**
@@ -36,10 +38,12 @@ public class FFP2 extends Passive {
      */
     @Override
     public void pickedUpBy(Professor p) {
-        p.addItemToInventory(this);
-        p.getGasHelpItems().add(this);
         Room r = p.getPosition();
-        r.removeItem(this);
+        if(r.getAfterCleanCount() > 0) {
+            p.addItemToInventory(this);
+            p.getGasHelpItems().add(this);
+            r.removeItem(this);
+        }
     }
 
     /**

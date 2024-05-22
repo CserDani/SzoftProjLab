@@ -16,8 +16,10 @@ public class FakeFFP2 extends FakeItems {
     }
     @Override
     public void pickedUpBy(Professor p) {
-        p.addItemToInventory(this);
         Room r = p.getPosition();
-        r.removeItem(this);
+        if(r.getAfterCleanCount() > 0) {
+            p.addItemToInventory(this);
+            r.removeItem(this);
+        }
     }
 }

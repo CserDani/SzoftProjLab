@@ -23,9 +23,11 @@ public abstract class Active extends Item {
      * @param s
      */
     public void pickedUpBy(Student s) {
-        s.addItemToInventory(this);
         Room r = s.getPosition();
-        r.removeItem(this);
+        if(r.getAfterCleanCount() > 0) {
+            s.addItemToInventory(this);
+            r.removeItem(this);
+        }
     }
 
     /**
@@ -33,9 +35,11 @@ public abstract class Active extends Item {
      * @param p
      */
     public void pickedUpBy(Professor p) {
-        p.addItemToInventory(this);
         Room r = p.getPosition();
-        r.removeItem(this);
+        if(r.getAfterCleanCount() > 0) {
+            p.addItemToInventory(this);
+            r.removeItem(this);
+        }
     }
 
     /**

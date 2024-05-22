@@ -50,7 +50,7 @@ public class Professor extends Person implements ActionListener {
      * @param t A tárgy
      */
     public void pickUp(Item t) {
-        if (!getNotConscious() && (getPosition().getAfterCleanCount() > 0) && (getInventorySize() < 5)) {
+        if (!getNotConscious() && (getInventorySize() < 5)) {
             t.pickedUpBy(this);
         }
     }

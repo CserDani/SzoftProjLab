@@ -22,9 +22,11 @@ public abstract class FakeItems extends Item {
      */
     @Override
     public void pickedUpBy(Student s) {
-        s.addItemToInventory(this);
         Room r = s.getPosition();
-        r.removeItem(this);
+        if(r.getAfterCleanCount() > 0) {
+            s.addItemToInventory(this);
+            r.removeItem(this);
+        }
     }
 
     /**

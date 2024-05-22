@@ -37,8 +37,8 @@ public class Logarlec extends Item {
      * @param s a tanuló, aki felveszi ezt a logarlécet
      */
     public void pickedUpBy(Student s) {
-        s.addItemToInventory(this);
         Room r = s.getPosition();
+        s.addItemToInventory(this);
         r.removeItem(this);
         winGame();
     }
