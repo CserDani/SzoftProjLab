@@ -8,7 +8,9 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.List;
 
-
+/**
+ * Controller osztály: A billentyűbemenetek kezeléséért felelős
+ */
 public class Controller implements KeyListener {
     private final Game game;
     private final GameView view;
@@ -17,6 +19,14 @@ public class Controller implements KeyListener {
     private String playerTwoAction = null;
     private boolean playerTwoNextMenu = false;
     private Student currentStudent = null;
+
+    /**
+     * Controller konstruktor:
+     * Beállítja a Game, GameView változókat
+     * Megjeleníti a GameView-t
+     * Beállítja a játékhoz tartozó Observer-eket (view, game és vanish)
+     * Elindítja a játékhoz szükséges Timer-eket
+     */
     public Controller(Game game, GameView view) {
         this.game = game;
         this.view = view;
@@ -27,9 +37,18 @@ public class Controller implements KeyListener {
         this.game.setVanishObservers();
         this.game.startTimers();
     }
+
+    /**
+     * keyTyped függvény
+     * Egy begépelt billentyű lekezeléséért felelős.
+     */
     @Override
     public void keyTyped(KeyEvent e) { /* The Game only works when key is Pressed */ }
 
+    /**
+     * keyPressed függvény
+     * Egy lenyomott billentyű lekezeléséért felelős.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         char ch = e.getKeyChar();
@@ -131,9 +150,17 @@ public class Controller implements KeyListener {
         }
     }
 
+    /**
+     * keyReleased függvény
+     * Egy felengedett billentyű lekezeléséért felelős.
+     */
     @Override
     public void keyReleased(KeyEvent e) { /* The Game only works when key is Pressed */ }
 
+    /**
+     * setModelByInput függvény
+     * Megadja, hogy melyik input-ra hogyan reagáljon a program.
+     */
     private void setModelByInput(boolean isNextMenu, String action, int i) {
         List<JList<String>> menus = this.view.getMenus();
         JList<String> actualMenu = menus.get(i);
