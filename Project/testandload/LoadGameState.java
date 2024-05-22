@@ -11,6 +11,10 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
+/**
+ * A LoadGameState osztály felelős a játékállapot betöltéséért .txt fájlból, a tesztek
+ * elvégzéséhez, illetve a játék kezdő állapotának legenerálásához
+ */
 public class LoadGameState {
     private Game game;
     private int studID = 0;
@@ -19,11 +23,24 @@ public class LoadGameState {
     private int roomID = 0;
     public Game getGame() { return game; }
 
+    /**
+     * LoadGameState konstruktor: a megadott g játékot eltárolja, majd a megadott filename
+     * alapján beolvassa a megfelelő .txt fájlt
+     * @param filename
+     * @param g
+     * @throws IOException
+     */
     public LoadGameState(String filename, Game g) throws IOException {
         this.game = g;
         readFile(filename);
     }
 
+    /**
+     * readFile függvény: a megadott filename nevű fájlt beolvassa egy for ciklussal, majd
+     * a switch-case-ben specifikált kulcsszavaka alapján generál egy pályát
+     * @param filename
+     * @throws IOException
+     */
     public void readFile(String filename) throws IOException{
         Path path = FileSystems.getDefault().getPath("Resources", filename);
         List<String> lines = Files.readAllLines(path);
@@ -89,6 +106,14 @@ public class LoadGameState {
         }
     }
 
+    /**
+     * readRooms függvény: a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad szobákat a pályához, ha nincs már több szobát tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readRooms(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -107,6 +132,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readDoors1 függvény:  a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad egyirányú ajtókat a pályához, ha nincs már több ajtót tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readDoors1(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -123,6 +156,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readDoors2 függvény:  a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad kétirányú ajtókat a pályához, ha nincs már több ajtót tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readDoors2(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -139,6 +180,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readStudents függvény:  a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad tanulókat a pályához, ha nincs már több tanulót tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readStudents(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -156,6 +205,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readProfessors függvény:  a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad tanárokat a pályához, ha nincs már több tanárt tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readProfessors(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -174,6 +231,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readLogarlec függvény: a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad logarleceket a pályához, ha nincs már több logarlecet tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readLogarlec(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -190,6 +255,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readCleaners függvény:  a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad takarítókat a pályához, ha nincs már több takarítót tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readCleaners(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -207,6 +280,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readAirFreshener függvény:  a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad légtisztítókat a pályához, ha nincs már több légtisztítót tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readAirFreshener(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -222,6 +303,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readBoardCleaner függvény:  a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad táblatörlőket a pályához, ha nincs már több táblatörlőt tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readBoardCleaner(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -237,6 +326,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readCamembert függvény:  a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad camemberteket a pályához, ha nincs már több camembertet tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readCamembert(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -252,6 +349,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readFakeFFP2 függvény:  a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad hamis FFP2 maszkokat a pályához, ha nincs már több maszkot tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readFakeFFP2(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -267,6 +372,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readFakeLogarlec függvény:  a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad hamis logarleceket a pályához, ha nincs már több hamis logalecet tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readFakeLogarlec(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -282,6 +395,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readFakeTVSZ függvény:  a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad hamis TVSZ-et a pályához, ha nincs már több hamis TVSZ-t tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readFakeTVSZ(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -297,6 +418,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readFFP2 függvény:  a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad FFP2-es maszkokat a pályához, ha nincs már több maszkot tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readFFP2(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -312,6 +441,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readHolyPint függvény: a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad szent söröskorsókat a pályához, ha nincs már több söröskorsót tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readHolyPint(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -327,6 +464,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readTransistors függvény:  a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad tranzisztorokat a pályához, ha nincs már több tranzisztort tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readTransistors(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
@@ -342,6 +487,14 @@ public class LoadGameState {
         return l.size();
     }
 
+    /**
+     * readTVSZ függvény:  a megadott si sortól kezdve elkezdi olvasni a sorok tartalmát, majd
+     * a megadott értékek alapján hozzáad TVSZ-et a pályához, ha nincs már több TVSZ-t tartalmazó sor,
+     * akkor visszaadja az utolsó olyan sorszámot, ahol még volt
+     * @param l
+     * @param si
+     * @return
+     */
     public int readTVSZ(List<String> l, int si){
         for(int i = si; i < l.size(); i++){
             String line = l.get(i).trim();
