@@ -22,13 +22,17 @@ public class Student extends Person implements ActionListener {
     private final Timer immunityTimer = new Timer(1000, this);
     private Game gameObserver = null;
 
+    /**
+     * boardCleanerConscious függvény
+     * Override a Person-ben szereplő absztrakt függvényhez,
+     */
     public void boardCleanerConscious() {
         //Board cleaner can't stun a student, so this function's implementation is empty
     }
 
     /**
      * Health getter
-     * @result Az hallgató életereje
+     * @result A hallgató életereje
      */
     public int getHealth() { return health; }
 
@@ -49,14 +53,34 @@ public class Student extends Person implements ActionListener {
      * Az előzőleg használt tranzisztort törli
      */
     public void setUsedTransNull() { this.prevUsedTrans = null; }
+
+    /**
+     * addImmunityCounter
+     * Növeli az immunitás számláló
+     * @param count A növelés mértéke
+     */
     public void addImmunityCounter(int count) {
         this.immunityCounter += count;
     }
+
+    /**
+     * immunityCounter getter
+     * @return Az immunitás számláló
+     */
     public int getImmunityCounter() { return immunityCounter; }
+
+    /**
+     * startImmunityTimer függvény
+     * Az immunitás időztőt indítja el
+     */
     public void startImmunityTimer() {
         immunityTimer.restart();
     }
 
+    /**
+     * stopImmunityCounter függvény
+     * Megállítja az immunitás időzítőt
+     */
     public void stopImmunityTimer() {
         immunityTimer.stop();
     }
@@ -79,7 +103,7 @@ public class Student extends Person implements ActionListener {
      */
     public void pickUp(Item t) {
         if (!getNotConscious() && (getPosition().getAfterCleanCount() > 0) && (getInventorySize() < 5)) {
-                    t.pickedUpBy(this);
+            t.pickedUpBy(this);
         }
     }
 
@@ -146,6 +170,11 @@ public class Student extends Person implements ActionListener {
         }
     }
 
+    /**
+     * removeItem függvény
+     * Eltávolít egy bizonyos tárgyat
+     * @param item A tárgy, amit eltávolít
+     */
     public void removeItem(Item item) {
         if(getInventory().contains(item)) {
             boolean inGasHelp = getGasHelpItems().removeIf(p -> p == item);
@@ -160,12 +189,20 @@ public class Student extends Person implements ActionListener {
         }
     }
 
+    /**
+     * notifyGameObserver függvény
+     * Értesíti a gameObserver-t
+     */
     public void notifyGameObserver() {
         if(gameObserver != null) {
             this.gameObserver.notifyGameData();
         }
     }
 
+    /**
+     * gameObserber settere
+     * @param game A beállított gameObserver
+     */
     public void setGameObserver(Game game) { this.gameObserver = game; }
 
     /**
@@ -210,6 +247,11 @@ public class Student extends Person implements ActionListener {
         notifyGameObserver();
     }
 
+    /**
+     * getView függvény
+     * Megadja az alakzatát a tanuló a grafikus felületen
+     * @return A tanuló alakzata a grafikus felületen.
+     */
     @Override
     public Component getView() {
         JLabel shape = new JLabel(new ImageIcon("Resources/student.png"));

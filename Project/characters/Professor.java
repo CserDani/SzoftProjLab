@@ -14,6 +14,10 @@ import java.awt.event.ActionListener;
  */
 public class Professor extends Person implements ActionListener {
 
+    /***
+     * boardCleanerConscious függvény
+     * Elkábítja ezt a tanárt
+     */
     public void boardCleanerConscious() {
         if(!getNotConscious()) {
             getPosition().decrProfCount();
@@ -47,7 +51,7 @@ public class Professor extends Person implements ActionListener {
      */
     public void pickUp(Item t) {
         if (!getNotConscious() && (getPosition().getAfterCleanCount() > 0) && (getInventorySize() < 5)) {
-                    t.pickedUpBy(this);
+            t.pickedUpBy(this);
         }
     }
 
@@ -105,6 +109,10 @@ public class Professor extends Person implements ActionListener {
         //Professor can't be damaged (It can't die).
     }
 
+    /**
+     * setNotConscious függvény
+     * Magához téríti a tanárt
+     */
     @Override
     public void setNotConscious() {
         if(getGasHelpItems().isEmpty()) {
@@ -144,6 +152,11 @@ public class Professor extends Person implements ActionListener {
         }
     }
 
+    /**
+     * getView függvény
+     * Megadja az alakzatát a tanárnak a grafikus felületen
+     * @return A tanár alakzata a grafikus felületen.
+     */
     @Override
     public Component getView() {
         JLabel shape = new JLabel(new ImageIcon("Resources/prof.png"));

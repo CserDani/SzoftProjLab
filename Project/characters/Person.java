@@ -44,7 +44,16 @@ public abstract class Person implements ActionListener {
      */
     public List<Item> getInventory() { return inventory; }
 
+    /**
+     * damageHelpItems getter
+     * @return A sebzés ellen segítő tárgyak listája
+     */
     public List<Passive> getDamageHelpItems() { return damageHelpItems; }
+
+    /**
+     * gasHelpItems getter
+     * @return A gáz ellen segítő tárgyak listája
+     */
     public List<Passive> getGasHelpItems() { return gasHelpItems; }
 
     /**
@@ -60,8 +69,18 @@ public abstract class Person implements ActionListener {
     public void setPosition(Room r) {
         position = r;
     }
+
+    /**
+     * setPosNull függvény
+     * NULL-ra állítja ennek a személynek a pozícióját
+     */
     public void setPosNull() { position = null; }
 
+    /**
+     * setStartPosition függvény
+     * Beállítja a személy helyét
+     * @param r A személy új pozíciója (szoba)
+     */
     public void setStartPosition(Room r) {
         position = r;
         r.getPersons().add(this);
@@ -73,6 +92,11 @@ public abstract class Person implements ActionListener {
      */
     public boolean getNotConscious() { return notConscious; }
 
+    /**
+     * setNotConsciousAndTimer függvény
+     * Elkábítja a személyt és hozzáadja a tárgykészletét a szobához,
+     * majd újraindítja a kábultság időzítőt
+     */
     public void setNotConsciousAndTimer() {
         notConscious = true;
         cooldown = 5;
@@ -95,6 +119,10 @@ public abstract class Person implements ActionListener {
         }
     }
 
+    /**
+     * boardCleanerConscious absztrakt függvény
+     * Ez a függvény valósítja meg a tanárok kábítását
+     */
     public abstract void boardCleanerConscious();
 
     /**
@@ -108,6 +136,11 @@ public abstract class Person implements ActionListener {
      * @return A knockOutTimer változó értéke
      */
     public Timer getKnockOutTimer() { return knockOutTimer; }
+
+    /**
+     * gasTimer gettere
+     * @return gasTimer
+     */
     public Timer getGasTimer() { return gasTimer; }
 
     /**
@@ -187,8 +220,17 @@ public abstract class Person implements ActionListener {
      */
     public void setNotConsciousFalse() { notConscious = false; }
 
+    /**
+     * actionPerformed függvény
+     * A Visszaszámláló vezérléséhez szükséges eseménykezelő
+     */
     @Override
     public void actionPerformed(ActionEvent e) {}
 
+    /**
+     * getView absztrakt függvény
+     * Megadja az alakzatát a személynek a grafikus felületen
+     * @return
+     */
     public abstract Component getView();
 }
